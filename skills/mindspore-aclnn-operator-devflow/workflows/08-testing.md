@@ -2,36 +2,35 @@
 
 ## 目标
 
-完成 C++ UT + Python ST（+ 可选 Python UT），确保功能、精度、动态 shape 全覆盖。
+完成 C++ UT + Python ST，确保功能、精度、动态 shape 全覆盖。
 
 ## 输入
 
 - **算子实现**：YAML / Infer / PyBoost / KBK / BPROP
 - **PTA 对标实现**：用于 ST 数值对齐
 
-## 输出（三类测试，逐项确认）
+## 输出（两类测试，逐项确认）
 
-> **⚠️ 以下三类测试文件是 Step 8 的必须产出，每一类都要明确标注状态。**
+> **⚠️ 以下两类测试是 Step 8 的必须产出，每一类都要明确标注状态。**
 > 不允许只写其中一类就认为"测试步骤完成"。
 
 | 类型 | 文件位置 | 必须程度 | 状态标注 |
 | --- | --- | --- | --- |
 | **C++ UT** | `tests/ut/cpp/ops/test_ops_{op_name}.cc` | `[MUST]` 必须新建 | ✅已写 / ❌未写（说明原因） |
-| **Python ST** | `tests/st/ops/ascend/test_{op_name}.py` | `[MUST]` 新建或确认已有 | ✅已写 / ✅已有（标明路径） / ❌未写 |
-| **Python UT** | `tests/ut/python/ops/test_{op_name}.py` | `[SHOULD]` 推荐 | ✅已写 / ⏭跳过（说明原因） |
+| **Python ST** | `tests/st/ops/share/_op_info/op_database.py`（OpInfo 注册） | `[MUST]` 新增 OpInfo 或确认已有 | ✅已注册 / ✅已有（标明算子名） / ❌未注册 |
 
 ### 关于"已存在"的判断
 
-搜到已有测试文件时，**必须确认它是否覆盖新算子路径**：
-- 已有测试调用的是新接口（如 `mint.acos` → `acos_ext`）→ 确认覆盖，标注路径
-- 已有测试只调用旧接口（如 `ops.acos` → 旧 `ACos`）→ **不算覆盖**，必须新建
-- 已有测试覆盖不完整（如只测了前向没测反向）→ 需要补充
+在 `op_database.py` 中搜索算子名，**确认 OpInfo 是否已注册且覆盖新算子路径**：
+- OpInfo 的 `op` 指向新接口（如 `mint.acos`）且已加入对应 `xxx_op_db` → 确认覆盖
+- OpInfo 不存在或 `op` 指向旧接口 → **不算覆盖**，必须新增/更新
+- OpInfo 存在但缺少反向 dtype 或动态 shape 配置 → 需要补充字段
 
 ---
 
 ## 执行步骤
 
-### Step 1：C++ UT（`reference.md` §8.2）—— 必须新建
+### Step 1：C++ UT（`reference.md` §8.1）—— 必须新建
 
 > agent 可以完全自主完成，不需要设备。**没有理由跳过。**
 
@@ -43,50 +42,87 @@
 
 参照同类算子的已有 C++ UT 文件确认测试宏和参数结构。
 
-### Step 2：Python ST（`reference.md` §8.3）—— 必须新建或确认已有
+### Step 2：Python ST（`reference.md` §8.2）—— 必须注册 OpInfo
 
-> **这是最容易遗漏的一类。** agent 必须生成完整的 ST 测试文件（即使无法在设备上运行）。
+> 当前 ST 使用**测试框架 2.0**（`tests/st/ops/share/`），核心操作是在 `op_database.py` 中注册 OpInfo，禁止另外手写独立测试文件。框架原理详见 `reference.md` §8.2。
 
-- 优先"形状/类型"再比数值
-- 严格对齐时 `atol/rtol=0`（按算子特性）
-- 避免引入额外算子导致误差累积
-- bfloat16 比较前升精到 float32
-- **必须覆盖**：Pynative + Graph 双模式、前向 + 反向（如有）、动态 shape
+- 优先先做**形状/类型覆盖**，再补数值验证。
+- 严格对齐时按算子特性收紧 `atol/rtol`；`bfloat16` 对比前先升精到 `float32`。
+- **必须覆盖**：Pynative、按需 KBK、前向、反向（如有）、动态 shape/rank。
+
+**两种接入方式**：
+
+| 方式 | 适用场景 | 操作 |
+| --- | --- | --- |
+| **方式 A（通用）** | Unary/Binary/Reduction 等常规算子 | 在 `op_database.py` 添加 OpInfo → 加入对应 `xxx_op_db` → 自动纳入前端参数化用例 |
+| **方式 B（特化）** | 需要自定义测试逻辑的算子 | 继承 OpsFactory 写自定义测试套 + 新建前端测试文件 |
+
+**方式 A 操作步骤**（绝大多数算子）：
+
+1. **确定算子类别**：Unary → `UnaryOpInfo` / Binary → `BinaryOpInfo` / Reduction → `ReductionOpInfo` / 其他 → `OpInfo`
+2. **在 `op_database.py` 添加 OpInfo 实例**：配置 `name`、`op`、`ref`、`dtypes_support`（以及 `dtypes_grad`、`dtypes_dynamic` 等）
+3. **将算子名加入对应 `xxx_op_db` 列表**（如 `binary_op_db`、`unary_op_db`）
+4. **如需自定义输入场景**：编写 `op_basic_reference_inputs_func` / `op_extra_reference_inputs_func`，返回 `OpSampleInput` 列表
+5. **判断是否需要加入 `xxx_op_kbk_db` 列表**（见下方约束）
+6. **验证覆盖**：确认前端测试文件（如 `test_binary_ops.py`）的参数化用例已包含新算子
+
+> **关于 KBK 列表（`xxx_op_kbk_db`）的添加约束**：
+>
+> KBK 场景耗时较长，不需要每个算子都加入。仅在以下情况下将算子加入对应的 `xxx_op_kbk_db`（如 `binary_op_kbk_db`、`unary_op_kbk_db`、`reduction_op_kbk_db` 等），使前端测试文件跑 KBK 前向/反向/动态 shape 用例：
+>
+> - 算子包含**较复杂的动态 shape 推导逻辑**（如输出 shape 依赖输入值、多分支推导）
+> - 算子采用**组合实现**（PyBoost/KBK 中串联多个 ACLNN 调用）
+> - 算子包含**前端接口重载**（如同时支持 Tensor-Tensor 和 Tensor-Scalar 两种调用形态）
+>
+>
+> **不需要添加的情况**：
+> - 简单直通算子（单 ACLNN、无参数预处理），pynative 已充分覆盖
+> - KBK 列表中**已有同类型/同实现模式的算子**——例如 `unary_op_kbk_db` 已有 `mint.tanh`，则 `mint.cosh` 等同类三角函数无需重复添加
+
+#### other 类算子的 `xxx_reference_inputs_func` 场景覆盖要求
+
+Unary/Binary/Reduction 类算子在 `op_info.py` 中已提供丰富的通用输入生成函数（各种 shape 组合、
+广播、非连续、特殊值、极端值等），注册 OpInfo 后自动覆盖。
+
+**other 类算子**（加入 `other_op_db`）需要在 `op_database.py` 中**自行编写** `op_basic_reference_inputs_func`和`op_extra_reference_inputs_func`等函数，
+且必须覆盖 `checklists.md` §6 的场景要求（不能只写 2-3 个简单 case）：
+
+| 必覆盖场景 | 编写方式 | 示例 |
+| --- | --- | --- |
+| **多种 shape**（含 0D scalar、1D、2D-3D 中间维、高维） | 多个 yield，不同 shape | `make_arg(())`, `make_arg((S,))`, `make_arg((S,M,S))` |
+| **空 tensor**（某维为 0） | shape 中含 0 | `make_arg((0, S))`, `make_arg((S, 0, M))` |
+| **非连续 tensor** | `discontiguous=True` 参数 | `make_tensor(shape, discontiguous=True)` |
+| **边界参数值** | 覆盖参数的极端/边界 | `dim=0`, `dim=-1`, `dim=最后一维`; `p=1`, `p=2`, `p=inf` |
+| **大 tensor** | 至少一个较大 shape | `make_arg((LARGE_DIM_SIZE, M))` |
+
+编写参考：`op_info.py` 中 `basic_reference_inputs_binary_op_common_func` 和
+`_generate_binary_op_broadcasting_and_discontiguous_tensor_inputs_func` 的写法模式。
+
+如果算子支持 `op_extra_reference_inputs_func`（额外精度场景）或 `op_dynamic_inputs_func`
+（动态 shape/rank），也应参照 `op_info.py` 中的同类写法编写。
 
 #### 数值验证标准（与 torch 对比时）
 
-- **与 PTA 的对比**：即 **Step 4：精度零偏差验证**（见下），不在此步重复；本步 ST 的数值基线为 torch CPU（allclose）或由 PTA 仓库/用户脚本生成的 reference。
-- **Step 2 的基线**：torch CPU 等价算子用 **allclose_nparray** 或单/双精度 atol/rtol；无 torch 等价时用 Step 4 或用户提供的 PTA 脚本产出 reference，ST 内与 reference 对比（如 md5sum）。
+- **与 PTA 的对比**放在 Step 3 的精度零偏差验证中完成；本步 ST 的数值基线优先使用 torch CPU 或用户提供的 reference。
+- **若存在对应 torch CPU 大算子**：优先直接调用该大算子作为 ST 基线，与 MS 输出做 allclose 或单/双精度 compare。
+- **若无对应 torch CPU 大算子、只能用小算子拼接**：
+  1. 先按通用数学定义实现 reference，保证形状和梯度结构正确，先把 ST 框架跑通。
+  2. 在实现处注明该 reference 为占位实现，并提醒用户向 PTA/验收方索取验证交付时使用的 torch CPU 拼接实现与验收标准。
+  3. 拿到 PTA 侧 reference 或标准后，再替换 `op_database.py` 中的参考实现并收紧对比条件。
 
-#### ST 数值基线策略：torch CPU 大算子 vs 小算子拼接（必读）
+### Step 3：精度零偏差验证（`reference.md` §14.1，按需）
 
-- **若存在对应 torch CPU 大算子**（如 `torch.xxx`、`torch_npu` 在 CPU 上的等价接口）：优先直接调用该大算子作为 ST 数值基线，与 MS 输出做 allclose / single_golden_compare。
-- **若无对应 torch CPU 大算子、需小算子拼接时**：
-  1. **先**用**业界通用或数学定义**实现参考（例如：KL 散度梯度用标准 KL 公式 + autograd、softmax 用标准定义等），仅使用 torch 小算子（sum/softmax/log/matmul 等），保证**形状与梯度结构**正确，使 ST 流程可跑通。
-  2. 在实现处添加**注释**，并**提醒用户**：
-     - 「本参考为占位实现，基于通用/数学定义，与 ACLNN/PTA 的 block-wise 或融合实现可能存在数值差异。」
-     - 「**请向 PTA 或验收方索取**：该算子在**验证交付时使用的 torch CPU 小算子拼接实现**以及**验收标准**（如 rtol/atol、是否 0 偏差）。拿到后可将实现与验收标准提供给 AI，用于替换或增强当前参考并收紧对比条件。」
-  3. 验收时以 PTA 验证交付用的实现与验收标准为准；拿到后可替换 ST 内 `_torch_cpu_xxx_ref` 等函数并更新对比逻辑。
+- 固定随机种子，保存输出为 `.npy`
+- `md5sum` 对比 MS/PTA 输出哈希
+- Agent 须产出可执行验证脚本，并写明运行环境、运行命令、以及需要用户回传的结果。
 
-### Step 3：Python UT（`reference.md` §8.1）—— 推荐
-
-- 推导正确性：shape/type、动态/边界
-- 错误路径：非法参数、None 语义覆盖
-- 固定随机种子：`np.random.default_rng(seed)`
-
-### Step 4：精度零偏差验证（`reference.md` §17.1，按需）—— **与 PTA 的对比即本步**
-
-- **与 PTA 的对比**在此步完成：固定随机种子，MS 与 PTA 分别跑出输出，保存为 `.npy`（或 .npz），**md5sum 对比** MS/PTA 输出哈希，保证结果一致即可。
-- **Agent 须产出可执行脚本供用户运行**：在 `tests/st/ops/ascend/` 下（或与 ST 同目录）提供 **精度零偏差验证脚本**（如 `verify_{op_name}_pta_md5sum.py`），脚本内完成：固定随机种子 → 分别调用 MS 与 PTA → 将各输出保存为 .npy/.npz → 计算并对比 md5（或打印 md5 供用户比对）。脚本头或 README 中注明运行环境（MS + torch_npu）、运行命令及需要用户回传的内容（输出文件或 md5 结果）。
-- 交付 Step 4 时，向用户说明：「请在本仓库 tests/st/ops/ascend/ 下运行脚本 xxx，按脚本内说明回传结果」（见下方「需要用户配合的环节」）。
-
-### Step 5：显存对齐验证（`reference.md` §17.2，按需）
+### Step 4：显存对齐验证（`reference.md` §14.2，按需）
 
 - MS：`mindspore.runtime.max_memory_allocated()`
 - PTA：`torch_npu.npu.max_memory_allocated()`
 - 在相同阶段统计
 
-### Step 6：组合场景分层验证（`reference.md` §29.4）
+### Step 5：组合场景分层验证（`reference.md` §23.5）
 
 | 阶段 | 验证内容 |
 | --- | --- |
@@ -95,29 +131,19 @@
 | 组合级-最终输出 | 标准 ST 对齐 |
 | 反向级 | 反向 ST + 数值梯度检查 |
 
-### Step 7：按需补充（来自源文档 3/4/7）
-
-- **反向调试**：若需查看 bprop 图，可设 `context.set_context(save_graphs=True, save_graphs_path='./')`，13_execute_*.ir 为后端图（见 3. 算子开发 3.4.3）。
-- **动态 shape 自验**：用 `net.set_inputs(Tensor(shape=[3, None], dtype=...))` 等设定编译期动态维度，再传实际输入运行（见 4. 算子关键特性 4.2）。
-- **性能自验（按需）**：整网打点用 `start_hook_net(hook_inside)`（须在网络执行前）；单 API 打点用 `start_analysis()`/`end_analysis()` 包住循环。见 `reference.md` §12、7. 接口性能自验工具。
-- **vmap（按需）**：若算子需 vmap，见 `reference.md` §23（注册 VmapRule、结果/IR/效率自验、性能自测表）。
-
 ---
 
 ## 需要用户配合的环节
 
-凡需用户跑脚本或执行命令的，Agent 必须同时做到：(1) **提供可执行脚本**（或生成并写出到仓库）；(2) 给出**运行命令**；(3) 明确**结果记录位置**（文件 + 章节/表格/段落），便于用户回填、Agent 后续直接读取。
-
-| 环节 | 原因 | 向用户说明（含结果记录位置） |
+| 环节 | 原因 | 向用户说明 |
 | --- | --- | --- |
-| Ascend ST 执行 | 需要 Ascend 设备 | "ST 测试需要在 Ascend 设备上运行。请执行：`cd tests/st/ops/ascend && pytest test_{op_name}.py -v`。请将**完整终端输出**记录到 **Feature 文档 §14 验收报告 → 功能验证表** 对应行备注，或粘贴到对话/指定文件 `docs/st_run_{op_name}.log`，以便我根据结果判断是否通过。" |
-| 精度零偏差验证（Step 4） | 需同时跑 MS 和 PTA | "请运行我产出的验证脚本：`python tests/st/ops/ascend/verify_{op_name}_pta_md5sum.py`（脚本头有运行环境与命令说明）。请将 **md5 对比结果或通过/不通过** 记录到 **Feature 文档 §14 验收报告 → 功能验证表 →「是否与 PTA 计算结果 0 偏差」行** 的「自测结果」「备注」列，我后续会读取该文件确认。" |
-| （仅当 ST 用小算子拼接且无大算子时）PTA 验证用 torch CPU 参考与验收标准 | 当前参考为通用/数学占位，与 ACL 可能存差 | "当前 ST 的 torch CPU 参考基于业界通用/数学定义实现，与 ACLNN/PTA 可能存在数值差异。若您能向 PTA 或验收方拿到**该算子在验证交付时使用的 torch CPU 小算子拼接实现**以及**验收标准**（rtol/atol 或 0 偏差等），请提供给我，我会据此替换或增强 ST 内参考并收紧对比条件。" |
-| 性能/显存对比 | 需要真实设备 | "请在 Ascend 设备上运行性能脚本（我产出后给出路径与命令）。请将**耗时和显存数据**记录到 **Feature 文档 §14 验收报告 → 性能验证表** 对应行，或 `docs/perf_{op_name}.txt` 并在 Feature §14 注明路径。" |
-| 稳定性 100 次验证 | 耗时较长 | "请在设备上执行 100 次循环脚本。请将**通过/失败与简要日志**记录到 **Feature 文档 §14** 或指定文件，并注明路径供我读取。" |
+| Ascend ST 执行 | 需要 Ascend 设备 | "ST 测试需要在 Ascend 设备上运行。请执行我给出的 pytest 命令，并将完整终端输出记录到 Feature 文档 §14 对应表格或指定日志文件，便于我回读判断是否通过。" |
+| 精度零偏差验证 | 需同时跑 MS 和 PTA | "请运行我产出的验证脚本，并将 md5 对比结果或输出文件路径记录到 Feature 文档 §14 对应行，或写入我指定的结果文件。" |
+| 性能/显存对比 | 需要真实设备 | "请在 Ascend 设备上运行性能脚本，并把耗时和显存数据记录到 Feature 文档 §14 对应表格，或写入我指定的结果文件。" |
+| 稳定性 100 次验证 | 耗时较长 | "请在设备上执行 100 次循环脚本，并把通过/失败与简要日志记录到 Feature 文档 §14 或我指定的结果文件。" |
 
-> agent 可以**生成测试脚本和验证命令**，但若无法直接访问 Ascend 设备，必须将脚本和运行指令交给用户执行，**等用户回传结果后再判断是否通过**。  
-> **禁止**：只写「请跑脚本并回传结果」而不提供脚本路径、运行命令、以及**结果记录到哪个文件哪一段**。
+> agent 可以**生成测试脚本和验证命令**，但若无法直接访问 Ascend 设备，必须将脚本和运行指令交给用户执行，**等用户回传结果后再判断是否通过**。
+> **禁止**：只写"请跑脚本并回传结果"而不提供脚本路径、运行命令、以及结果记录位置。
 
 ---
 
@@ -132,19 +158,18 @@ C++ UT 文件：
   - 文件路径：tests/ut/cpp/ops/test_ops_{op_name}.cc
   - 状态：✅已新建 / ❌未写（原因：___）
 
-Python ST 文件：
-  - 文件路径：tests/st/ops/ascend/test_{op_name}.py
-  - 状态：✅已新建 / ✅已有且确认覆盖新路径（路径：___）/ ❌未写（原因：___）
-  - 若"已有"：确认调用的是新接口而非旧接口？ 是/否
+Python ST（OpInfo 注册）：
+  - 注册文件：tests/st/ops/share/_op_info/op_database.py
+  - OpInfo 已注册？ ✅是（算子名：___）/ ❌否（原因：___）
+  - 已加入对应 xxx_op_db 列表？ ✅是 / ❌否
+  - 前端参数化用例已覆盖？ ✅是（测试文件：___）/ ❌否
+  - 若需自定义输入：inputs_func 已编写？ ✅是 / ⏭不需要
+  - 🚫 是否新建了独立测试脚本？ 必须为否（如误建需删除并迁移到 OpInfo）
 
-Python UT 文件（推荐）：
-  - 文件路径：tests/ut/python/ops/test_{op_name}.py
-  - 状态：✅已新建 / ⏭跳过（原因：___）
-
-精度零偏差验证脚本（Step 4，与 PTA 对比）：
+精度零偏差验证脚本（按需）：
   - 文件路径：tests/st/ops/ascend/verify_{op_name}_pta_md5sum.py（或同目录等价命名）
   - 状态：✅已产出 / ⏭不适用（原因：___）
-  - 脚本内是否含：固定种子、MS/PTA 分别跑、保存 .npy/.npz、md5 对比或输出？ 是/否
+  - 脚本内是否含：固定种子、MS/PTA 分别跑、保存 `.npy/.npz`、md5 对比或输出？ 是/否
 ```
 
 > 如果 C++ UT 或 Python ST 的状态为 ❌，**必须说明原因并暂停等用户确认后再继续**。
@@ -153,11 +178,10 @@ Python UT 文件（推荐）：
 ## 成功标准
 
 - [ ] **C++ UT 文件已产出**（Infer 推导覆盖 unknown/None/动态shape）
-- [ ] **Python ST 文件已产出或确认已有覆盖**（Pynative + Graph、前向 + 反向、动态 shape）
-- [ ] Python UT 已产出或有理由跳过
+- [ ] **Python ST OpInfo 已注册且纳入前端参数化用例**（自动覆盖多模式 + 前向精度 + 动态 shape）
 - [ ] 稳定性验证：100 次运行无偶现失败（需用户在设备上验证）
 - [ ] 覆盖场景：动态 shape / 静态 shape / 非连续 tensor / 空 tensor / 特殊值
-- [ ] **用户/场景视角**：典型使用场景、业界论文或大模型中的调用方式与输入规格已在用例中覆盖；当前接入要求为对标 PTA，与 PTA 对标通过即视为满足（在验收/测试报告中记录结论）
+- [ ] **用户/场景视角**：典型使用场景和 PTA 对标场景已在样例或输入集里覆盖
 - [ ] （精度零偏差）hash 对比通过（按需）
 - [ ] （组合场景）分层验证通过（按需）
 

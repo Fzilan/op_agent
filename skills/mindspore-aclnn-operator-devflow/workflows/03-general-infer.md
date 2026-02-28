@@ -27,7 +27,7 @@
 
 ### Step 2：处理动态 shape/rank
 
-三种动态类型及策略（`reference.md` §27）：
+三种动态类型及策略（`reference.md` §21）：
 
 | 类型 | Infer 策略 |
 | --- | --- |
@@ -53,11 +53,11 @@
 
 ### Step 5（可选）：InferValue 常量折叠
 
-当算子输入编译期全部已知时（`reference.md` §26）：
+当算子输入编译期全部已知时（`reference.md` §20）：
 - C++ 实现（优先）或 Python 回调
 - 验证：全常量输入 UT + IR 图中确认 ValueNode
 
-代码骨架见 `reference.md` §24.2。
+代码骨架见 `reference.md` §18.2。
 
 ---
 

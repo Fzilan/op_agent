@@ -12,13 +12,13 @@ PyBoost/KBK、动态 shape、测试与文档，帮助开发者更稳定地完成
 
 | 文件/目录 | 用途 | 说明 |
 | --- | --- | --- |
-| `SKILL.md` | **主入口** | 流程图、TODOLIST 执行清单、条件跳步、核心行为准则、排障路径 |
-| `workflows/` | **步骤详解** | 每步独立 md，Goal/Input/Output/Steps/成功标准；步骤内会引用 reference §X |
-| `reference.md` | **细节与规则** | 31 章技术细节与代码骨架；被 workflows 按 §X 引用，需要时再读 |
-| `checklists.md` | **自检清单** | 12 大类检查项 + 最终文件清单(A-K) + 提交前 Top-25 |
-| `templates/` | 中间产物模板 | Feature 文档、PTA 审查报告、ACLNN 调用链盘点表 |
-| `examples.md` | 触发样例 | 「用户说 X → agent 做 Y」示例 |
-| `traceability.md` | 溯源（维护用） | 原始来源文档 → skill 落点；维护/全面检查时用 |
+| `SKILL.md` | **主入口** | 流程图、TODOLIST 执行清单、条件跳步、关键约束、排障路径 |
+| `workflows/` | **步骤详解** | 每步独立 md 文件，含 Goal/Input/Output/Steps/成功标准/下一步；步骤内会引用 `reference.md` §X |
+| `templates/` | **中间产物模板** | Feature 文档模板、PTA 源码审查报告、ACLNN 调用链盘点表、AI 操作记录模板 |
+| `reference.md` | 知识参考 | 技术细节、代码骨架模板、接口重载与 View 等专题 |
+| `checklists.md` | 可复制清单 | 带优先级标记的 12 大类检查项 + 最终文件清单 + 提交前 Top-25 |
+| `examples.md` | 触发样例 | "用户说 X → agent 做 Y" 示例 |
+| `traceability.md` | 溯源映射 | 原始来源文档 → skill 落点对应表 |
 | `workflows/reconciliation-report.md` | 核对报告（维护用） | workflow 与源文档逐节核对结果；维护时用 |
 | `scripts/` | 工具脚本 | PTA 支持范围探测脚本模板 |
 

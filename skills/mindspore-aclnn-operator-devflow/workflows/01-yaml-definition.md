@@ -62,7 +62,7 @@ dispatch:
 
 ### Step 4：代码骨架参考
 
-YAML 最小模板见 `reference.md` §24.1。
+YAML 最小模板见 `reference.md` §18.1。
 
 ---
 

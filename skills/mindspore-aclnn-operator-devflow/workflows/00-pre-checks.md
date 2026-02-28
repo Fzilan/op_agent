@@ -12,8 +12,12 @@
 ## 输出
 
 - **存量检查结果**：该算子在 MS 仓库中已有 / 缺失的部分
-- **方案设计文档**：接口类型、对接分类、影响面评估
+- **方案设计文档**：接口类型、对接分类、影响面评估, 以md文件形式输出
 - **ACLNN 调用链盘点表**（组合场景）：子算子覆盖状态与实施计划
+
+## 约束
+
+- **本地代码优先**：PTA（op-plugin）、PyTorch、MindSpore 的源码查阅**必须在本地工作区目录中搜索**，禁止通过网络搜索或 WebFetch 获取这些仓库的代码内容。只有在本地确实不存在对应仓库、且用户明确同意时，才可使用网络作为兜底手段。
 
 ---
 
@@ -62,27 +66,30 @@
 
 ### 执行步骤
 
-1. **PTA 源码审查（必做）**：审查 op-plugin 三类关键文件（详见 `reference.md` §25）
+1. **PTA 源码审查（必做）**：审查 op-plugin 三类关键文件（详见 `reference.md` §19）
    - `op_plugin_functions.yaml`：函数签名、参数类型/默认值
    - `derivatives.yaml`：反向注册、可微输入
    - `XxxKernelNpuOpApi.cpp`：实际 ACLNN 调用、参数预处理
    - 注意 PTA 是否有**同名接口重载**（同函数名、不同参数签名）
-2. **接口分析五要素（必做）**（`reference.md` §19.4.1）：
+2. **接口分析五要素（必做）**（`reference.md` §15.4.1）：
    - 功能 / 参数定义 / 数据类型是否一致
    - **是否要新增原语**；**是新增接口还是复用原有接口**
-3. **确定 YAML 策略**（`reference.md` §19.4.2）：
+3. **确定 YAML 策略**（`reference.md` §15.4.2）：
    - 已有 YAML + 复用原有原语 → 加 `dispatch` 字段
    - 已有 YAML + 新增原语 → 新建 YAML 加 `_ext` 后缀
    - 没有 YAML → 新建
-   - 若不兼容且不能改存量接口 → `ops.extend`（`reference.md` §19.4.3）
-   - 若需修改已有原语参数签名 → 参考 MS 仓库相似算子处理方式，具体分析兼容性（`reference.md` §19.4.4）
+   - 若不兼容且不能改存量接口 → `ops.extend`（`reference.md` §15.4.3）
+   - 若需修改已有原语参数签名 → 参考 MS 仓库相似算子处理方式，具体分析兼容性（`reference.md` §15.4.4）
 4. **确定接入路径（核心决策）**（`reference.md` §2.3）：
    - 分析 MindSpore API 参数能否**原样透传**给 ACLNN 接口
    - **路径 1（自动生成）**：参数直通 → YAML 不写 `Ascend` 字段 → Step 4/5 跳过手写
    - **路径 2（Customize）**：参数需预处理 → YAML 写 `Ascend: XxxAscend` → Step 4/5 必须手写
    - 常见需预处理的情况：tuple→vector、Optional None 处理、str→enum、标量提取、参数重排、输出手动分配
    - **此决策直接决定后续整个开发工作量，必须在 Pre-B 阶段明确**
-5. **评估影响面**：是否影响 GE/CPU/GPU/Lite 现有流程；有影响需 Pass/Expander 消除
+5. **评估影响面（含 CPU/GPU 不回退）**：
+   - 若**复用存量原语或适配存量算子 API**，必须确保原有 CPU/GPU 流程不回退、功能不退化
+   - 若**全新算子（新原语 + 新接口）**，不需要新增 CPU/GPU 支持，仅做 Ascend
+   - 是否影响 GE/Lite 现有流程；有影响需 Pass/Expander 消除
 6. **版本矩阵记录**：torch / torch_npu / CANN 版本
 7. **产出 PTA 差异记录**（使用 `templates/pta-analysis-report.md` 模板）
 
@@ -113,8 +120,23 @@
 
 ### 检查点
 
-**在进入 Step 1 之前，确认 Feature 文档初始化版已生成且 §1-§4、§6、§8 已填写。
-如果没有，停下来先完成此步。**
+> **⛔ HARD GATE：在进入 Step 1 之前，以下两项必须完成并交付给用户：**
+> 1. ✅ PTA 源码审查报告（Pre-B 产出，使用 `templates/pta-analysis-report.md` 模板）
+> 2. ✅ Feature 文档初始化版（§1-§4、§6、§8 已填写）
+>
+> **缺少任何一项则停下，禁止继续。不可默默跳过。**
+
+> **⚠️ "交付给用户"的含义：生成实际的 .md 文件到工作区，并告知用户文件路径。**
+>
+> - PTA 源码审查报告：按 `templates/pta-analysis-report.md` 模板填充后，用 Write 工具
+>   **生成文件**（如 `{op_name}_pta_analysis.md`），在消息中告知用户文件路径。
+> - Feature 文档：按 `templates/feature-document.md` 模板填写 §1-§4、§6、§8 后，
+>   **生成文件**（如 `{op_name}_feature.md`），在消息中告知用户文件路径。
+> - 后续每个 Step 完成时，用 StrReplace 工具**回填 Feature 文件的对应章节**，
+>   在执行报告中告知用户"已更新 Feature 文件 §X"。
+>
+> agent 常见错误：做了分析但只在脑中/消息中记录，没有生成文件。
+> 文件不存在 = 文档未产出。
 
 ---
 
@@ -126,10 +148,10 @@
 ### 执行步骤
 
 1. **提取 ACLNN 调用链**：从 PTA C++ 代码中提取前向+反向的全部
-   `EXEC_NPU_CMD` / `aclnnXxx` 调用（详见 `reference.md` §28.2）
-2. **盘点 MS 覆盖情况**：逐个搜索确认子算子是否已接入（`reference.md` §28.3）
+   `EXEC_NPU_CMD` / `aclnnXxx` 调用（详见 `reference.md` §22.2）
+2. **盘点 MS 覆盖情况**：逐个搜索确认子算子是否已接入（`reference.md` §22.3）
 3. **产出覆盖盘点表**（使用 `templates/aclnn-callchain-inventory.md` 模板）
-4. **规划实施顺序**：叶子算子先、组合算子后；按拓扑序（`reference.md` §28.5）
+4. **规划实施顺序**：叶子算子先、组合算子后；按拓扑序（`reference.md` §22.5）
 
 ---
 

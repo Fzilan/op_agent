@@ -53,9 +53,9 @@
 
 - 前向/反向**分文件、分注册**
 - 头/实现命名空间保持一致
-- 不要在 InferShape 中修改属性（`reference.md` §16.1）
+- 不要在 InferShape 中修改属性（`reference.md` §13.1）
 
-### Step 3：Resize/Launch 优化（`reference.md` §16）
+### Step 3：Resize/Launch 优化（`reference.md` §13）
 
 - 能在 Init 确定的放 Init
 - 与 shape 强相关的放 Resize
@@ -63,17 +63,28 @@
 - 无意义输出：覆写 `GetUseLessOutputIdx()`
 - 计算依赖输出：分配最大可能 + SyncOutputShape
 
-### Step 4：组合算子模式（`reference.md` §29.2）
+### Step 4：组合算子模式（Meta DSL 编程范式，`reference.md` §23.2）
 
-- workspace：多个子算子分别计算并累加
-- Launch 中按顺序调用多个 `RunOp`
-- 任一子算子失败立即返回 false
-- 中间 tensor 可能需要通过 workspace 分配
+Meta DSL 通过 C++ 构图替代手动 `GetWorkSpaceInfo/Launch/RunOp`，框架自动处理类型推导和自动微分：
+1. 在 `mindspore/ccsrc/frontend/operator/meta_dsl/func_op/` 下新建 `.cc` 文件
+2. 使用 `REGISTER_FUNCTION_OP(OpName)` 注册算子（可选传入校验函数）
+3. 在 `BeginFunction(OpName, args...) { ... } EndFunction(OpName)` 中用 `Call(Prim(SubOp), ...)` 拼接小算子
+4. 框架自动处理多平台适配，**无需手写 KBK kernel 文件**
 
-代码骨架见 `reference.md` §24.4（单算子）/ §29.2（组合），但**以仓库实际代码为最终参考**。
+代码骨架见 `reference.md` §18.4（单算子）/ §23.2（Meta DSL），但**以仓库实际代码为最终参考**。
+
+### Step 5：View Host Kernel（当 YAML 标记 `graph_view: True` 时，`reference.md` §26.4）
+
+当算子为 View 算子且需要支持 KBK 图模式 View 路径时：
+
+1. 在 YAML 中配置 `graph_view: True`
+2. 在 `ops/kernel/host/view/kernel_mod_impl/` 下新建 `{op_name}_view.cc/.h`
+3. 继承 `HostKernelMod`，实现 `GetWorkSpaceInfo` → 调用 strides 计算更新输出 `tensor_storage_info`
+4. 使用 `MS_HOST_REG_KERNEL({OpName}View, {OpName}View)` 注册
+5. **不走 ACLNN**，host kernel 直接操作 strides
 
 > ⚠️ 注册宏名（如 `MS_ACLNN_KERNEL_FACTORY_REG`）、基类、workspace 接口等
-> 可能随版本变化。务必先看 `kernel_mod_impl/customize/` 下最新已有算子的写法。
+> 可能随版本变化。务必先看 `kernel_mod_impl/` 下最新已有算子的写法。
 
 ---
 
@@ -87,8 +98,12 @@
 - [ ] KBK 前向 kernel 实现完成，编译通过
 - [ ] KBK 反向 kernel 实现完成（如需要），编译通过
 - [ ] 注册宏正确，可在 Graph 模式下调度到
-- [ ] 组合场景：workspace 管理正确，多 RunOp 顺序正确
+- [ ] 组合场景：Meta DSL 拼接逻辑正确，或 workspace 管理正确（旧模式）
 - [ ] 前后向分文件
+
+**View 算子**：
+- [ ] `graph_view: True` 已配置在 View 专用 YAML 中
+- [ ] Host kernel 实现正确（strides 更新 + `MS_HOST_REG_KERNEL` 注册）
 
 ---
 
