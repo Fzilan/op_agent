@@ -1,6 +1,7 @@
 {
   "api_version": "v1",
   "artifact_uri": "/artifacts/job_20260304_111500_ab12cd34/",
+  "artifact_bundle_uri": "/jobs/job_20260304_111500_ab12cd34/artifacts.zip",
   "created_at": "2026-03-04T03:15:00+00:00",
   "error_type": "testcase",
   "finished_at": "2026-03-04T03:20:10+00:00",

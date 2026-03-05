@@ -5,6 +5,7 @@ from __future__ import annotations
 
 import argparse
 import json
+from pathlib import Path
 import sys
 import time
 from typing import Dict, Tuple
@@ -24,6 +25,32 @@ def http_json(method: str, url: str, payload: Dict | None = None) -> Tuple[int, 
         with urlopen(req, timeout=30) as resp:
             text = resp.read().decode("utf-8")
             return resp.status, json.loads(text) if text else {}
+    except HTTPError as e:
+        text = e.read().decode("utf-8")
+        body = {}
+        if text:
+            try:
+                body = json.loads(text)
+            except json.JSONDecodeError:
+                body = {"message": text}
+        return e.code, body
+    except URLError as e:
+        return 599, {"message": str(e)}
+
+
+def http_download(url: str, output_path: Path) -> Tuple[int, Dict]:
+    req = Request(url=url, method="GET")
+    try:
+        with urlopen(req, timeout=60) as resp:
+            status = resp.status
+            output_path.parent.mkdir(parents=True, exist_ok=True)
+            with output_path.open("wb") as fp:
+                while True:
+                    chunk = resp.read(1024 * 1024)
+                    if not chunk:
+                        break
+                    fp.write(chunk)
+        return status, {"output_path": str(output_path), "size": output_path.stat().st_size}
     except HTTPError as e:
         text = e.read().decode("utf-8")
         body = {}
@@ -92,6 +119,48 @@ def cmd_wait(args: argparse.Namespace) -> int:
         time.sleep(args.poll_interval_sec)
 
 
+def cmd_download(args: argparse.Namespace) -> int:
+    status_code, status_body = http_json("GET", f"{args.server}/jobs/{args.job_id}")
+    if status_code >= 300:
+        print(json.dumps(status_body, ensure_ascii=True, indent=2, sort_keys=True))
+        return 1
+
+    bundle_uri = status_body.get("artifact_bundle_uri", "")
+    if not bundle_uri:
+        print(
+            json.dumps(
+                {
+                    "code": 400,
+                    "message": "artifact_bundle_uri missing in job status response",
+                },
+                ensure_ascii=True,
+                indent=2,
+                sort_keys=True,
+            )
+        )
+        return 1
+
+    output_path = Path(args.output) if args.output else Path(f"{args.job_id}_artifacts.zip")
+    server = args.server.rstrip("/")
+    download_url = f"{server}{bundle_uri}"
+    download_code, download_body = http_download(download_url, output_path)
+    if download_code >= 300:
+        print(json.dumps(download_body, ensure_ascii=True, indent=2, sort_keys=True))
+        return 1
+
+    resp = {
+        "job_id": args.job_id,
+        "status": status_body.get("status", ""),
+        "error_type": status_body.get("error_type", ""),
+        "artifact_bundle_uri": bundle_uri,
+        "download_url": download_url,
+        "output_path": download_body["output_path"],
+        "size": download_body["size"],
+    }
+    print(json.dumps(resp, ensure_ascii=True, indent=2, sort_keys=True))
+    return 0
+
+
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(description="Client for op_info remote runner")
     parser.add_argument("--server", default="http://127.0.0.1:18080")
@@ -125,6 +194,11 @@ def build_parser() -> argparse.ArgumentParser:
     wait.add_argument("--poll-interval-sec", type=int, default=10)
     wait.add_argument("--wait-timeout-sec", type=int, default=7200)
     wait.set_defaults(func=cmd_wait)
+
+    download = sub.add_parser("download", help="Download job artifacts bundle")
+    download.add_argument("--job-id", required=True)
+    download.add_argument("--output", default="")
+    download.set_defaults(func=cmd_download)
 
     return parser
 

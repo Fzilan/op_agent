@@ -128,16 +128,28 @@
 2. `status`（string，必填）。
 3. `payload`（object，必填）：原始提交参数标准化副本。
 4. `artifact_uri`（string，必填）：`/artifacts/<job_id>/`。
-5. `error_type`（string，必填）。
-6. `created_at`、`started_at`、`finished_at`（string/null，必填）。
-7. `api_version`（string，必填）。
-8. `summary`（object，终态必填）：与 `summary.json` 同结构。
+5. `artifact_bundle_uri`（string，必填）：`/jobs/<job_id>/artifacts.zip`。
+6. `error_type`（string，必填）。
+7. `created_at`、`started_at`、`finished_at`（string/null，必填）。
+8. `api_version`（string，必填）。
+9. `summary`（object，终态必填）：与 `summary.json` 同结构。
 
 模板：
 
 1. `template/job_status_response.template.json`
 
-## 6. 模板列表
+## 6. API 输出件规范（产物下载）
+
+`GET /jobs/{job_id}/artifacts.zip` 返回当前 job 的全部产物压缩包，用于客户端在 `status=failed` 后拉取分析。
+
+行为要求：
+
+1. 若 `job_id` 不存在，返回 404。
+2. 若产物目录不存在，返回 404。
+3. 返回 `Content-Type: application/zip`。
+4. 返回 `Content-Disposition: attachment; filename="<job_id>_artifacts.zip"`。
+
+## 7. 模板列表
 
 1. `template/summary.template.json`
 2. `template/deploy_meta.template.json`

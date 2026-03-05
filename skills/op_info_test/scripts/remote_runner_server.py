@@ -8,6 +8,8 @@ No queue is introduced. A global file lock guarantees mutual exclusion.
 from __future__ import annotations
 
 import argparse
+import fcntl
+import io
 import json
 import os
 import re
@@ -19,14 +21,13 @@ import threading
 import time
 import uuid
 import xml.etree.ElementTree as ET
+import zipfile
 from dataclasses import dataclass
 from datetime import datetime, timezone
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
 from typing import Dict, List, Optional, Tuple
 from urllib.parse import urlparse
-
-import fcntl
 
 API_VERSION = "v1"
 TERMINAL_STATUSES = {"success", "failed", "timeout", "canceled"}
@@ -202,6 +203,7 @@ class SingleTaskRunner:
                 "status": "running",
                 "payload": normalized_payload,
                 "artifact_uri": f"/artifacts/{job_id}/",
+                "artifact_bundle_uri": f"/jobs/{job_id}/artifacts.zip",
                 "error_type": "",
                 "created_at": utc_now(),
                 "started_at": utc_now(),
@@ -241,13 +243,13 @@ class SingleTaskRunner:
                 "message": f"job not found: {job_id}",
                 "api_version": API_VERSION,
             }
-        return 200, job
+        return 200, self._normalize_job_response(job)
 
     def get_current(self) -> Tuple[int, Dict]:
         current = self.state_store.get_current_job()
         if not current:
             return 200, {"job": None, "api_version": API_VERSION}
-        return 200, {"job": current, "api_version": API_VERSION}
+        return 200, {"job": self._normalize_job_response(current), "api_version": API_VERSION}
 
     def cancel(self, job_id: str) -> Tuple[int, Dict]:
         with self._mu:
@@ -536,6 +538,14 @@ class SingleTaskRunner:
         log_fp.write(f"[{stamp}] {message}\n")
         log_fp.flush()
 
+    @staticmethod
+    def _normalize_job_response(job: Dict) -> Dict:
+        normalized = dict(job)
+        job_id = normalized.get("job_id", "")
+        if job_id and not normalized.get("artifact_bundle_uri"):
+            normalized["artifact_bundle_uri"] = f"/jobs/{job_id}/artifacts.zip"
+        return normalized
+
 
 class ApiHandler(BaseHTTPRequestHandler):
     runner: SingleTaskRunner = None  # type: ignore[assignment]
@@ -588,6 +598,28 @@ class ApiHandler(BaseHTTPRequestHandler):
             return
 
         parts = [p for p in path.split("/") if p]
+        if len(parts) == 3 and parts[0] == "jobs" and parts[2] == "artifacts.zip":
+            job_id = parts[1]
+            job = self.runner.state_store.get_job(job_id)
+            if not job:
+                self._respond(404, {"code": 404, "message": "job not found", "api_version": API_VERSION})
+                return
+
+            artifact_dir = self.runner.artifact_root / job_id
+            if not artifact_dir.exists() or not artifact_dir.is_dir():
+                self._respond(404, {"code": 404, "message": "artifact not found", "api_version": API_VERSION})
+                return
+
+            zip_data = _build_artifact_zip_bytes(artifact_dir)
+            filename = f"{job_id}_artifacts.zip"
+            self.send_response(200)
+            self.send_header("Content-Type", "application/zip")
+            self.send_header("Content-Disposition", f'attachment; filename="{filename}"')
+            self.send_header("Content-Length", str(len(zip_data)))
+            self.end_headers()
+            self.wfile.write(zip_data)
+            return
+
         if len(parts) == 2 and parts[0] == "jobs":
             status, resp = self.runner.get_job(parts[1])
             self._respond(status, resp)
@@ -735,6 +767,17 @@ def ensure_junit_xml(test_cmd: str, junit_path: Path) -> str:
     if re.search(r"(^|\s)pytest(\s|$)", test_cmd):
         return f"{test_cmd} --junitxml={shlex.quote(str(junit_path))}"
     return test_cmd
+
+
+def _build_artifact_zip_bytes(artifact_dir: Path) -> bytes:
+    buffer = io.BytesIO()
+    with zipfile.ZipFile(buffer, mode="w", compression=zipfile.ZIP_DEFLATED) as zip_fp:
+        for file_path in sorted(artifact_dir.rglob("*")):
+            if not file_path.is_file():
+                continue
+            arcname = file_path.relative_to(artifact_dir).as_posix()
+            zip_fp.write(file_path, arcname=arcname)
+    return buffer.getvalue()
 
 
 def parse_args() -> argparse.Namespace:
