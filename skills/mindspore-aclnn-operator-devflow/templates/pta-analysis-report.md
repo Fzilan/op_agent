@@ -107,51 +107,12 @@
 
 ---
 
-## 七、MS 适配结论与接入方案
+## 七、MS 适配结论
 
-### 7.1 对接决策
-
-| 属性 | 值 | 依据 |
-| ---- | -- | ---- |
-| **对接类型** | 类型 {1/2/3} | {判断依据：参数是否一致/名称映射/语义不一致} |
-| **接入路径** | 路径 {1/2} | {判断依据：参数能否原样透传 ACLNN} |
-| **ACLNN 接口** | `aclnn{Xxx}`（前向）/ `aclnn{XxxGrad}`（反向） | |
-| **组合场景** | {是/否} | 子算子列表见第六节 |
-
-### 7.2 Primitive / YAML 策略
-
-| 问题 | 结论 | 说明 |
-| ---- | ---- | ---- |
-| **是否已有同名 Primitive** | {是（属性式 / 输入式）/ 否} | {如有，说明参数存放方式} |
-| **能否复用已有 Primitive** | {能（直接加 dispatch）/ 不能（参数不兼容）} | {不兼容原因} |
-| **YAML 策略** | {新建 `xxx_ext_op.yaml` / 修改已有 YAML 加 dispatch / 走 ops.extend} | |
-| **dispatch 配置** | `enable: True` {+ `Ascend: XxxAscend`（路径 2）/ 不写 Ascend（路径 1）} | |
-
-### 7.3 需要 Customize 的参数预处理（路径 2 填写）
-
-> 路径 1 此节留空。
-
-| MS 参数 | MS 类型 | ACLNN 期望 | 预处理方式 |
-| -------- | ------- | ---------- | ---------- |
-| {param} | {type} | {aclnn_type} | {如：Scalar→ScalarPtr / tuple→vector / None→空tensor} |
-
-### 7.4 反向策略
-
-| 属性 | 值 |
-| ---- | -- |
-| **PTA 反向方式** | {单独 aclnnGrad / autograd 组合 / 无反向} |
-| **MS 反向方式** | {REG_BPROP_BUILDER 手写 / bprop_expander: False 自动微分 / 无反向} |
-| **反向 ACLNN** | {aclnnXxxGrad / 无（用现有算子组合）} |
-
-### 7.5 接口导出计划
-
-| 导出位置 | 接口名 | 来源 |
-| -------- | ------ | ---- |
-| `mint.xxx` | `mint.{op_name}` | `ops.auto_generate.{op_name}_ext` as `{op_name}` |
-| `ops.functional`（如需） | `ops.{op_name}` | {已有 / 新增} |
-| `Tensor.xxx`（如需） | `Tensor.{op_name}` | {已有 / 新增} |
-
-### 7.6 关键注意事项
-
-- {item1}
-- {item2}
+- **对接类型**：{1/2/3}
+- **ACLNN 接口**：`aclnn{Xxx}`（前向）/ `aclnn{XxxGrad}`（反向）
+- **需要 customize**：{是/否}
+- **组合场景**：{是/否}，子算子列表见第六节
+- **关键注意事项**：
+  - {item1}
+  - {item2}

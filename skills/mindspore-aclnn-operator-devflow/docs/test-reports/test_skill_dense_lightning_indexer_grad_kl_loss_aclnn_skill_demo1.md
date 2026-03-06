@@ -21,7 +21,7 @@
 Agent 识别到"ACLNN"、"算子适配"、"对标 PTA"等关键词，自动加载 Skill：
 
 1. 读取 `SKILL.md` — 获取执行流程总览、两条路径决策表、条件跳步表
-2. 读取 `reference.md` — 获取 29 个章节的细节参考（YAML 模板、骨架代码、PTA 审查方法等）
+2. 读取 `reference.md` — 获取 31 个章节的细节参考（YAML 模板、骨架代码、PTA 审查方法等）
 3. 读取 `workflows/00-pre-checks.md` — 获取 Pre-A/B/C 的详细步骤
 4. 读取 `workflows/01-yaml-definition.md` — 获取 YAML 定义规范
 5. 读取 `workflows/02-code-generation.md` — 获取代码生成流程
@@ -585,3 +585,91 @@ Skill 要求每步给出"检查了什么→关键证据→验证方式→结果"
 - **开发阶段**：按 YAML → Infer → PyBoost → KBK → 导出 → 测试顺序，每步参照 `nsa_compress_attention` 等同目录现有实现
 - **产出**：14 个新增文件 + 2 个修改文件 + Feature 文档，覆盖全链路
 - **跳步**：跳过 Pre-C（非组合算子）和 Step 6（无反向），减少约 30% 工作量
+
+---
+
+## 十七、基于新版 Skill 的检查与完善记录
+
+> 本算子基于**旧版 Skill** 开发并已合入 PR。本节记录使用**新版 Skill**（含核心行为准则四层、D1/D2/D3/D4、第 8 条熵增控制）对该算子产出的复核结果，以及据此完成的修改与建议。
+
+### 17.1 检查执行记录（元信息）
+
+| 项目 | 内容 |
+|------|------|
+| **检查日期** | 2025-02-26 |
+| **使用的 AI 模型** | Claude（Cursor 内置 Agent，执行本次检查与完善时的会话模型） |
+| **消耗的 Token（约）** | 未在本次会话中统计；可从 Cursor 设置/用量页面或 API 用量中查看当次对话的 input/output token |
+| **检查依据** | 新版 `SKILL.md` 核心行为准则、D1 八类文件联动、D3 多视角校验、`checklists.md` 提交前 Top-25、Step 9 文档要求（`reference.md` §11） |
+| **检查范围** | 算子 `dense_lightning_indexer_grad_kl_loss` 在 MindSpore 仓库中的全部相关文件 |
+
+### 17.2 检查操作步骤与依据
+
+1. **按 D1 联动范围核对 8 类文件是否齐全、命名与参数是否一致**  
+   依据：SKILL 第二层级 D1「8 类文件」。操作：在仓库中对算子名做关键词搜索，列出每类文件路径并核对参数名/类型/默认值在 YAML、Infer、PyBoost、KBK、Python、文档间一致。
+2. **按 checklists Top-25 逐项过**  
+   依据：§12-F「中文 RST 已创建」、§9「英文 function_doc + 中文 RST」、§11 质量门禁。操作：检查 `docs/api/api_python/ops/` 下是否有该算子中文 RST；检查 `mindspore.ops.rst` 接口列表是否已按字母序添加。
+3. **按 D3 多视角做结果核对**  
+   实现视角：与相似算子（如 `sparse_flash_attention`）的文档与导出方式对照。评审视角：用 checklists 与 Top-25 逐项打勾。
+4. **质量检查（D2 格式 + checklists 逐项）**  
+   依据：SKILL 第三层级 D2（Pylint/Clang-format/Markdownlint、UTF-8、Tab、单行 ≤120）、checklists Top-25、reference §11.6（RST 格式、中英文一致、样例可运行）。操作：逐文件核对参数名/类型/默认值在 8 类文件间一致；核对非 Ascend 占位 RuntimeError 文案；核对 RST 文件名/标题/接口定义一致、shape 用 :math:、Args/Returns 格式；抽样检查行长度。
+
+### 17.3 发现的问题与遗漏（缺漏 + 质量）
+
+| # | 问题/遗漏 | 类型 | 依据 | 严重程度 |
+|---|----------|------|------|----------|
+| 1 | **中文 RST 缺失**：`docs/api/api_python/ops/` 下无该算子 RST | 缺漏 | checklists §12-F、Top-25 #15；Step 9 公开 API 必须中文 RST | 高 |
+| 2 | **中文接口列表未添加**：`mindspore.ops.rst` 中未按字母序列出该接口 | 缺漏 | reference §11.4「接口列表按字母序添加」 | 高 |
+| 3 | **中文 RST 中 shape 未用 :math:**：返回中「shape 为 (1,)」未按 reference §11.6 使用 :math: 格式 | 质量 | reference §11.6「描述具体 shape 时使用 :math:」 | 中 |
+| 4 | **英文 function_doc 第 3 行签名超 120 字符**：description 首行签名过长，Top-25 #25 要求单行 ≤120 | 质量 | D2 物理指标、Top-25 #25 | 中（若项目允许文档签名行例外可标注） |
+| 5 | **ST 无异常用例**：未覆盖错误 dtype/错误维度等异常路径，且无对 RuntimeError/ValueError 报错信息的断言 | 质量 | Top-25 #21「异常用例校验具体报错信息」 | 中 |
+| 6 | 英文 function_doc 与 op_def/api_def 参数一致；8 类文件中除文档外均存在且命名一致；Infer 无 AddAttr；非 Ascend 占位 RuntimeError 文案正确；C++ UT 覆盖 BSND/TND/动态 rank/bfloat16 | — | D1/D3、Top-25 #8/#14 | 无问题 |
+
+### 17.4 已完成的修改
+
+| # | 修改项 | 文件 | 说明 |
+|---|--------|------|------|
+| 1 | 新增中文 RST | `docs/api/api_python/ops/mindspore.ops.dense_lightning_indexer_grad_kl_loss.rst` | 与英文 function_doc 对齐，参数/关键字参数/返回/异常/支持平台完整；**质量**：返回中 loss 的 shape 已改为 :math:`(1,)` 符合 reference §11.6 |
+| 2 | 接口列表添加 | `docs/api/api_python/mindspore.ops.rst` | 在 dense 与 dropout 之间按字母序添加 `mindspore.ops.dense_lightning_indexer_grad_kl_loss` |
+| 3 | 文档内章节数更正 | 本文件 §2.1 | 「29 个章节」→「31 个章节」 |
+
+### 17.5 建议后续动作（未在本次执行）
+
+| # | 建议 | 依据 |
+|---|------|------|
+| 1 | 在**英文**接口列表 `docs/api/api_python_en/mindspore.ops.rst` 中按字母序添加该接口 | reference §11.4 中英文接口列表均需维护 |
+| 2 | 对新增/修改的 RST 运行 Rstlint 及文档构建 | D2 工程格式规范、reference §11.6 |
+| 3 | **英文 function_doc**：若门禁强制单行 ≤120，将 description 首行签名拆为多行或缩短参数列表展示方式 | D2、Top-25 #25 |
+| 4 | **ST 补充异常用例**：如传入非法 dtype/维度，断言 `pytest.raises` 且校验异常 message 包含关键词（如 "only supported on Ascend" / "dimensions"） | Top-25 #21 |
+| 5 | 设备上复跑 Python ST 及 PTA 对比用例，将结果回填 Feature 文档 §14 | 十五节「后续待用户验证」 |
+
+---
+
+## 十八、2025-02-27 复核与补充记录（本次操作）
+
+> **说明**：本节为本次会话的追加记录。上文一至十七节为历史存档，**未做任何修改**。以下仅记录本次对仓库的复核结论与在**其他文档**中的补充操作。
+
+### 18.1 本次操作范围
+
+- **未改本文件**：未修改本文档中任何“当时 AI 的操作记录”（§一～§十七）。
+- **已改其他文档**：在 `mindspore/dense_lightning_indexer_grad_kl_loss_进展与待办.md` 中做了路径统一、章节顺序、ST 与 Torch ref 说明等修正与补充（见该文档 §二、§三、§五、§七）。
+
+### 18.2 对照当前仓库的复核结论（供后续查阅）
+
+与当前 MindSpore 仓库比对后，**相对本存档记录**的差异如下（仅作“当前状态”备注，不回溯修改存档）：
+
+| 项目 | 本存档记录（当时） | 当前仓库状态 |
+|------|-------------------|--------------|
+| Python ST 测试函数数量 | 4 个（bsnd / tnd / with_rope / pta_compare） | 9 个：新增 scale_value、tnd_variable_actual_seq、optional_pre_next_tokens、sparse_mode、bsnd_bfloat16；PTA 对比用例名为 `test_dense_lightning_indexer_grad_kl_loss_vs_reference` |
+| Python ST 行数 | 179 | ~410 |
+| function_doc 行数 | 67 | 77 |
+| Feature 文档行数 | 212 | ~284 |
+| C++ UT 行数 | 142 | ~150 |
+| 精度零偏差 | 仅提及 ST 中 test_pta_compare | 另有独立脚本 `verify_dense_lightning_indexer_grad_kl_loss_pta_md5sum.py`（--save-ref / --compare） |
+| ST 与 Torch ref | 未说明 | `tnd_variable_actual_seq`、`optional_pre_next_tokens` 两条与当前 Torch ref 语义不一致（ref 无 actual_seq / pre_next_tokens），仅宜做 shape/dtype/finite 校验；已写入进展与待办 §三、§五 |
+
+### 18.3 本次在进展与待办.md 中的修改摘要
+
+- §二：路径统一为相对 mindspore 仓库根，并增加说明。
+- §三：在“在 Ascend 上执行 ST”下增加 ST 与 Torch ref 的说明（上述两条用例的语义差异及建议）。
+- §五：新增“ST 与 Torch ref 说明”一节。
+- §七：原“五、一句话小结”改为“七、一句话小结”，并略调表述。

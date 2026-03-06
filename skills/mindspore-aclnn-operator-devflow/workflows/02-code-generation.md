@@ -73,6 +73,7 @@ python mindspore/ops/op_def/gen_ops.py
 
 - [ ] `gen_ops.py` 运行无报错
 - [ ] `functional_overload.py` 中包含新算子的 Python 入口
+- [ ] `aclnn_config.yaml` 已添加 `{OpName}: 'aclnn{Op}'` 映射（若算子名与 ACLNN 不一致）
 - [ ] 路径 1：确认 PyBoost 调用代码和 KBK 注册已自动生成
 - [ ] 路径 2：已完成"先生成后改造"流程，Customize 文件就位
 
