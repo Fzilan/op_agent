@@ -1,0 +1,5 @@
+interface:
+  display_name: "Torch NPU ACLNN Reconstruct"
+  short_description: "Reconstruct torch_npu to ACLNN chains with gap extraction and skill-based LLM backfill"
+  default_prompt: "Use this skill to reconstruct torch_npu to ACLNN call chains, extract ACLNN gap candidates, and run a separate LLM backfill step in this repository."
+

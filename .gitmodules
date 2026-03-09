@@ -1,0 +1,12 @@
+[submodule "workspace/aclnn-dashboard"]
+	path = workspace/aclnn-dashboard
+	url = https://github.com/Fzilan/aclnn-dashboard.git
+	update = none
+[submodule "workspace/op-plugin"]
+	path = workspace/op-plugin
+	url = https://gitcode.com/Ascend/op-plugin.git
+	update = none
+[submodule "workspace/mindspore"]
+	path = workspace/mindspore
+	url = https://gitcode.com/mindspore/mindspore.git
+	update = none
