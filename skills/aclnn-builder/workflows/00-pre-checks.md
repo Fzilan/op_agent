@@ -2,7 +2,7 @@
 
 ## Goal
 
-Before coding, retrieve the current MindSpore API / op status from `operator-facts` (especially ACLNN integration coverage), retrieve the corresponding PTA API facts, and directly conclude how the MindSpore operator should integrate ACLNN and which MindSpore files must be modified or added.
+Before coding, retrieve the current MindSpore API / op status from `operator-facts` (especially ACLNN integration coverage), retrieve the corresponding PTA API facts, and directly conclude how the MindSpore operator should integrate ACLNN.
 
 ## Guardrails
 
@@ -22,7 +22,6 @@ Before coding, retrieve the current MindSpore API / op status from `operator-fac
 
 - Target Operator Name to be implemented in the aclnn backend.
 - ACLNN integration path for the MindSpore operator.
-- MindSpore file list to modify/add/verify
 - PTA reference anchors to open while coding
 
 ## Step 1. Retrieval target MindSpore API/OP and corresponding PTA API/OP
@@ -118,16 +117,6 @@ The current Pre conclusion is limited to what existing `operator-facts` can alre
    - If PTA has backward and bundle `coverage.bprop=false`, conclude that bprop must be added or updated
    <NOTE> If we has bprop added or upadted, the backward target operator should also listed as Target Operator name together with the forward.
 
-5. Build the MindSpore file list
-   - Always list `yaml`
-   - Always list `infer`
-   - List `kbk`
-   - List `pyboost`
-   - List `bprop`
-   - List `ut/st`
-   - For each category, state whether the action is `no change`, `modify`, or `new_add`
-   - `auto` normally means no handwritten `kbk/pyboost`
-   - `customize` means handwritten `kbk/pyboost` must be included
 
 ## Output Format
 
@@ -140,13 +129,6 @@ Conclusion:
 - Integration path: {auto / customize}, because {brief reason}
 - Backward: {no backward / reuse or verify current bprop / add or update bprop}, because {brief reason}
 
-MindSpore modify list:
-- yaml: {path or target} | {no change / modify / new_add}
-- infer: {path or target} | {no change / modify / new_add}
-- kbk: {path or target} | {no change / modify / new_add}
-- pyboost: {path or target} | {no change / modify / new_add}
-- bprop: {path or target} | {no change / modify / new_add}
-- ut/st: {path or target} | {no change / modify / new_add}
 
 PTA refs:
 - {role} | {path} | {pattern}

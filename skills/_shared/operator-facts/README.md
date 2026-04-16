@@ -52,15 +52,54 @@ PTA 最小 schema 和样例放在：
 
 ## 使用方式
 
+要求：
+
+- Python 3.9+
+- `--ms-root` 指向 MindSpore 仓库里的源码根目录，也就是包含 `ops/`、`python/`、`ccsrc/` 的那个 `mindspore/` 目录
+
+### 一键重建 MS 部分
+
+如果工作区根目录下有 `regen_operator_facts.sh`，推荐直接使用：
+
 ```bash
-python operator-facts/scripts/build_phase1.py
+./regen_operator_facts.sh
 ```
 
-也可以单独运行：
+也可以显式指定 MindSpore 源码根目录：
 
 ```bash
-python operator-facts/scripts/build_api_identity.py
-python operator-facts/scripts/build_ms_coverage.py
+./regen_operator_facts.sh /path/to/mindspore/mindspore
+```
+
+这个脚本会：
+
+- 清理 `bundles/` 和 MS 相关索引
+- 保留 `data/pta_facts.jsonl` / `data/pta_facts.csv`
+- 重建 `api_identity`、`ms_coverage`、`op_bundle`
+
+### 直接运行 phase1
+
+```bash
+python operator-facts/scripts/build_phase1.py --ms-root /path/to/mindspore/mindspore
+```
+
+`build_phase1.py` 会把 `--ms-root` 透传给各个子脚本。
+
+也可以指定输出目录：
+
+```bash
+python operator-facts/scripts/build_phase1.py \
+  --ms-root /path/to/mindspore/mindspore \
+  --out-dir operator-facts/data \
+  --bundle-root operator-facts/bundles
+```
+
+### 分步重建
+
+```bash
+python operator-facts/scripts/build_api_identity.py --ms-root /path/to/mindspore/mindspore
+python operator-facts/scripts/build_ms_coverage.py --ms-root /path/to/mindspore/mindspore
+python operator-facts/scripts/build_bundles.py
 python operator-facts/scripts/build_pta_facts.py
 ```
 
