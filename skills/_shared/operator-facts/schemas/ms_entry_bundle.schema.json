@@ -1,0 +1,400 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "operator-facts ms entry bundle",
+  "description": "MindSpore entry-centered bundle for precheck consumption. A bundle contains one entry plus either branch routes or one composite description, chosen by the routed unit type.",
+  "type": "object",
+  "required": [
+    "bundle_id",
+    "bundle_type",
+    "schema_version",
+    "generated_at",
+    "entry"
+  ],
+  "properties": {
+    "bundle_id": {
+      "type": "string",
+      "description": "Primary identifier of the entry bundle, normally equal to the public API."
+    },
+    "bundle_type": {
+      "type": "string",
+      "const": "entry",
+      "description": "Bundle category."
+    },
+    "schema_version": {
+      "type": "string",
+      "const": "v2",
+      "description": "Bundle schema version."
+    },
+    "generated_at": {
+      "type": "string",
+      "description": "Generation timestamp in ISO-8601 format."
+    },
+    "entry": {
+      "type": "object",
+      "required": [
+        "public_api",
+        "public_surface",
+        "public_name",
+        "entry_type",
+        "source_type",
+        "source_path"
+      ],
+      "properties": {
+        "public_api": {
+          "type": "string",
+          "description": "Public MindSpore API name."
+        },
+        "public_surface": {
+          "type": "string",
+          "description": "Public namespace that owns the API."
+        },
+        "public_name": {
+          "type": "string",
+          "description": "Short public API name."
+        },
+        "entry_type": {
+          "type": "string",
+          "description": "Routing shape of the entry.",
+          "enum": [
+            "single",
+            "overload",
+            "composite",
+            "unresolved"
+          ]
+        },
+        "source_type": {
+          "type": "string",
+          "description": "Primary source category where the entry was discovered.",
+          "enum": [
+            "api_def",
+            "mint_export",
+            "tensor_class",
+            "tensor_method",
+            "tensor_registry",
+            "wrapper",
+            "unknown"
+          ]
+        },
+        "source_path": {
+          "type": "string",
+          "description": "Source file where the entry was discovered."
+        }
+      },
+      "additionalProperties": false
+    },
+    "branches": {
+      "type": "array",
+      "description": "Branch targets for single or overload entries.",
+      "items": {
+        "type": "object",
+        "required": [
+          "route_type",
+          "resolver_type",
+          "target_symbol",
+          "dispatch_order",
+          "unit_id",
+          "unit_name",
+          "op",
+          "primitive",
+          "yaml_path",
+          "coverage"
+        ],
+        "properties": {
+          "route_type": {
+            "type": "string",
+            "description": "Route shape for this branch target.",
+            "enum": [
+              "direct",
+              "overload"
+            ]
+          },
+          "resolver_type": {
+            "type": "string",
+            "description": "Resolver category of this route.",
+            "enum": [
+              "api_def",
+              "py_method",
+              "alias",
+              "tensor_registry",
+              "wrapper",
+              "deprecated",
+              "unknown"
+            ]
+          },
+          "target_symbol": {
+            "type": "string",
+            "description": "Resolved symbol that routes the entry to this branch."
+          },
+          "dispatch_order": {
+            "type": "integer",
+            "description": "Stable branch order within the entry.",
+            "minimum": 0
+          },
+          "unit_id": {
+            "type": "string",
+            "description": "Canonical execution unit identifier."
+          },
+          "unit_name": {
+            "type": "string",
+            "description": "Stable short name of the execution unit."
+          },
+          "op": {
+            "type": "string",
+            "description": "MindSpore op name."
+          },
+          "primitive": {
+            "type": "string",
+            "description": "Primitive name."
+          },
+          "yaml_path": {
+            "type": "string",
+            "description": "Path to the op yaml definition file."
+          },
+          "coverage": {
+            "$ref": "#/$defs/unitCoverage"
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "composite": {
+      "type": "object",
+      "description": "Composite description for composite entries.",
+      "required": [
+        "resolver_type",
+        "target_symbol",
+        "impl_path",
+        "components"
+      ],
+      "properties": {
+        "resolver_type": {
+          "type": "string",
+          "description": "Resolver category of the composite route.",
+          "enum": [
+            "api_def",
+            "py_method",
+            "alias",
+            "tensor_registry",
+            "wrapper",
+            "deprecated",
+            "unknown"
+          ]
+        },
+        "target_symbol": {
+          "type": "string",
+          "description": "Resolved symbol that identifies the composite route target."
+        },
+        "impl_path": {
+          "type": "string",
+          "description": "Implementation file path of the composite logic."
+        },
+        "components": {
+          "type": "array",
+          "description": "Direct components referenced by the composite implementation.",
+          "items": {
+            "type": "object",
+            "required": [
+              "component_type",
+              "condition",
+              "via_symbol"
+            ],
+            "properties": {
+              "component_type": {
+                "type": "string",
+                "description": "Component category.",
+                "enum": [
+                  "public_api",
+                  "unit",
+                  "primitive_symbol"
+                ]
+              },
+              "public_api": {
+                "type": "string",
+                "description": "Referenced public API when component_type is public_api."
+              },
+              "unit_id": {
+                "type": "string",
+                "description": "Referenced execution unit identifier when component_type is unit."
+              },
+              "unit_name": {
+                "type": "string",
+                "description": "Short name of the referenced execution unit."
+              },
+              "unit_type": {
+                "type": "string",
+                "description": "Execution unit category when component_type is unit.",
+                "enum": [
+                  "branch",
+                  "composite"
+                ]
+              },
+              "op": {
+                "type": "string",
+                "description": "MindSpore op name when component_type is unit and unit_type is branch."
+              },
+              "primitive": {
+                "type": "string",
+                "description": "Primitive name when component_type is unit and unit_type is branch."
+              },
+              "yaml_path": {
+                "type": "string",
+                "description": "Path to the op yaml definition file when component_type is unit and unit_type is branch."
+              },
+              "impl_path": {
+                "type": "string",
+                "description": "Implementation file path when component_type is unit and unit_type is composite."
+              },
+              "condition": {
+                "type": "string",
+                "description": "Condition text under which the component is used."
+              },
+              "via_symbol": {
+                "type": "string",
+                "description": "Symbol used at the call site."
+              },
+              "coverage": {
+                "$ref": "#/$defs/unitCoverage"
+              },
+              "primitive_symbol": {
+                "type": "string",
+                "description": "Referenced primitive symbol when component_type is primitive_symbol."
+              }
+            },
+            "additionalProperties": false,
+            "allOf": [
+              {
+                "if": {
+                  "properties": {
+                    "component_type": {
+                      "const": "public_api"
+                    }
+                  }
+                },
+                "then": {
+                  "required": [
+                    "public_api"
+                  ]
+                }
+              },
+              {
+                "if": {
+                  "properties": {
+                    "component_type": {
+                      "const": "unit"
+                    }
+                  }
+                },
+                "then": {
+                  "required": [
+                    "unit_id",
+                    "unit_name",
+                    "unit_type"
+                  ]
+                }
+              },
+              {
+                "if": {
+                  "properties": {
+                    "component_type": {
+                      "const": "unit"
+                    },
+                    "unit_type": {
+                      "const": "branch"
+                    }
+                  }
+                },
+                "then": {
+                  "required": [
+                    "op",
+                    "primitive",
+                    "yaml_path",
+                    "coverage"
+                  ]
+                }
+              },
+              {
+                "if": {
+                  "properties": {
+                    "component_type": {
+                      "const": "unit"
+                    },
+                    "unit_type": {
+                      "const": "composite"
+                    }
+                  }
+                },
+                "then": {
+                  "required": [
+                    "impl_path"
+                  ]
+                }
+              },
+              {
+                "if": {
+                  "properties": {
+                    "component_type": {
+                      "const": "primitive_symbol"
+                    }
+                  }
+                },
+                "then": {
+                  "required": [
+                    "primitive_symbol"
+                  ]
+                }
+              }
+            ]
+          }
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "$defs": {
+    "unitCoverage": {
+      "type": "object",
+      "required": [
+        "aclnn",
+        "infer",
+        "kbk",
+        "pyboost",
+        "bprop",
+        "bprop_units"
+      ],
+      "properties": {
+        "aclnn": {
+          "type": "array",
+          "description": "ACLNN interfaces associated with this unit.",
+          "items": {
+            "type": "string"
+          }
+        },
+        "infer": {
+          "type": "boolean",
+          "description": "Whether infer support exists."
+        },
+        "kbk": {
+          "type": "boolean",
+          "description": "Whether KBK support exists."
+        },
+        "pyboost": {
+          "type": "boolean",
+          "description": "Whether PyBoost support exists."
+        },
+        "bprop": {
+          "type": "boolean",
+          "description": "Whether explicit bprop evidence exists."
+        },
+        "bprop_units": {
+          "type": "array",
+          "description": "Short names of backward execution units referenced by bprop.",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}

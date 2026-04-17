@@ -1,0 +1,20 @@
+{
+  "bundle_id": "mindspore.ops.inner",
+  "bundle_type": "entry",
+  "schema_version": "v2",
+  "generated_at": "2026-04-17T17:08:56+08:00",
+  "entry": {
+    "public_api": "mindspore.ops.inner",
+    "public_surface": "mindspore.ops",
+    "public_name": "inner",
+    "entry_type": "composite",
+    "source_type": "wrapper",
+    "source_path": "mindspore/python/mindspore/ops/function/__init__.py"
+  },
+  "composite": {
+    "resolver_type": "alias",
+    "target_symbol": "inner",
+    "impl_path": "mindspore/python/mindspore/ops/function/math_func.py",
+    "components": []
+  }
+}

@@ -1,0 +1,35 @@
+{
+  "bundle_id": "mindspore.ops.irfft2",
+  "bundle_type": "entry",
+  "schema_version": "v2",
+  "generated_at": "2026-04-17T17:08:56+08:00",
+  "entry": {
+    "public_api": "mindspore.ops.irfft2",
+    "public_surface": "mindspore.ops",
+    "public_name": "irfft2",
+    "entry_type": "single",
+    "source_type": "wrapper",
+    "source_path": "mindspore/python/mindspore/ops/function/__init__.py"
+  },
+  "branches": [
+    {
+      "route_type": "direct",
+      "resolver_type": "alias",
+      "target_symbol": "irfft2",
+      "dispatch_order": 0,
+      "unit_id": "branch::irfft2_op.yaml::IRFFT2",
+      "unit_name": "IRFFT2",
+      "op": "irfft2",
+      "primitive": "IRFFT2",
+      "yaml_path": "mindspore/ops/op_def/yaml/irfft2_op.yaml",
+      "coverage": {
+        "aclnn": [],
+        "infer": true,
+        "kbk": false,
+        "pyboost": false,
+        "bprop": true,
+        "bprop_units": []
+      }
+    }
+  ]
+}

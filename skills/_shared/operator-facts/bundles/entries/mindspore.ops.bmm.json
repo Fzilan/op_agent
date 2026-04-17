@@ -1,0 +1,38 @@
+{
+  "bundle_id": "mindspore.ops.bmm",
+  "bundle_type": "entry",
+  "schema_version": "v2",
+  "generated_at": "2026-04-17T17:08:56+08:00",
+  "entry": {
+    "public_api": "mindspore.ops.bmm",
+    "public_surface": "mindspore.ops",
+    "public_name": "bmm",
+    "entry_type": "single",
+    "source_type": "wrapper",
+    "source_path": "mindspore/python/mindspore/ops/function/__init__.py"
+  },
+  "branches": [
+    {
+      "route_type": "direct",
+      "resolver_type": "alias",
+      "target_symbol": "bmm",
+      "dispatch_order": 0,
+      "unit_id": "branch::batch_mat_mul_op.yaml::BatchMatMul",
+      "unit_name": "BatchMatMul",
+      "op": "batch_mat_mul",
+      "primitive": "BatchMatMul",
+      "yaml_path": "mindspore/ops/op_def/yaml/batch_mat_mul_op.yaml",
+      "coverage": {
+        "aclnn": [
+          "aclnnBatchMatMul",
+          "aclnnMatmul"
+        ],
+        "infer": true,
+        "kbk": true,
+        "pyboost": true,
+        "bprop": true,
+        "bprop_units": []
+      }
+    }
+  ]
+}

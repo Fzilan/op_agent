@@ -1,0 +1,37 @@
+{
+  "bundle_id": "mindspore.mint.atan2",
+  "bundle_type": "entry",
+  "schema_version": "v2",
+  "generated_at": "2026-04-17T17:08:56+08:00",
+  "entry": {
+    "public_api": "mindspore.mint.atan2",
+    "public_surface": "mindspore.mint",
+    "public_name": "atan2",
+    "entry_type": "single",
+    "source_type": "mint_export",
+    "source_path": "mindspore/python/mindspore/mint/__init__.py"
+  },
+  "branches": [
+    {
+      "route_type": "direct",
+      "resolver_type": "alias",
+      "target_symbol": "atan2_ext",
+      "dispatch_order": 0,
+      "unit_id": "branch::atan2_ext_op.yaml::Atan2Ext",
+      "unit_name": "Atan2Ext",
+      "op": "atan2_ext",
+      "primitive": "Atan2Ext",
+      "yaml_path": "mindspore/ops/op_def/yaml/atan2_ext_op.yaml",
+      "coverage": {
+        "aclnn": [
+          "aclnnAtan2"
+        ],
+        "infer": true,
+        "kbk": true,
+        "pyboost": true,
+        "bprop": true,
+        "bprop_units": []
+      }
+    }
+  ]
+}

@@ -1,0 +1,37 @@
+{
+  "bundle_id": "mindspore.ops.nonzero",
+  "bundle_type": "entry",
+  "schema_version": "v2",
+  "generated_at": "2026-04-17T17:08:56+08:00",
+  "entry": {
+    "public_api": "mindspore.ops.nonzero",
+    "public_surface": "mindspore.ops",
+    "public_name": "nonzero",
+    "entry_type": "single",
+    "source_type": "wrapper",
+    "source_path": "mindspore/python/mindspore/ops/function/__init__.py"
+  },
+  "branches": [
+    {
+      "route_type": "direct",
+      "resolver_type": "alias",
+      "target_symbol": "nonzero",
+      "dispatch_order": 0,
+      "unit_id": "branch::non_zero_op.yaml::NonZero",
+      "unit_name": "NonZero",
+      "op": "non_zero",
+      "primitive": "NonZero",
+      "yaml_path": "mindspore/ops/op_def/yaml/non_zero_op.yaml",
+      "coverage": {
+        "aclnn": [
+          "aclnnNonzero"
+        ],
+        "infer": true,
+        "kbk": true,
+        "pyboost": true,
+        "bprop": true,
+        "bprop_units": []
+      }
+    }
+  ]
+}

@@ -1,0 +1,37 @@
+{
+  "bundle_id": "mindspore.mint.trace",
+  "bundle_type": "entry",
+  "schema_version": "v2",
+  "generated_at": "2026-04-17T17:08:56+08:00",
+  "entry": {
+    "public_api": "mindspore.mint.trace",
+    "public_surface": "mindspore.mint",
+    "public_name": "trace",
+    "entry_type": "single",
+    "source_type": "mint_export",
+    "source_path": "mindspore/python/mindspore/mint/__init__.py"
+  },
+  "branches": [
+    {
+      "route_type": "direct",
+      "resolver_type": "alias",
+      "target_symbol": "trace_ext",
+      "dispatch_order": 0,
+      "unit_id": "branch::trace_ext_op.yaml::TraceExt",
+      "unit_name": "TraceExt",
+      "op": "trace_ext",
+      "primitive": "TraceExt",
+      "yaml_path": "mindspore/ops/op_def/yaml/trace_ext_op.yaml",
+      "coverage": {
+        "aclnn": [
+          "aclnnTrace"
+        ],
+        "infer": true,
+        "kbk": true,
+        "pyboost": true,
+        "bprop": true,
+        "bprop_units": []
+      }
+    }
+  ]
+}

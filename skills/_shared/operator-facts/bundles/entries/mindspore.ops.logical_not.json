@@ -1,0 +1,37 @@
+{
+  "bundle_id": "mindspore.ops.logical_not",
+  "bundle_type": "entry",
+  "schema_version": "v2",
+  "generated_at": "2026-04-17T17:08:56+08:00",
+  "entry": {
+    "public_api": "mindspore.ops.logical_not",
+    "public_surface": "mindspore.ops",
+    "public_name": "logical_not",
+    "entry_type": "single",
+    "source_type": "wrapper",
+    "source_path": "mindspore/python/mindspore/ops/function/__init__.py"
+  },
+  "branches": [
+    {
+      "route_type": "direct",
+      "resolver_type": "alias",
+      "target_symbol": "logical_not",
+      "dispatch_order": 0,
+      "unit_id": "branch::logical_not_op.yaml::LogicalNot",
+      "unit_name": "LogicalNot",
+      "op": "logical_not",
+      "primitive": "LogicalNot",
+      "yaml_path": "mindspore/ops/op_def/yaml/logical_not_op.yaml",
+      "coverage": {
+        "aclnn": [
+          "aclnnLogicalNot"
+        ],
+        "infer": true,
+        "kbk": true,
+        "pyboost": true,
+        "bprop": true,
+        "bprop_units": []
+      }
+    }
+  ]
+}

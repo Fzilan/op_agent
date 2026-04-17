@@ -1,0 +1,35 @@
+{
+  "bundle_id": "mindspore.ops.hfft",
+  "bundle_type": "entry",
+  "schema_version": "v2",
+  "generated_at": "2026-04-17T17:08:56+08:00",
+  "entry": {
+    "public_api": "mindspore.ops.hfft",
+    "public_surface": "mindspore.ops",
+    "public_name": "hfft",
+    "entry_type": "single",
+    "source_type": "wrapper",
+    "source_path": "mindspore/python/mindspore/ops/function/__init__.py"
+  },
+  "branches": [
+    {
+      "route_type": "direct",
+      "resolver_type": "alias",
+      "target_symbol": "hfft",
+      "dispatch_order": 0,
+      "unit_id": "branch::hfft_op.yaml::HFFT",
+      "unit_name": "HFFT",
+      "op": "hfft",
+      "primitive": "HFFT",
+      "yaml_path": "mindspore/ops/op_def/yaml/hfft_op.yaml",
+      "coverage": {
+        "aclnn": [],
+        "infer": true,
+        "kbk": false,
+        "pyboost": false,
+        "bprop": true,
+        "bprop_units": []
+      }
+    }
+  ]
+}

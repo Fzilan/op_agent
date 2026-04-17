@@ -1,0 +1,37 @@
+{
+  "bundle_id": "mindspore.ops.nsa_compress",
+  "bundle_type": "entry",
+  "schema_version": "v2",
+  "generated_at": "2026-04-17T17:08:56+08:00",
+  "entry": {
+    "public_api": "mindspore.ops.nsa_compress",
+    "public_surface": "mindspore.ops",
+    "public_name": "nsa_compress",
+    "entry_type": "single",
+    "source_type": "api_def",
+    "source_path": "mindspore/ops/api_def/nsa_compress.yaml"
+  },
+  "branches": [
+    {
+      "route_type": "direct",
+      "resolver_type": "alias",
+      "target_symbol": "nsa_compress",
+      "dispatch_order": 0,
+      "unit_id": "branch::nsa_compress_op.yaml::NsaCompress",
+      "unit_name": "NsaCompress",
+      "op": "nsa_compress",
+      "primitive": "NsaCompress",
+      "yaml_path": "mindspore/ops/op_def/yaml/nsa_compress_op.yaml",
+      "coverage": {
+        "aclnn": [
+          "aclnnNsaCompress"
+        ],
+        "infer": true,
+        "kbk": true,
+        "pyboost": true,
+        "bprop": true,
+        "bprop_units": []
+      }
+    }
+  ]
+}

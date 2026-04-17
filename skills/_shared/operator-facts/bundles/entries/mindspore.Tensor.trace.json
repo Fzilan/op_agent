@@ -1,0 +1,35 @@
+{
+  "bundle_id": "mindspore.Tensor.trace",
+  "bundle_type": "entry",
+  "schema_version": "v2",
+  "generated_at": "2026-04-17T17:08:56+08:00",
+  "entry": {
+    "public_api": "mindspore.Tensor.trace",
+    "public_surface": "mindspore.Tensor",
+    "public_name": "trace",
+    "entry_type": "single",
+    "source_type": "tensor_class",
+    "source_path": "mindspore/python/mindspore/common/tensor.py"
+  },
+  "branches": [
+    {
+      "route_type": "direct",
+      "resolver_type": "tensor_registry",
+      "target_symbol": "trace_v2_op",
+      "dispatch_order": 0,
+      "unit_id": "branch::tracev2_op.yaml::TraceV2",
+      "unit_name": "TraceV2",
+      "op": "trace_v2",
+      "primitive": "TraceV2",
+      "yaml_path": "mindspore/ops/op_def/yaml/tracev2_op.yaml",
+      "coverage": {
+        "aclnn": [],
+        "infer": true,
+        "kbk": false,
+        "pyboost": false,
+        "bprop": true,
+        "bprop_units": []
+      }
+    }
+  ]
+}

@@ -1,0 +1,51 @@
+{
+  "bundle_id": "mindspore.ops.sequence_mask",
+  "bundle_type": "entry",
+  "schema_version": "v2",
+  "generated_at": "2026-04-17T17:08:56+08:00",
+  "entry": {
+    "public_api": "mindspore.ops.sequence_mask",
+    "public_surface": "mindspore.ops",
+    "public_name": "sequence_mask",
+    "entry_type": "composite",
+    "source_type": "wrapper",
+    "source_path": "mindspore/python/mindspore/ops/function/__init__.py"
+  },
+  "composite": {
+    "resolver_type": "alias",
+    "target_symbol": "sequence_mask",
+    "impl_path": "mindspore/python/mindspore/ops/function/array_func.py",
+    "components": [
+      {
+        "component_type": "unit",
+        "condition": "maxlen is not None",
+        "via_symbol": "_check_positive_int",
+        "unit_id": "composite::ops/function/array_func.py::_check_positive_int",
+        "unit_name": "_check_positive_int",
+        "unit_type": "composite",
+        "impl_path": "mindspore/python/mindspore/ops/function/array_func.py"
+      },
+      {
+        "component_type": "unit",
+        "condition": "",
+        "via_symbol": "expand_dims",
+        "unit_id": "branch::expand_dims_op.yaml::ExpandDims",
+        "unit_name": "ExpandDims",
+        "unit_type": "branch",
+        "op": "expand_dims",
+        "primitive": "ExpandDims",
+        "yaml_path": "mindspore/ops/op_def/yaml/expand_dims_op.yaml",
+        "coverage": {
+          "aclnn": [
+            "aclnnExpandDims"
+          ],
+          "infer": true,
+          "kbk": true,
+          "pyboost": true,
+          "bprop": true,
+          "bprop_units": []
+        }
+      }
+    ]
+  }
+}

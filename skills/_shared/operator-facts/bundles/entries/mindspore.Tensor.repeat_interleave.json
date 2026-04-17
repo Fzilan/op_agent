@@ -1,0 +1,60 @@
+{
+  "bundle_id": "mindspore.Tensor.repeat_interleave",
+  "bundle_type": "entry",
+  "schema_version": "v2",
+  "generated_at": "2026-04-17T17:08:56+08:00",
+  "entry": {
+    "public_api": "mindspore.Tensor.repeat_interleave",
+    "public_surface": "mindspore.Tensor",
+    "public_name": "repeat_interleave",
+    "entry_type": "overload",
+    "source_type": "api_def",
+    "source_path": "mindspore/ops/api_def/repeat_interleave.yaml"
+  },
+  "branches": [
+    {
+      "route_type": "overload",
+      "resolver_type": "py_method",
+      "target_symbol": "tensor_repeat_interleave_ext",
+      "dispatch_order": 0,
+      "unit_id": "branch::repeat_interleave_tensor_op.yaml::RepeatInterleaveTensor",
+      "unit_name": "RepeatInterleaveTensor",
+      "op": "repeat_interleave_tensor",
+      "primitive": "RepeatInterleaveTensor",
+      "yaml_path": "mindspore/ops/op_def/yaml/repeat_interleave_tensor_op.yaml",
+      "coverage": {
+        "aclnn": [
+          "aclnnRepeatInterleave",
+          "aclnnRepeatInterleaveWithDim"
+        ],
+        "infer": true,
+        "kbk": true,
+        "pyboost": true,
+        "bprop": true,
+        "bprop_units": []
+      }
+    },
+    {
+      "route_type": "overload",
+      "resolver_type": "py_method",
+      "target_symbol": "tensor_repeat_interleave_ext",
+      "dispatch_order": 1,
+      "unit_id": "branch::repeat_interleave_int_op.yaml::RepeatInterleaveInt",
+      "unit_name": "RepeatInterleaveInt",
+      "op": "repeat_interleave_int",
+      "primitive": "RepeatInterleaveInt",
+      "yaml_path": "mindspore/ops/op_def/yaml/repeat_interleave_int_op.yaml",
+      "coverage": {
+        "aclnn": [
+          "aclnnRepeatInterleaveInt",
+          "aclnnRepeatInterleaveIntWithDim"
+        ],
+        "infer": true,
+        "kbk": true,
+        "pyboost": true,
+        "bprop": true,
+        "bprop_units": []
+      }
+    }
+  ]
+}

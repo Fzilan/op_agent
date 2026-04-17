@@ -1,0 +1,63 @@
+{
+  "bundle_id": "mindspore.ops.bitwise_left_shift",
+  "bundle_type": "entry",
+  "schema_version": "v2",
+  "generated_at": "2026-04-17T17:08:56+08:00",
+  "entry": {
+    "public_api": "mindspore.ops.bitwise_left_shift",
+    "public_surface": "mindspore.ops",
+    "public_name": "bitwise_left_shift",
+    "entry_type": "composite",
+    "source_type": "wrapper",
+    "source_path": "mindspore/python/mindspore/ops/function/__init__.py"
+  },
+  "composite": {
+    "resolver_type": "alias",
+    "target_symbol": "bitwise_left_shift",
+    "impl_path": "mindspore/python/mindspore/ops/function/math_func.py",
+    "components": [
+      {
+        "component_type": "unit",
+        "condition": "",
+        "via_symbol": "Cast",
+        "unit_id": "branch::cast_op.yaml::Cast",
+        "unit_name": "Cast",
+        "unit_type": "branch",
+        "op": "cast",
+        "primitive": "Cast",
+        "yaml_path": "mindspore/ops/op_def/yaml/cast_op.yaml",
+        "coverage": {
+          "aclnn": [
+            "aclnnCast"
+          ],
+          "infer": true,
+          "kbk": true,
+          "pyboost": true,
+          "bprop": true,
+          "bprop_units": []
+        }
+      },
+      {
+        "component_type": "unit",
+        "condition": "",
+        "via_symbol": "LeftShift",
+        "unit_id": "branch::left_shift_op.yaml::LeftShift",
+        "unit_name": "LeftShift",
+        "unit_type": "branch",
+        "op": "left_shift",
+        "primitive": "LeftShift",
+        "yaml_path": "mindspore/ops/op_def/yaml/left_shift_op.yaml",
+        "coverage": {
+          "aclnn": [
+            "aclnnLeftShift"
+          ],
+          "infer": true,
+          "kbk": true,
+          "pyboost": true,
+          "bprop": false,
+          "bprop_units": []
+        }
+      }
+    ]
+  }
+}

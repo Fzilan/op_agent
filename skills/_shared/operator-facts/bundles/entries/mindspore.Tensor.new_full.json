@@ -1,0 +1,37 @@
+{
+  "bundle_id": "mindspore.Tensor.new_full",
+  "bundle_type": "entry",
+  "schema_version": "v2",
+  "generated_at": "2026-04-17T17:08:56+08:00",
+  "entry": {
+    "public_api": "mindspore.Tensor.new_full",
+    "public_surface": "mindspore.Tensor",
+    "public_name": "new_full",
+    "entry_type": "single",
+    "source_type": "api_def",
+    "source_path": "mindspore/ops/api_def/new_full.yaml"
+  },
+  "branches": [
+    {
+      "route_type": "direct",
+      "resolver_type": "py_method",
+      "target_symbol": "tensor_new_full",
+      "dispatch_order": 0,
+      "unit_id": "branch::new_full_op.yaml::NewFull",
+      "unit_name": "NewFull",
+      "op": "new_full",
+      "primitive": "NewFull",
+      "yaml_path": "mindspore/ops/op_def/yaml/new_full_op.yaml",
+      "coverage": {
+        "aclnn": [
+          "aclnnInplaceFillScalar"
+        ],
+        "infer": true,
+        "kbk": true,
+        "pyboost": true,
+        "bprop": true,
+        "bprop_units": []
+      }
+    }
+  ]
+}

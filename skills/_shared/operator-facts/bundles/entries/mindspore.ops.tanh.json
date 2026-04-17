@@ -1,0 +1,37 @@
+{
+  "bundle_id": "mindspore.ops.tanh",
+  "bundle_type": "entry",
+  "schema_version": "v2",
+  "generated_at": "2026-04-17T17:08:56+08:00",
+  "entry": {
+    "public_api": "mindspore.ops.tanh",
+    "public_surface": "mindspore.ops",
+    "public_name": "tanh",
+    "entry_type": "single",
+    "source_type": "wrapper",
+    "source_path": "mindspore/python/mindspore/ops/function/__init__.py"
+  },
+  "branches": [
+    {
+      "route_type": "direct",
+      "resolver_type": "alias",
+      "target_symbol": "tanh",
+      "dispatch_order": 0,
+      "unit_id": "branch::tanh_op.yaml::Tanh",
+      "unit_name": "Tanh",
+      "op": "tanh",
+      "primitive": "Tanh",
+      "yaml_path": "mindspore/ops/op_def/yaml/tanh_op.yaml",
+      "coverage": {
+        "aclnn": [
+          "aclnnTanh"
+        ],
+        "infer": true,
+        "kbk": true,
+        "pyboost": true,
+        "bprop": true,
+        "bprop_units": []
+      }
+    }
+  ]
+}

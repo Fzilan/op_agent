@@ -1,0 +1,57 @@
+{
+  "bundle_id": "mindspore.ops.fractional_max_pool3d",
+  "bundle_type": "entry",
+  "schema_version": "v2",
+  "generated_at": "2026-04-17T17:08:56+08:00",
+  "entry": {
+    "public_api": "mindspore.ops.fractional_max_pool3d",
+    "public_surface": "mindspore.ops",
+    "public_name": "fractional_max_pool3d",
+    "entry_type": "composite",
+    "source_type": "wrapper",
+    "source_path": "mindspore/python/mindspore/ops/function/__init__.py"
+  },
+  "composite": {
+    "resolver_type": "alias",
+    "target_symbol": "fractional_max_pool3d",
+    "impl_path": "mindspore/python/mindspore/ops/function/nn_func.py",
+    "components": [
+      {
+        "component_type": "unit",
+        "condition": "",
+        "via_symbol": "_check_fractional_output_size_ratio",
+        "unit_id": "composite::ops/function/nn_func.py::_check_fractional_output_size_ratio",
+        "unit_name": "_check_fractional_output_size_ratio",
+        "unit_type": "composite",
+        "impl_path": "mindspore/python/mindspore/ops/function/nn_func.py"
+      },
+      {
+        "component_type": "unit",
+        "condition": "",
+        "via_symbol": "_check_value_type",
+        "unit_id": "composite::ops/function/nn_func.py::_check_value_type",
+        "unit_name": "_check_value_type",
+        "unit_type": "composite",
+        "impl_path": "mindspore/python/mindspore/ops/function/nn_func.py"
+      },
+      {
+        "component_type": "unit",
+        "condition": "output_size is None and isinstance(output_ratio, (float, int))",
+        "via_symbol": "_check_value_type",
+        "unit_id": "composite::ops/function/nn_func.py::_check_value_type",
+        "unit_name": "_check_value_type",
+        "unit_type": "composite",
+        "impl_path": "mindspore/python/mindspore/ops/function/nn_func.py"
+      },
+      {
+        "component_type": "unit",
+        "condition": "output_size is None",
+        "via_symbol": "_check_float_range_inc_neither",
+        "unit_id": "composite::ops/function/nn_func.py::_check_float_range_inc_neither",
+        "unit_name": "_check_float_range_inc_neither",
+        "unit_type": "composite",
+        "impl_path": "mindspore/python/mindspore/ops/function/nn_func.py"
+      }
+    ]
+  }
+}

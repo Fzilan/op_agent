@@ -1,0 +1,35 @@
+{
+  "bundle_id": "mindspore.ops.eig",
+  "bundle_type": "entry",
+  "schema_version": "v2",
+  "generated_at": "2026-04-17T17:08:56+08:00",
+  "entry": {
+    "public_api": "mindspore.ops.eig",
+    "public_surface": "mindspore.ops",
+    "public_name": "eig",
+    "entry_type": "single",
+    "source_type": "wrapper",
+    "source_path": "mindspore/python/mindspore/ops/function/__init__.py"
+  },
+  "branches": [
+    {
+      "route_type": "direct",
+      "resolver_type": "alias",
+      "target_symbol": "eig",
+      "dispatch_order": 0,
+      "unit_id": "branch::eig_op.yaml::Eig",
+      "unit_name": "Eig",
+      "op": "eig",
+      "primitive": "Eig",
+      "yaml_path": "mindspore/ops/op_def/yaml/eig_op.yaml",
+      "coverage": {
+        "aclnn": [],
+        "infer": true,
+        "kbk": false,
+        "pyboost": false,
+        "bprop": false,
+        "bprop_units": []
+      }
+    }
+  ]
+}

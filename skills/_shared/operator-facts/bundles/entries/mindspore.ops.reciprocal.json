@@ -1,0 +1,37 @@
+{
+  "bundle_id": "mindspore.ops.reciprocal",
+  "bundle_type": "entry",
+  "schema_version": "v2",
+  "generated_at": "2026-04-17T17:08:56+08:00",
+  "entry": {
+    "public_api": "mindspore.ops.reciprocal",
+    "public_surface": "mindspore.ops",
+    "public_name": "reciprocal",
+    "entry_type": "single",
+    "source_type": "wrapper",
+    "source_path": "mindspore/python/mindspore/ops/function/__init__.py"
+  },
+  "branches": [
+    {
+      "route_type": "direct",
+      "resolver_type": "alias",
+      "target_symbol": "reciprocal",
+      "dispatch_order": 0,
+      "unit_id": "branch::reciprocal_op.yaml::Reciprocal",
+      "unit_name": "Reciprocal",
+      "op": "reciprocal",
+      "primitive": "Reciprocal",
+      "yaml_path": "mindspore/ops/op_def/yaml/reciprocal_op.yaml",
+      "coverage": {
+        "aclnn": [
+          "aclnnReciprocal"
+        ],
+        "infer": true,
+        "kbk": true,
+        "pyboost": true,
+        "bprop": true,
+        "bprop_units": []
+      }
+    }
+  ]
+}

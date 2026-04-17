@@ -1,0 +1,37 @@
+{
+  "bundle_id": "mindspore.ops.logsumexp",
+  "bundle_type": "entry",
+  "schema_version": "v2",
+  "generated_at": "2026-04-17T17:08:56+08:00",
+  "entry": {
+    "public_api": "mindspore.ops.logsumexp",
+    "public_surface": "mindspore.ops",
+    "public_name": "logsumexp",
+    "entry_type": "single",
+    "source_type": "wrapper",
+    "source_path": "mindspore/python/mindspore/ops/function/__init__.py"
+  },
+  "branches": [
+    {
+      "route_type": "direct",
+      "resolver_type": "alias",
+      "target_symbol": "logsumexp",
+      "dispatch_order": 0,
+      "unit_id": "branch::logsumexp_op.yaml::LogSumExp",
+      "unit_name": "LogSumExp",
+      "op": "logsumexp",
+      "primitive": "LogSumExp",
+      "yaml_path": "mindspore/ops/op_def/yaml/logsumexp_op.yaml",
+      "coverage": {
+        "aclnn": [
+          "aclnnLogSumExp"
+        ],
+        "infer": true,
+        "kbk": true,
+        "pyboost": true,
+        "bprop": true,
+        "bprop_units": []
+      }
+    }
+  ]
+}

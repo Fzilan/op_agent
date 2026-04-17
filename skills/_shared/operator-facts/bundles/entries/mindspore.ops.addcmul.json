@@ -1,0 +1,35 @@
+{
+  "bundle_id": "mindspore.ops.addcmul",
+  "bundle_type": "entry",
+  "schema_version": "v2",
+  "generated_at": "2026-04-17T17:08:56+08:00",
+  "entry": {
+    "public_api": "mindspore.ops.addcmul",
+    "public_surface": "mindspore.ops",
+    "public_name": "addcmul",
+    "entry_type": "single",
+    "source_type": "wrapper",
+    "source_path": "mindspore/python/mindspore/ops/function/__init__.py"
+  },
+  "branches": [
+    {
+      "route_type": "direct",
+      "resolver_type": "alias",
+      "target_symbol": "addcmul",
+      "dispatch_order": 0,
+      "unit_id": "branch::addcmul_op.yaml::Addcmul",
+      "unit_name": "Addcmul",
+      "op": "addcmul",
+      "primitive": "Addcmul",
+      "yaml_path": "mindspore/ops/op_def/yaml/addcmul_op.yaml",
+      "coverage": {
+        "aclnn": [],
+        "infer": true,
+        "kbk": false,
+        "pyboost": false,
+        "bprop": true,
+        "bprop_units": []
+      }
+    }
+  ]
+}

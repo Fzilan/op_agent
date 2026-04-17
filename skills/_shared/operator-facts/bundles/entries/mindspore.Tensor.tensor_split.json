@@ -1,0 +1,48 @@
+{
+  "bundle_id": "mindspore.Tensor.tensor_split",
+  "bundle_type": "entry",
+  "schema_version": "v2",
+  "generated_at": "2026-04-17T17:08:56+08:00",
+  "entry": {
+    "public_api": "mindspore.Tensor.tensor_split",
+    "public_surface": "mindspore.Tensor",
+    "public_name": "tensor_split",
+    "entry_type": "composite",
+    "source_type": "tensor_class",
+    "source_path": "mindspore/python/mindspore/common/tensor.py"
+  },
+  "composite": {
+    "resolver_type": "tensor_registry",
+    "target_symbol": "tensor_split",
+    "impl_path": "mindspore/python/mindspore/ops/function/array_func.py",
+    "components": [
+      {
+        "component_type": "unit",
+        "condition": "",
+        "via_symbol": "_canonicalize_axis",
+        "unit_id": "composite::ops/function/array_func.py::_canonicalize_axis",
+        "unit_name": "_canonicalize_axis",
+        "unit_type": "composite",
+        "impl_path": "mindspore/python/mindspore/ops/function/array_func.py"
+      },
+      {
+        "component_type": "unit",
+        "condition": "type(indices_or_sections) is int and indices_or_sections > 0",
+        "via_symbol": "_tensor_split_sub_int",
+        "unit_id": "composite::ops/function/array_func.py::_tensor_split_sub_int",
+        "unit_name": "_tensor_split_sub_int",
+        "unit_type": "composite",
+        "impl_path": "mindspore/python/mindspore/ops/function/array_func.py"
+      },
+      {
+        "component_type": "unit",
+        "condition": "not (type(indices_or_sections) is int) and isinstance(indices_or_sections, (list, tuple))",
+        "via_symbol": "_tensor_split_sub_tensors",
+        "unit_id": "composite::ops/function/array_func.py::_tensor_split_sub_tensors",
+        "unit_name": "_tensor_split_sub_tensors",
+        "unit_type": "composite",
+        "impl_path": "mindspore/python/mindspore/ops/function/array_func.py"
+      }
+    ]
+  }
+}

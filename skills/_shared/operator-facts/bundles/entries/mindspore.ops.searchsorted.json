@@ -1,0 +1,37 @@
+{
+  "bundle_id": "mindspore.ops.searchsorted",
+  "bundle_type": "entry",
+  "schema_version": "v2",
+  "generated_at": "2026-04-17T17:08:56+08:00",
+  "entry": {
+    "public_api": "mindspore.ops.searchsorted",
+    "public_surface": "mindspore.ops",
+    "public_name": "searchsorted",
+    "entry_type": "single",
+    "source_type": "wrapper",
+    "source_path": "mindspore/python/mindspore/ops/function/__init__.py"
+  },
+  "branches": [
+    {
+      "route_type": "direct",
+      "resolver_type": "alias",
+      "target_symbol": "searchsorted",
+      "dispatch_order": 0,
+      "unit_id": "branch::searchsorted_op.yaml::SearchSorted",
+      "unit_name": "SearchSorted",
+      "op": "searchsorted",
+      "primitive": "SearchSorted",
+      "yaml_path": "mindspore/ops/op_def/yaml/searchsorted_op.yaml",
+      "coverage": {
+        "aclnn": [
+          "aclnnSearchSorted"
+        ],
+        "infer": true,
+        "kbk": true,
+        "pyboost": true,
+        "bprop": true,
+        "bprop_units": []
+      }
+    }
+  ]
+}

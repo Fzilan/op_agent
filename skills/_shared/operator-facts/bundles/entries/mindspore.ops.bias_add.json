@@ -1,0 +1,35 @@
+{
+  "bundle_id": "mindspore.ops.bias_add",
+  "bundle_type": "entry",
+  "schema_version": "v2",
+  "generated_at": "2026-04-17T17:08:56+08:00",
+  "entry": {
+    "public_api": "mindspore.ops.bias_add",
+    "public_surface": "mindspore.ops",
+    "public_name": "bias_add",
+    "entry_type": "single",
+    "source_type": "wrapper",
+    "source_path": "mindspore/python/mindspore/ops/function/__init__.py"
+  },
+  "branches": [
+    {
+      "route_type": "direct",
+      "resolver_type": "alias",
+      "target_symbol": "bias_add",
+      "dispatch_order": 0,
+      "unit_id": "branch::bias_add_op.yaml::BiasAdd",
+      "unit_name": "BiasAdd",
+      "op": "bias_add",
+      "primitive": "BiasAdd",
+      "yaml_path": "mindspore/ops/op_def/yaml/bias_add_op.yaml",
+      "coverage": {
+        "aclnn": [],
+        "infer": true,
+        "kbk": false,
+        "pyboost": false,
+        "bprop": true,
+        "bprop_units": []
+      }
+    }
+  ]
+}

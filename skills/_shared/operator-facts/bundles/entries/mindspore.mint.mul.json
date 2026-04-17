@@ -1,0 +1,58 @@
+{
+  "bundle_id": "mindspore.mint.mul",
+  "bundle_type": "entry",
+  "schema_version": "v2",
+  "generated_at": "2026-04-17T17:08:56+08:00",
+  "entry": {
+    "public_api": "mindspore.mint.mul",
+    "public_surface": "mindspore.mint",
+    "public_name": "mul",
+    "entry_type": "overload",
+    "source_type": "mint_export",
+    "source_path": "mindspore/python/mindspore/mint/__init__.py"
+  },
+  "branches": [
+    {
+      "route_type": "overload",
+      "resolver_type": "alias",
+      "target_symbol": "mul",
+      "dispatch_order": 0,
+      "unit_id": "branch::mul_op.yaml::Mul",
+      "unit_name": "Mul",
+      "op": "mul",
+      "primitive": "Mul",
+      "yaml_path": "mindspore/ops/op_def/yaml/mul_op.yaml",
+      "coverage": {
+        "aclnn": [
+          "aclnnMul"
+        ],
+        "infer": true,
+        "kbk": true,
+        "pyboost": true,
+        "bprop": true,
+        "bprop_units": []
+      }
+    },
+    {
+      "route_type": "overload",
+      "resolver_type": "alias",
+      "target_symbol": "mul",
+      "dispatch_order": 1,
+      "unit_id": "branch::muls_op.yaml::Muls",
+      "unit_name": "Muls",
+      "op": "muls",
+      "primitive": "Muls",
+      "yaml_path": "mindspore/ops/op_def/yaml/muls_op.yaml",
+      "coverage": {
+        "aclnn": [
+          "aclnnMuls"
+        ],
+        "infer": true,
+        "kbk": true,
+        "pyboost": true,
+        "bprop": true,
+        "bprop_units": []
+      }
+    }
+  ]
+}

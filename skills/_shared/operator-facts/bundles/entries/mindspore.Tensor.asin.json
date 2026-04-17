@@ -1,0 +1,37 @@
+{
+  "bundle_id": "mindspore.Tensor.asin",
+  "bundle_type": "entry",
+  "schema_version": "v2",
+  "generated_at": "2026-04-17T17:08:56+08:00",
+  "entry": {
+    "public_api": "mindspore.Tensor.asin",
+    "public_surface": "mindspore.Tensor",
+    "public_name": "asin",
+    "entry_type": "single",
+    "source_type": "api_def",
+    "source_path": "mindspore/ops/api_def/asin.yaml"
+  },
+  "branches": [
+    {
+      "route_type": "direct",
+      "resolver_type": "py_method",
+      "target_symbol": "deprecated_tensor_asin",
+      "dispatch_order": 0,
+      "unit_id": "branch::asin_ext_op.yaml::AsinExt",
+      "unit_name": "AsinExt",
+      "op": "asin_ext",
+      "primitive": "AsinExt",
+      "yaml_path": "mindspore/ops/op_def/yaml/asin_ext_op.yaml",
+      "coverage": {
+        "aclnn": [
+          "aclnnAsin"
+        ],
+        "infer": true,
+        "kbk": true,
+        "pyboost": true,
+        "bprop": true,
+        "bprop_units": []
+      }
+    }
+  ]
+}

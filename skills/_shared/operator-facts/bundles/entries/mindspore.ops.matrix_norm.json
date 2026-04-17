@@ -1,0 +1,108 @@
+{
+  "bundle_id": "mindspore.ops.matrix_norm",
+  "bundle_type": "entry",
+  "schema_version": "v2",
+  "generated_at": "2026-04-17T17:08:56+08:00",
+  "entry": {
+    "public_api": "mindspore.ops.matrix_norm",
+    "public_surface": "mindspore.ops",
+    "public_name": "matrix_norm",
+    "entry_type": "composite",
+    "source_type": "wrapper",
+    "source_path": "mindspore/python/mindspore/ops/function/__init__.py"
+  },
+  "composite": {
+    "resolver_type": "alias",
+    "target_symbol": "matrix_norm",
+    "impl_path": "mindspore/python/mindspore/ops/function/math_func.py",
+    "components": [
+      {
+        "component_type": "unit",
+        "condition": "",
+        "via_symbol": "_check_matrix_norm_axis",
+        "unit_id": "composite::ops/function/math_func.py::_check_matrix_norm_axis",
+        "unit_name": "_check_matrix_norm_axis",
+        "unit_type": "composite",
+        "impl_path": "mindspore/python/mindspore/ops/function/math_func.py"
+      },
+      {
+        "component_type": "unit",
+        "condition": "",
+        "via_symbol": "_check_matrix_norm_ord",
+        "unit_id": "composite::ops/function/math_func.py::_check_matrix_norm_ord",
+        "unit_name": "_check_matrix_norm_ord",
+        "unit_type": "composite",
+        "impl_path": "mindspore/python/mindspore/ops/function/math_func.py"
+      },
+      {
+        "component_type": "unit",
+        "condition": "dtype is not None",
+        "via_symbol": "cast",
+        "unit_id": "branch::cast_op.yaml::Cast",
+        "unit_name": "Cast",
+        "unit_type": "branch",
+        "op": "cast",
+        "primitive": "Cast",
+        "yaml_path": "mindspore/ops/op_def/yaml/cast_op.yaml",
+        "coverage": {
+          "aclnn": [
+            "aclnnCast"
+          ],
+          "infer": true,
+          "kbk": true,
+          "pyboost": true,
+          "bprop": true,
+          "bprop_units": []
+        }
+      },
+      {
+        "component_type": "unit",
+        "condition": "ord == 'fro'",
+        "via_symbol": "sqrt",
+        "unit_id": "branch::sqrt_op.yaml::Sqrt",
+        "unit_name": "Sqrt",
+        "unit_type": "branch",
+        "op": "sqrt",
+        "primitive": "Sqrt",
+        "yaml_path": "mindspore/ops/op_def/yaml/sqrt_op.yaml",
+        "coverage": {
+          "aclnn": [
+            "aclnnSqrt"
+          ],
+          "infer": true,
+          "kbk": true,
+          "pyboost": true,
+          "bprop": true,
+          "bprop_units": []
+        }
+      },
+      {
+        "component_type": "unit",
+        "condition": "not (ord == 'fro') and ord == 'nuc'",
+        "via_symbol": "_multi_svd_norm",
+        "unit_id": "composite::ops/function/math_func.py::_multi_svd_norm",
+        "unit_name": "_multi_svd_norm",
+        "unit_type": "composite",
+        "impl_path": "mindspore/python/mindspore/ops/function/math_func.py"
+      },
+      {
+        "component_type": "unit",
+        "condition": "not (ord == 'fro') and not (ord == 'nuc') and not (ord == float('inf')) and not (ord == float('-inf')) and not (ord == 1) and not (ord == -1) and ord == 2",
+        "via_symbol": "_multi_svd_norm",
+        "unit_id": "composite::ops/function/math_func.py::_multi_svd_norm",
+        "unit_name": "_multi_svd_norm",
+        "unit_type": "composite",
+        "impl_path": "mindspore/python/mindspore/ops/function/math_func.py"
+      },
+      {
+        "component_type": "unit",
+        "condition": "not (ord == 'fro') and not (ord == 'nuc') and not (ord == float('inf')) and not (ord == float('-inf')) and not (ord == 1) and not (ord == -1) and not (ord == 2) and ord == -2",
+        "via_symbol": "_multi_svd_norm",
+        "unit_id": "composite::ops/function/math_func.py::_multi_svd_norm",
+        "unit_name": "_multi_svd_norm",
+        "unit_type": "composite",
+        "impl_path": "mindspore/python/mindspore/ops/function/math_func.py"
+      }
+    ]
+  }
+}

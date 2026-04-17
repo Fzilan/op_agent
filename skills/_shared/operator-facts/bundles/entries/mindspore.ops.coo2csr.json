@@ -1,0 +1,14 @@
+{
+  "bundle_id": "mindspore.ops.coo2csr",
+  "bundle_type": "entry",
+  "schema_version": "v2",
+  "generated_at": "2026-04-17T17:08:56+08:00",
+  "entry": {
+    "public_api": "mindspore.ops.coo2csr",
+    "public_surface": "mindspore.ops",
+    "public_name": "coo2csr",
+    "entry_type": "unresolved",
+    "source_type": "wrapper",
+    "source_path": "mindspore/python/mindspore/ops/function/__init__.py"
+  }
+}

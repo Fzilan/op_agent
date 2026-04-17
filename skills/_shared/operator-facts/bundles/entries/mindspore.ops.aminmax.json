@@ -1,0 +1,96 @@
+{
+  "bundle_id": "mindspore.ops.aminmax",
+  "bundle_type": "entry",
+  "schema_version": "v2",
+  "generated_at": "2026-04-17T17:08:56+08:00",
+  "entry": {
+    "public_api": "mindspore.ops.aminmax",
+    "public_surface": "mindspore.ops",
+    "public_name": "aminmax",
+    "entry_type": "composite",
+    "source_type": "wrapper",
+    "source_path": "mindspore/python/mindspore/ops/function/__init__.py"
+  },
+  "composite": {
+    "resolver_type": "alias",
+    "target_symbol": "aminmax",
+    "impl_path": "mindspore/python/mindspore/ops/function/array_func.py",
+    "components": [
+      {
+        "component_type": "public_api",
+        "condition": "axis is None",
+        "via_symbol": "min",
+        "public_api": "mindspore.ops.min"
+      },
+      {
+        "component_type": "public_api",
+        "condition": "axis is None",
+        "via_symbol": "max",
+        "public_api": "mindspore.ops.max"
+      },
+      {
+        "component_type": "unit",
+        "condition": "axis is None and keepdims is True",
+        "via_symbol": "reshape",
+        "unit_id": "branch::reshape_op.yaml::Reshape",
+        "unit_name": "Reshape",
+        "unit_type": "branch",
+        "op": "reshape",
+        "primitive": "Reshape",
+        "yaml_path": "mindspore/ops/op_def/yaml/reshape_op.yaml",
+        "coverage": {
+          "aclnn": [
+            "aclnnReshape"
+          ],
+          "infer": true,
+          "kbk": true,
+          "pyboost": true,
+          "bprop": true,
+          "bprop_units": []
+        }
+      },
+      {
+        "component_type": "unit",
+        "condition": "axis is not None",
+        "via_symbol": "argmin_with_value_op",
+        "unit_id": "branch::argmin_with_value_op.yaml::ArgMinWithValue",
+        "unit_name": "ArgMinWithValue",
+        "unit_type": "branch",
+        "op": "argmin_with_value",
+        "primitive": "ArgMinWithValue",
+        "yaml_path": "mindspore/ops/op_def/yaml/argmin_with_value_op.yaml",
+        "coverage": {
+          "aclnn": [
+            "aclnnMinDim"
+          ],
+          "infer": true,
+          "kbk": true,
+          "pyboost": true,
+          "bprop": true,
+          "bprop_units": []
+        }
+      },
+      {
+        "component_type": "unit",
+        "condition": "axis is not None",
+        "via_symbol": "argmax_with_value_op",
+        "unit_id": "branch::argmax_with_value_op.yaml::ArgMaxWithValue",
+        "unit_name": "ArgMaxWithValue",
+        "unit_type": "branch",
+        "op": "argmax_with_value",
+        "primitive": "ArgMaxWithValue",
+        "yaml_path": "mindspore/ops/op_def/yaml/argmax_with_value_op.yaml",
+        "coverage": {
+          "aclnn": [
+            "aclnnMaxDim"
+          ],
+          "infer": true,
+          "kbk": true,
+          "pyboost": true,
+          "bprop": true,
+          "bprop_units": []
+        }
+      }
+    ]
+  }
+}

@@ -1,0 +1,38 @@
+{
+  "bundle_id": "mindspore.ops.flash_attention_score",
+  "bundle_type": "entry",
+  "schema_version": "v2",
+  "generated_at": "2026-04-17T17:08:56+08:00",
+  "entry": {
+    "public_api": "mindspore.ops.flash_attention_score",
+    "public_surface": "mindspore.ops",
+    "public_name": "flash_attention_score",
+    "entry_type": "single",
+    "source_type": "wrapper",
+    "source_path": "mindspore/python/mindspore/ops/function/__init__.py"
+  },
+  "branches": [
+    {
+      "route_type": "direct",
+      "resolver_type": "alias",
+      "target_symbol": "flash_attention_score",
+      "dispatch_order": 0,
+      "unit_id": "branch::flash_attention_score_op.yaml::FlashAttentionScore",
+      "unit_name": "FlashAttentionScore",
+      "op": "flash_attention_score",
+      "primitive": "FlashAttentionScore",
+      "yaml_path": "mindspore/ops/op_def/yaml/flash_attention_score_op.yaml",
+      "coverage": {
+        "aclnn": [
+          "aclnnFlashAttentionScore",
+          "aclnnFlashAttentionVarLenScore"
+        ],
+        "infer": true,
+        "kbk": true,
+        "pyboost": true,
+        "bprop": true,
+        "bprop_units": []
+      }
+    }
+  ]
+}

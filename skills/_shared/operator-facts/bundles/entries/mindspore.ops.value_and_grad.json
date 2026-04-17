@@ -1,0 +1,30 @@
+{
+  "bundle_id": "mindspore.ops.value_and_grad",
+  "bundle_type": "entry",
+  "schema_version": "v2",
+  "generated_at": "2026-04-17T17:08:56+08:00",
+  "entry": {
+    "public_api": "mindspore.ops.value_and_grad",
+    "public_surface": "mindspore.ops",
+    "public_name": "value_and_grad",
+    "entry_type": "unresolved",
+    "source_type": "wrapper",
+    "source_path": "mindspore/python/mindspore/ops/function/__init__.py"
+  },
+  "composite": {
+    "resolver_type": "alias",
+    "target_symbol": "value_and_grad",
+    "impl_path": "mindspore/python/mindspore/ops/function/grad/grad_func.py",
+    "components": [
+      {
+        "component_type": "unit",
+        "condition": "grad_position is not None",
+        "via_symbol": "_convert_grad_position_type",
+        "unit_id": "composite::ops/function/grad/grad_func.py::_convert_grad_position_type",
+        "unit_name": "_convert_grad_position_type",
+        "unit_type": "composite",
+        "impl_path": "mindspore/python/mindspore/ops/function/grad/grad_func.py"
+      }
+    ]
+  }
+}

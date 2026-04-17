@@ -1,0 +1,56 @@
+{
+  "bundle_id": "mindspore.ops.conv2d",
+  "bundle_type": "entry",
+  "schema_version": "v2",
+  "generated_at": "2026-04-17T17:08:56+08:00",
+  "entry": {
+    "public_api": "mindspore.ops.conv2d",
+    "public_surface": "mindspore.ops",
+    "public_name": "conv2d",
+    "entry_type": "overload",
+    "source_type": "api_def",
+    "source_path": "mindspore/ops/api_def/conv2d.yaml"
+  },
+  "branches": [
+    {
+      "route_type": "overload",
+      "resolver_type": "alias",
+      "target_symbol": "conv2d",
+      "dispatch_order": 0,
+      "unit_id": "branch::conv2d_ext_op.yaml::Conv2DExt",
+      "unit_name": "Conv2DExt",
+      "op": "conv2d_ext",
+      "primitive": "Conv2DExt",
+      "yaml_path": "mindspore/ops/op_def/yaml/conv2d_ext_op.yaml",
+      "coverage": {
+        "aclnn": [
+          "aclnnConvolution"
+        ],
+        "infer": true,
+        "kbk": true,
+        "pyboost": true,
+        "bprop": true,
+        "bprop_units": []
+      }
+    },
+    {
+      "route_type": "overload",
+      "resolver_type": "alias",
+      "target_symbol": "conv2d",
+      "dispatch_order": 1,
+      "unit_id": "branch::conv2d_padding_op.yaml::Conv2DPadding",
+      "unit_name": "Conv2DPadding",
+      "op": "conv2d_padding",
+      "primitive": "Conv2DPadding",
+      "yaml_path": "mindspore/ops/op_def/yaml/conv2d_padding_op.yaml",
+      "coverage": {
+        "aclnn": [],
+        "infer": true,
+        "kbk": false,
+        "pyboost": true,
+        "bprop": true,
+        "bprop_units": []
+      }
+    }
+  ]
+}

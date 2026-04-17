@@ -1,0 +1,37 @@
+{
+  "bundle_id": "mindspore.Tensor.trunc",
+  "bundle_type": "entry",
+  "schema_version": "v2",
+  "generated_at": "2026-04-17T17:08:56+08:00",
+  "entry": {
+    "public_api": "mindspore.Tensor.trunc",
+    "public_surface": "mindspore.Tensor",
+    "public_name": "trunc",
+    "entry_type": "single",
+    "source_type": "api_def",
+    "source_path": "mindspore/ops/api_def/trunc.yaml"
+  },
+  "branches": [
+    {
+      "route_type": "direct",
+      "resolver_type": "py_method",
+      "target_symbol": "tensor_trunc",
+      "dispatch_order": 0,
+      "unit_id": "branch::trunc_op.yaml::Trunc",
+      "unit_name": "Trunc",
+      "op": "trunc",
+      "primitive": "Trunc",
+      "yaml_path": "mindspore/ops/op_def/yaml/trunc_op.yaml",
+      "coverage": {
+        "aclnn": [
+          "aclnnTrunc"
+        ],
+        "infer": true,
+        "kbk": true,
+        "pyboost": true,
+        "bprop": true,
+        "bprop_units": []
+      }
+    }
+  ]
+}

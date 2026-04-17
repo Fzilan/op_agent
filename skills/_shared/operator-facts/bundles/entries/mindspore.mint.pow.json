@@ -1,0 +1,79 @@
+{
+  "bundle_id": "mindspore.mint.pow",
+  "bundle_type": "entry",
+  "schema_version": "v2",
+  "generated_at": "2026-04-17T17:08:56+08:00",
+  "entry": {
+    "public_api": "mindspore.mint.pow",
+    "public_surface": "mindspore.mint",
+    "public_name": "pow",
+    "entry_type": "overload",
+    "source_type": "mint_export",
+    "source_path": "mindspore/python/mindspore/mint/__init__.py"
+  },
+  "branches": [
+    {
+      "route_type": "overload",
+      "resolver_type": "alias",
+      "target_symbol": "pow_ext",
+      "dispatch_order": 0,
+      "unit_id": "branch::pow_op.yaml::Pow",
+      "unit_name": "Pow",
+      "op": "pow",
+      "primitive": "Pow",
+      "yaml_path": "mindspore/ops/op_def/yaml/pow_op.yaml",
+      "coverage": {
+        "aclnn": [
+          "aclnnPowTensorTensor"
+        ],
+        "infer": true,
+        "kbk": true,
+        "pyboost": true,
+        "bprop": true,
+        "bprop_units": []
+      }
+    },
+    {
+      "route_type": "overload",
+      "resolver_type": "alias",
+      "target_symbol": "pow_ext",
+      "dispatch_order": 1,
+      "unit_id": "branch::pow_scalar_tensor_op.yaml::PowScalarTensor",
+      "unit_name": "PowScalarTensor",
+      "op": "pow_scalar_tensor",
+      "primitive": "PowScalarTensor",
+      "yaml_path": "mindspore/ops/op_def/yaml/pow_scalar_tensor_op.yaml",
+      "coverage": {
+        "aclnn": [
+          "aclnnPowScalarTensor"
+        ],
+        "infer": true,
+        "kbk": true,
+        "pyboost": true,
+        "bprop": true,
+        "bprop_units": []
+      }
+    },
+    {
+      "route_type": "overload",
+      "resolver_type": "alias",
+      "target_symbol": "pow_ext",
+      "dispatch_order": 2,
+      "unit_id": "branch::pow_tensor_scalar_op.yaml::PowTensorScalar",
+      "unit_name": "PowTensorScalar",
+      "op": "pow_tensor_scalar",
+      "primitive": "PowTensorScalar",
+      "yaml_path": "mindspore/ops/op_def/yaml/pow_tensor_scalar_op.yaml",
+      "coverage": {
+        "aclnn": [
+          "aclnnPowTensorScalar"
+        ],
+        "infer": true,
+        "kbk": true,
+        "pyboost": true,
+        "bprop": true,
+        "bprop_units": []
+      }
+    }
+  ]
+}

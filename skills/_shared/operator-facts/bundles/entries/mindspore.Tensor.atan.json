@@ -1,0 +1,37 @@
+{
+  "bundle_id": "mindspore.Tensor.atan",
+  "bundle_type": "entry",
+  "schema_version": "v2",
+  "generated_at": "2026-04-17T17:08:56+08:00",
+  "entry": {
+    "public_api": "mindspore.Tensor.atan",
+    "public_surface": "mindspore.Tensor",
+    "public_name": "atan",
+    "entry_type": "single",
+    "source_type": "api_def",
+    "source_path": "mindspore/ops/api_def/atan.yaml"
+  },
+  "branches": [
+    {
+      "route_type": "direct",
+      "resolver_type": "py_method",
+      "target_symbol": "deprecated_tensor_atan",
+      "dispatch_order": 0,
+      "unit_id": "branch::atan_ext_op.yaml::AtanExt",
+      "unit_name": "AtanExt",
+      "op": "atan_ext",
+      "primitive": "AtanExt",
+      "yaml_path": "mindspore/ops/op_def/yaml/atan_ext_op.yaml",
+      "coverage": {
+        "aclnn": [
+          "aclnnAtan"
+        ],
+        "infer": true,
+        "kbk": true,
+        "pyboost": true,
+        "bprop": true,
+        "bprop_units": []
+      }
+    }
+  ]
+}

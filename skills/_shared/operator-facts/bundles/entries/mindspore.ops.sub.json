@@ -1,0 +1,100 @@
+{
+  "bundle_id": "mindspore.ops.sub",
+  "bundle_type": "entry",
+  "schema_version": "v2",
+  "generated_at": "2026-04-17T17:08:56+08:00",
+  "entry": {
+    "public_api": "mindspore.ops.sub",
+    "public_surface": "mindspore.ops",
+    "public_name": "sub",
+    "entry_type": "overload",
+    "source_type": "api_def",
+    "source_path": "mindspore/ops/api_def/sub.yaml"
+  },
+  "branches": [
+    {
+      "route_type": "overload",
+      "resolver_type": "alias",
+      "target_symbol": "sub",
+      "dispatch_order": 0,
+      "unit_id": "branch::sub_ext_op.yaml::SubExt",
+      "unit_name": "SubExt",
+      "op": "sub_ext",
+      "primitive": "SubExt",
+      "yaml_path": "mindspore/ops/op_def/yaml/sub_ext_op.yaml",
+      "coverage": {
+        "aclnn": [
+          "aclnnSub"
+        ],
+        "infer": true,
+        "kbk": true,
+        "pyboost": true,
+        "bprop": true,
+        "bprop_units": []
+      }
+    },
+    {
+      "route_type": "overload",
+      "resolver_type": "py_method",
+      "target_symbol": "tensor_sub_ext",
+      "dispatch_order": 0,
+      "unit_id": "branch::sub_scalar_op.yaml::SubScalar",
+      "unit_name": "SubScalar",
+      "op": "sub_scalar",
+      "primitive": "SubScalar",
+      "yaml_path": "mindspore/ops/op_def/yaml/sub_scalar_op.yaml",
+      "coverage": {
+        "aclnn": [
+          "aclnnSubs"
+        ],
+        "infer": true,
+        "kbk": true,
+        "pyboost": true,
+        "bprop": true,
+        "bprop_units": []
+      }
+    },
+    {
+      "route_type": "overload",
+      "resolver_type": "py_method",
+      "target_symbol": "tensor_sub_ext",
+      "dispatch_order": 1,
+      "unit_id": "branch::sub_ext_op.yaml::SubExt",
+      "unit_name": "SubExt",
+      "op": "sub_ext",
+      "primitive": "SubExt",
+      "yaml_path": "mindspore/ops/op_def/yaml/sub_ext_op.yaml",
+      "coverage": {
+        "aclnn": [
+          "aclnnSub"
+        ],
+        "infer": true,
+        "kbk": true,
+        "pyboost": true,
+        "bprop": true,
+        "bprop_units": []
+      }
+    },
+    {
+      "route_type": "overload",
+      "resolver_type": "alias",
+      "target_symbol": "sub",
+      "dispatch_order": 1,
+      "unit_id": "branch::sub_scalar_op.yaml::SubScalar",
+      "unit_name": "SubScalar",
+      "op": "sub_scalar",
+      "primitive": "SubScalar",
+      "yaml_path": "mindspore/ops/op_def/yaml/sub_scalar_op.yaml",
+      "coverage": {
+        "aclnn": [
+          "aclnnSubs"
+        ],
+        "infer": true,
+        "kbk": true,
+        "pyboost": true,
+        "bprop": true,
+        "bprop_units": []
+      }
+    }
+  ]
+}

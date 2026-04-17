@@ -1,0 +1,37 @@
+{
+  "bundle_id": "mindspore.mint.equal_ext_op",
+  "bundle_type": "entry",
+  "schema_version": "v2",
+  "generated_at": "2026-04-17T17:08:56+08:00",
+  "entry": {
+    "public_api": "mindspore.mint.equal_ext_op",
+    "public_surface": "mindspore.mint",
+    "public_name": "equal_ext_op",
+    "entry_type": "single",
+    "source_type": "mint_export",
+    "source_path": "mindspore/python/mindspore/mint/__init__.py"
+  },
+  "branches": [
+    {
+      "route_type": "direct",
+      "resolver_type": "alias",
+      "target_symbol": "equal_ext_op",
+      "dispatch_order": 0,
+      "unit_id": "branch::equal_ext_op.yaml::EqualExt",
+      "unit_name": "EqualExt",
+      "op": "equal_ext",
+      "primitive": "EqualExt",
+      "yaml_path": "mindspore/ops/op_def/yaml/equal_ext_op.yaml",
+      "coverage": {
+        "aclnn": [
+          "aclnnEqual"
+        ],
+        "infer": true,
+        "kbk": true,
+        "pyboost": true,
+        "bprop": true,
+        "bprop_units": []
+      }
+    }
+  ]
+}

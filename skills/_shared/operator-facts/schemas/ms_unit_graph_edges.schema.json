@@ -1,0 +1,53 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "operator-facts ms_unit_graph_edges row",
+  "type": "object",
+  "required": [
+    "graph_edge_id",
+    "parent_unit_id",
+    "child_ref_type",
+    "child_ref",
+    "call_order"
+  ],
+  "properties": {
+    "graph_edge_id": {
+      "type": "string",
+      "description": "Stable short identifier for the composite internal graph edge."
+    },
+    "parent_unit_id": {
+      "type": "string",
+      "description": "Primary key of the parent composite execution unit."
+    },
+    "child_ref_type": {
+      "type": "string",
+      "description": "Normalized target reference type of the child call. Prefer unit, fall back to public_api, and use primitive_symbol only as the last resort.",
+      "enum": [
+        "unit",
+        "public_api",
+        "primitive_symbol"
+      ]
+    },
+    "child_ref": {
+      "type": "string",
+      "description": "Target reference reached by this graph edge. Use unit_id when child_ref_type is unit."
+    },
+    "call_order": {
+      "type": "integer",
+      "description": "Stable ordering index of this child call under the same parent and condition branch.",
+      "minimum": 0
+    },
+    "condition": {
+      "type": "string",
+      "description": "Optional textual condition describing when this child call is taken."
+    },
+    "via_symbol": {
+      "type": "string",
+      "description": "Optional symbol name observed at the call site inside the parent implementation."
+    },
+    "via_path": {
+      "type": "string",
+      "description": "Optional source file path that provides the graph edge evidence."
+    }
+  },
+  "additionalProperties": false
+}

@@ -1,0 +1,73 @@
+{
+  "bundle_id": "mindspore.Tensor.aminmax",
+  "bundle_type": "entry",
+  "schema_version": "v2",
+  "generated_at": "2026-04-17T12:00:00+08:00",
+  "entry": {
+    "public_api": "mindspore.Tensor.aminmax",
+    "public_surface": "mindspore.Tensor",
+    "public_name": "aminmax",
+    "entry_type": "composite",
+    "source_type": "tensor_class",
+    "source_path": "mindspore/python/mindspore/common/tensor.py"
+  },
+  "composite": {
+    "resolver_type": "tensor_registry",
+    "target_symbol": "aminmax",
+    "impl_path": "mindspore/python/mindspore/ops/function/array_func.py",
+    "components": [
+      {
+        "component_type": "public_api",
+        "public_api": "mindspore.ops.min",
+        "condition": "axis is None",
+        "via_symbol": "min"
+      },
+      {
+        "component_type": "public_api",
+        "public_api": "mindspore.ops.max",
+        "condition": "axis is None",
+        "via_symbol": "max"
+      },
+      {
+        "component_type": "unit",
+        "unit_id": "branch::reshape_op.yaml::Reshape",
+        "unit_name": "Reshape",
+        "op": "reshape",
+        "primitive": "Reshape",
+        "yaml_path": "mindspore/ops/op_def/yaml/reshape_op.yaml",
+        "condition": "axis is None and keepdims is True",
+        "via_symbol": "reshape",
+        "coverage": {
+          "aclnn": [
+            "aclnnReshape"
+          ],
+          "infer": true,
+          "kbk": true,
+          "pyboost": true,
+          "bprop": true,
+          "bprop_units": []
+        }
+      },
+      {
+        "component_type": "unit",
+        "unit_id": "branch::argmin_with_value_op.yaml::ArgMinWithValue",
+        "unit_name": "ArgMinWithValue",
+        "op": "argmin_with_value",
+        "primitive": "ArgMinWithValue",
+        "yaml_path": "mindspore/ops/op_def/yaml/argmin_with_value_op.yaml",
+        "condition": "axis is not None",
+        "via_symbol": "argmin_with_value_op",
+        "coverage": {
+          "aclnn": [
+            "aclnnMinDim"
+          ],
+          "infer": true,
+          "kbk": true,
+          "pyboost": true,
+          "bprop": true,
+          "bprop_units": []
+        }
+      }
+    ]
+  }
+}

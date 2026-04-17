@@ -1,0 +1,37 @@
+{
+  "bundle_id": "mindspore.ops.flipud",
+  "bundle_type": "entry",
+  "schema_version": "v2",
+  "generated_at": "2026-04-17T17:08:56+08:00",
+  "entry": {
+    "public_api": "mindspore.ops.flipud",
+    "public_surface": "mindspore.ops",
+    "public_name": "flipud",
+    "entry_type": "single",
+    "source_type": "wrapper",
+    "source_path": "mindspore/python/mindspore/ops/function/__init__.py"
+  },
+  "branches": [
+    {
+      "route_type": "direct",
+      "resolver_type": "alias",
+      "target_symbol": "flipud",
+      "dispatch_order": 0,
+      "unit_id": "branch::reverse_v2_op.yaml::ReverseV2",
+      "unit_name": "ReverseV2",
+      "op": "reverse_v2",
+      "primitive": "ReverseV2",
+      "yaml_path": "mindspore/ops/op_def/yaml/reverse_v2_op.yaml",
+      "coverage": {
+        "aclnn": [
+          "aclnnFlip"
+        ],
+        "infer": true,
+        "kbk": true,
+        "pyboost": true,
+        "bprop": true,
+        "bprop_units": []
+      }
+    }
+  ]
+}

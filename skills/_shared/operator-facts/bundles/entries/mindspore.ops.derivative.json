@@ -1,0 +1,60 @@
+{
+  "bundle_id": "mindspore.ops.derivative",
+  "bundle_type": "entry",
+  "schema_version": "v2",
+  "generated_at": "2026-04-17T17:08:56+08:00",
+  "entry": {
+    "public_api": "mindspore.ops.derivative",
+    "public_surface": "mindspore.ops",
+    "public_name": "derivative",
+    "entry_type": "unresolved",
+    "source_type": "wrapper",
+    "source_path": "mindspore/python/mindspore/ops/function/__init__.py"
+  },
+  "composite": {
+    "resolver_type": "alias",
+    "target_symbol": "derivative",
+    "impl_path": "mindspore/python/mindspore/ops/function/grad/grad_func.py",
+    "components": [
+      {
+        "component_type": "unit",
+        "condition": "",
+        "via_symbol": "_check_derivative_order",
+        "unit_id": "composite::ops/function/grad/grad_func.py::_check_derivative_order",
+        "unit_name": "_check_derivative_order",
+        "unit_type": "composite",
+        "impl_path": "mindspore/python/mindspore/ops/function/grad/grad_func.py"
+      },
+      {
+        "component_type": "unit",
+        "condition": "not (isinstance(primals, tuple))",
+        "via_symbol": "_trans_derivative_inputs",
+        "unit_id": "composite::ops/function/grad/grad_func.py::_trans_derivative_inputs",
+        "unit_name": "_trans_derivative_inputs",
+        "unit_type": "composite",
+        "impl_path": "mindspore/python/mindspore/ops/function/grad/grad_func.py"
+      },
+      {
+        "component_type": "unit",
+        "condition": "not (isinstance(primals, tuple))",
+        "via_symbol": "zeros",
+        "unit_id": "branch::zeros_op.yaml::Zeros",
+        "unit_name": "Zeros",
+        "unit_type": "branch",
+        "op": "zeros",
+        "primitive": "Zeros",
+        "yaml_path": "mindspore/ops/op_def/yaml/zeros_op.yaml",
+        "coverage": {
+          "aclnn": [
+            "aclnnInplaceZero"
+          ],
+          "infer": true,
+          "kbk": true,
+          "pyboost": true,
+          "bprop": true,
+          "bprop_units": []
+        }
+      }
+    ]
+  }
+}

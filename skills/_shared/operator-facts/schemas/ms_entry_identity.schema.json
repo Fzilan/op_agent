@@ -1,0 +1,60 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "operator-facts ms_entry_identity row",
+  "type": "object",
+  "required": [
+    "entry_id",
+    "public_api",
+    "public_surface",
+    "public_name",
+    "entry_type",
+    "source_type",
+    "source_path"
+  ],
+  "properties": {
+    "entry_id": {
+      "type": "string",
+      "description": "Primary key for the public API entry. Currently identical to public_api."
+    },
+    "public_api": {
+      "type": "string",
+      "description": "Fully qualified public API name, such as mindspore.Tensor.abs."
+    },
+    "public_surface": {
+      "type": "string",
+      "description": "Public namespace that owns the API entry, such as mindspore.ops or mindspore.Tensor."
+    },
+    "public_name": {
+      "type": "string",
+      "description": "Short public name of the API entry, without namespace."
+    },
+    "entry_type": {
+      "type": "string",
+      "description": "Routing topology type of the public API entry.",
+      "enum": [
+        "single",
+        "overload",
+        "composite",
+        "unresolved"
+      ]
+    },
+    "source_type": {
+      "type": "string",
+      "description": "How this entry was first discovered in MindSpore source scanning.",
+      "enum": [
+        "api_def",
+        "mint_export",
+        "tensor_class",
+        "tensor_method",
+        "tensor_registry",
+        "wrapper",
+        "unknown"
+      ]
+    },
+    "source_path": {
+      "type": "string",
+      "description": "Source file path where the entry was first anchored during discovery."
+    }
+  },
+  "additionalProperties": false
+}

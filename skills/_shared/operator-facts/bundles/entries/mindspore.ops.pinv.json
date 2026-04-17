@@ -1,0 +1,72 @@
+{
+  "bundle_id": "mindspore.ops.pinv",
+  "bundle_type": "entry",
+  "schema_version": "v2",
+  "generated_at": "2026-04-17T17:08:56+08:00",
+  "entry": {
+    "public_api": "mindspore.ops.pinv",
+    "public_surface": "mindspore.ops",
+    "public_name": "pinv",
+    "entry_type": "composite",
+    "source_type": "wrapper",
+    "source_path": "mindspore/python/mindspore/ops/function/__init__.py"
+  },
+  "composite": {
+    "resolver_type": "alias",
+    "target_symbol": "pinv",
+    "impl_path": "mindspore/python/mindspore/ops/function/linalg_func.py",
+    "components": [
+      {
+        "component_type": "unit",
+        "condition": "",
+        "via_symbol": "_check_input_dtype",
+        "unit_id": "composite::ops/function/math_func.py::_check_input_dtype",
+        "unit_name": "_check_input_dtype",
+        "unit_type": "composite",
+        "impl_path": "mindspore/python/mindspore/ops/function/math_func.py"
+      },
+      {
+        "component_type": "unit",
+        "condition": "not hermitian",
+        "via_symbol": "matmul",
+        "unit_id": "branch::matmul_ext_op.yaml::MatMulExt",
+        "unit_name": "MatMulExt",
+        "unit_type": "branch",
+        "op": "matmul_ext",
+        "primitive": "MatMulExt",
+        "yaml_path": "mindspore/ops/op_def/yaml/matmul_ext_op.yaml",
+        "coverage": {
+          "aclnn": [
+            "aclnnMatmul"
+          ],
+          "infer": true,
+          "kbk": true,
+          "pyboost": true,
+          "bprop": true,
+          "bprop_units": []
+        }
+      },
+      {
+        "component_type": "unit",
+        "condition": "not (not hermitian)",
+        "via_symbol": "matmul",
+        "unit_id": "branch::matmul_ext_op.yaml::MatMulExt",
+        "unit_name": "MatMulExt",
+        "unit_type": "branch",
+        "op": "matmul_ext",
+        "primitive": "MatMulExt",
+        "yaml_path": "mindspore/ops/op_def/yaml/matmul_ext_op.yaml",
+        "coverage": {
+          "aclnn": [
+            "aclnnMatmul"
+          ],
+          "infer": true,
+          "kbk": true,
+          "pyboost": true,
+          "bprop": true,
+          "bprop_units": []
+        }
+      }
+    ]
+  }
+}

@@ -1,0 +1,37 @@
+{
+  "bundle_id": "mindspore.Tensor.erfc",
+  "bundle_type": "entry",
+  "schema_version": "v2",
+  "generated_at": "2026-04-17T17:08:56+08:00",
+  "entry": {
+    "public_api": "mindspore.Tensor.erfc",
+    "public_surface": "mindspore.Tensor",
+    "public_name": "erfc",
+    "entry_type": "single",
+    "source_type": "api_def",
+    "source_path": "mindspore/ops/api_def/erfc.yaml"
+  },
+  "branches": [
+    {
+      "route_type": "direct",
+      "resolver_type": "py_method",
+      "target_symbol": "tensor_erfc",
+      "dispatch_order": 0,
+      "unit_id": "branch::erfc_op.yaml::Erfc",
+      "unit_name": "Erfc",
+      "op": "erfc",
+      "primitive": "Erfc",
+      "yaml_path": "mindspore/ops/op_def/yaml/erfc_op.yaml",
+      "coverage": {
+        "aclnn": [
+          "aclnnErfc"
+        ],
+        "infer": true,
+        "kbk": true,
+        "pyboost": true,
+        "bprop": true,
+        "bprop_units": []
+      }
+    }
+  ]
+}

@@ -1,0 +1,37 @@
+{
+  "bundle_id": "mindspore.ops.gather_d",
+  "bundle_type": "entry",
+  "schema_version": "v2",
+  "generated_at": "2026-04-17T17:08:56+08:00",
+  "entry": {
+    "public_api": "mindspore.ops.gather_d",
+    "public_surface": "mindspore.ops",
+    "public_name": "gather_d",
+    "entry_type": "single",
+    "source_type": "wrapper",
+    "source_path": "mindspore/python/mindspore/ops/function/__init__.py"
+  },
+  "branches": [
+    {
+      "route_type": "direct",
+      "resolver_type": "alias",
+      "target_symbol": "gather_d",
+      "dispatch_order": 0,
+      "unit_id": "branch::gather_d_op.yaml::GatherD",
+      "unit_name": "GatherD",
+      "op": "gather_d",
+      "primitive": "GatherD",
+      "yaml_path": "mindspore/ops/op_def/yaml/gather_d_op.yaml",
+      "coverage": {
+        "aclnn": [
+          "aclnnGather"
+        ],
+        "infer": true,
+        "kbk": true,
+        "pyboost": true,
+        "bprop": true,
+        "bprop_units": []
+      }
+    }
+  ]
+}

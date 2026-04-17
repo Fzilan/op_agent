@@ -1,0 +1,261 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "operator-facts ms_unit_identity row",
+  "type": "object",
+  "required": [
+    "unit_id",
+    "unit_type",
+    "unit_name",
+    "display_id"
+  ],
+  "properties": {
+    "unit_id": {
+      "type": "string",
+      "description": "Canonical primary key for the execution unit. Composite and compat keys use a short implementation path plus symbol."
+    },
+    "unit_type": {
+      "type": "string",
+      "description": "Execution unit type.",
+      "enum": [
+        "branch",
+        "composite",
+        "compat"
+      ]
+    },
+    "unit_name": {
+      "type": "string",
+      "description": "Stable short name of the execution unit."
+    },
+    "display_id": {
+      "type": "string",
+      "description": "Human-friendly short key for reports and debugging."
+    },
+    "op": {
+      "type": "string",
+      "description": "MindSpore op name for branch units."
+    },
+    "primitive": {
+      "type": "string",
+      "description": "Primitive class name for branch units."
+    },
+    "yaml_path": {
+      "type": "string",
+      "description": "Full path to the op yaml definition file for branch units."
+    },
+    "impl_path": {
+      "type": "string",
+      "description": "Full implementation file path for composite or compat units."
+    },
+    "impl_symbol": {
+      "type": "string",
+      "description": "Implementation symbol name for composite or compat units."
+    },
+    "compat_source": {
+      "type": "string",
+      "description": "Compatibility source classification for compat units."
+    },
+    "dispatch_enable": {
+      "type": "boolean",
+      "description": "Whether branch dispatch is enabled."
+    },
+    "dispatch_type": {
+      "type": "string",
+      "description": "Ascend dispatch type for branch units.",
+      "enum": [
+        "auto_generate",
+        "customize",
+        "unsupported"
+      ]
+    },
+    "dispatch_ascend": {
+      "type": "string",
+      "description": "Ascend dispatch target name from op yaml."
+    },
+    "aclnn": {
+      "type": "array",
+      "description": "ACLNN interfaces directly associated with this branch unit.",
+      "items": {
+        "type": "string"
+      }
+    },
+    "infer": {
+      "type": "boolean",
+      "description": "Whether infer implementation evidence exists for this branch unit."
+    },
+    "pyboost": {
+      "type": "boolean",
+      "description": "Whether PyBoost support exists for this branch unit."
+    },
+    "kbk": {
+      "type": "boolean",
+      "description": "Whether KBK support exists for this branch unit."
+    },
+    "bprop": {
+      "type": "boolean",
+      "description": "Whether explicit bprop rule evidence exists for this branch unit."
+    },
+    "bprop_units": {
+      "type": "array",
+      "description": "Short names of backward execution units referenced by this unit's bprop rule.",
+      "items": {
+        "type": "string"
+      }
+    },
+    "direct_aclnn": {
+      "type": "array",
+      "description": "ACLNN interfaces directly owned by the composite unit itself.",
+      "items": {
+        "type": "string"
+      }
+    },
+    "direct_infer": {
+      "type": "boolean",
+      "description": "Whether the composite unit itself directly owns infer logic."
+    },
+    "direct_pyboost": {
+      "type": "boolean",
+      "description": "Whether the composite unit itself directly owns PyBoost support."
+    },
+    "direct_kbk": {
+      "type": "boolean",
+      "description": "Whether the composite unit itself directly owns KBK support."
+    },
+    "direct_bprop": {
+      "type": "boolean",
+      "description": "Whether the composite unit itself directly owns explicit bprop rule evidence."
+    },
+    "leaf_units": {
+      "type": "array",
+      "description": "Normalized leaf execution units reachable from a composite unit, each with its own coverage summary.",
+      "items": {
+        "type": "object",
+        "required": [
+          "unit_id",
+          "unit_name",
+          "unit_type",
+          "aclnn",
+          "infer",
+          "pyboost",
+          "kbk",
+          "bprop",
+          "bprop_units"
+        ],
+        "properties": {
+          "unit_id": {
+            "type": "string",
+            "description": "Canonical key of the reachable leaf execution unit."
+          },
+          "unit_name": {
+            "type": "string",
+            "description": "Stable short name of the reachable leaf execution unit."
+          },
+          "unit_type": {
+            "type": "string",
+            "description": "Execution unit type of the reachable leaf.",
+            "enum": [
+              "branch",
+              "composite",
+              "compat"
+            ]
+          },
+          "aclnn": {
+            "type": "array",
+            "description": "ACLNN interfaces directly associated with the reachable leaf unit.",
+            "items": {
+              "type": "string"
+            }
+          },
+          "infer": {
+            "type": "boolean",
+            "description": "Whether infer implementation evidence exists for the reachable leaf unit."
+          },
+          "pyboost": {
+            "type": "boolean",
+            "description": "Whether PyBoost support exists for the reachable leaf unit."
+          },
+          "kbk": {
+            "type": "boolean",
+            "description": "Whether KBK support exists for the reachable leaf unit."
+          },
+          "bprop": {
+            "type": "boolean",
+            "description": "Whether explicit bprop rule evidence exists for the reachable leaf unit."
+          },
+          "bprop_units": {
+            "type": "array",
+            "description": "Short names of backward execution units referenced by the leaf unit's bprop rule.",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "additionalProperties": false
+      }
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "unit_type": {
+            "const": "branch"
+          }
+        }
+      },
+      "then": {
+        "required": [
+          "op",
+          "primitive",
+          "yaml_path",
+          "dispatch_enable",
+          "dispatch_type",
+          "dispatch_ascend",
+          "aclnn",
+          "infer",
+          "pyboost",
+          "kbk",
+          "bprop",
+          "bprop_units"
+        ]
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "unit_type": {
+            "const": "composite"
+          }
+        }
+      },
+      "then": {
+        "required": [
+          "impl_path",
+          "impl_symbol",
+          "direct_aclnn",
+          "direct_infer",
+          "direct_pyboost",
+          "direct_kbk",
+          "direct_bprop",
+          "leaf_units"
+        ]
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "unit_type": {
+            "const": "compat"
+          }
+        }
+      },
+      "then": {
+        "required": [
+          "impl_path",
+          "impl_symbol",
+          "compat_source"
+        ]
+      }
+    }
+  ],
+  "additionalProperties": false
+}

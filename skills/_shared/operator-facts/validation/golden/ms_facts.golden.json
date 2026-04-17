@@ -1,0 +1,232 @@
+{
+  "cases": [
+    {
+      "name": "tensor_abs",
+      "entry_id": "mindspore.Tensor.abs",
+      "entry_identity": {
+        "entry_type": "single",
+        "source_type": "api_def",
+        "source_path": "mindspore/ops/api_def/abs.yaml"
+      },
+      "entry_edge_count": 1,
+      "entry_edges": [
+        {
+          "unit_id": "branch::abs_op.yaml::Abs",
+          "edge_type": "direct",
+          "resolver_type": "py_method",
+          "target_symbol": "tensor_abs"
+        }
+      ],
+      "unit_rows": [
+        {
+          "unit_id": "branch::abs_op.yaml::Abs",
+          "unit_type": "branch",
+          "unit_name": "Abs",
+          "aclnn": [
+            "aclnnAbs"
+          ],
+          "infer": true,
+          "pyboost": true,
+          "kbk": true,
+          "bprop": true
+        }
+      ]
+    },
+    {
+      "name": "mint_gather",
+      "entry_id": "mindspore.mint.gather",
+      "entry_identity": {
+        "entry_type": "single",
+        "source_type": "mint_export",
+        "source_path": "mindspore/python/mindspore/mint/__init__.py"
+      },
+      "entry_edge_count": 1,
+      "entry_edges": [
+        {
+          "unit_id": "branch::gather_d_op.yaml::GatherD",
+          "edge_type": "direct",
+          "resolver_type": "alias",
+          "target_symbol": "gather_ext"
+        }
+      ],
+      "unit_rows": [
+        {
+          "unit_id": "branch::gather_d_op.yaml::GatherD",
+          "unit_type": "branch",
+          "unit_name": "GatherD",
+          "aclnn": [
+            "aclnnGather"
+          ],
+          "infer": true,
+          "pyboost": true,
+          "kbk": true,
+          "bprop": true
+        }
+      ]
+    },
+    {
+      "name": "mint_argsort",
+      "entry_id": "mindspore.mint.argsort",
+      "entry_identity": {
+        "entry_type": "single",
+        "source_type": "mint_export",
+        "source_path": "mindspore/python/mindspore/mint/__init__.py"
+      },
+      "entry_edge_count": 1,
+      "entry_edges": [
+        {
+          "unit_id": "branch::argsort_op.yaml::ArgSort",
+          "edge_type": "direct",
+          "resolver_type": "alias",
+          "target_symbol": "argsort_ext"
+        }
+      ],
+      "unit_rows": [
+        {
+          "unit_id": "branch::argsort_op.yaml::ArgSort",
+          "unit_type": "branch",
+          "unit_name": "ArgSort",
+          "aclnn": [
+            "aclnnSort"
+          ],
+          "infer": true,
+          "pyboost": true,
+          "kbk": true,
+          "bprop": true
+        }
+      ]
+    },
+    {
+      "name": "tensor_max",
+      "entry_id": "mindspore.Tensor.max",
+      "entry_identity": {
+        "entry_type": "overload",
+        "source_type": "api_def",
+        "source_path": "mindspore/ops/api_def/max.yaml"
+      },
+      "entry_edge_count": 3,
+      "entry_edges": [
+        {
+          "unit_id": "branch::max_op.yaml::Max",
+          "edge_type": "overload",
+          "dispatch_order": 0,
+          "resolver_type": "py_method",
+          "target_symbol": "tensor_max"
+        },
+        {
+          "unit_id": "branch::max_dim_op.yaml::MaxDim",
+          "edge_type": "overload",
+          "dispatch_order": 1,
+          "resolver_type": "py_method",
+          "target_symbol": "tensor_maxdim"
+        },
+        {
+          "unit_id": "branch::maximum_op.yaml::Maximum",
+          "edge_type": "overload",
+          "dispatch_order": 2,
+          "resolver_type": "py_method",
+          "target_symbol": "tensor_maximum"
+        }
+      ],
+      "unit_rows": [
+        {
+          "unit_id": "branch::max_op.yaml::Max",
+          "unit_type": "branch",
+          "aclnn": [
+            "aclnnMax"
+          ]
+        },
+        {
+          "unit_id": "branch::max_dim_op.yaml::MaxDim",
+          "unit_type": "branch",
+          "aclnn": [
+            "aclnnMaxDim"
+          ]
+        },
+        {
+          "unit_id": "branch::maximum_op.yaml::Maximum",
+          "unit_type": "branch",
+          "aclnn": [
+            "aclnnMaximum"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "tensor_aminmax",
+      "entry_id": "mindspore.Tensor.aminmax",
+      "entry_identity": {
+        "entry_type": "composite",
+        "source_type": "tensor_class",
+        "source_path": "mindspore/python/mindspore/common/tensor.py"
+      },
+      "entry_edge_count": 1,
+      "entry_edges": [
+        {
+          "unit_id": "composite::ops/function/array_func.py::aminmax",
+          "edge_type": "composite",
+          "resolver_type": "tensor_registry",
+          "resolver_path": "mindspore/python/mindspore/ops/functional.py",
+          "target_symbol": "aminmax"
+        }
+      ],
+      "unit_rows": [
+        {
+          "unit_id": "composite::ops/function/array_func.py::aminmax",
+          "unit_type": "composite",
+          "display_id": "composite::aminmax",
+          "direct_aclnn": [],
+          "direct_infer": false,
+          "direct_pyboost": false,
+          "direct_kbk": false,
+          "direct_bprop": false,
+          "leaf_units": [
+            {
+              "unit_id": "branch::argmin_with_value_op.yaml::ArgMinWithValue"
+            },
+            {
+              "unit_id": "branch::argmax_with_value_op.yaml::ArgMaxWithValue"
+            },
+            {
+              "unit_id": "branch::reshape_op.yaml::Reshape"
+            }
+          ]
+        }
+      ],
+      "graph_parent_unit_id": "composite::ops/function/array_func.py::aminmax",
+      "graph_edge_count": 5,
+      "graph_edges": [
+        {
+          "child_ref_type": "public_api",
+          "child_ref": "mindspore.ops.min",
+          "condition": "axis is None",
+          "via_symbol": "min"
+        },
+        {
+          "child_ref_type": "public_api",
+          "child_ref": "mindspore.ops.max",
+          "condition": "axis is None",
+          "via_symbol": "max"
+        },
+        {
+          "child_ref_type": "unit",
+          "child_ref": "branch::reshape_op.yaml::Reshape",
+          "condition": "axis is None and keepdims is True",
+          "via_symbol": "reshape"
+        },
+        {
+          "child_ref_type": "unit",
+          "child_ref": "branch::argmin_with_value_op.yaml::ArgMinWithValue",
+          "condition": "axis is not None",
+          "via_symbol": "argmin_with_value_op"
+        },
+        {
+          "child_ref_type": "unit",
+          "child_ref": "branch::argmax_with_value_op.yaml::ArgMaxWithValue",
+          "condition": "axis is not None",
+          "via_symbol": "argmax_with_value_op"
+        }
+      ]
+    }
+  ]
+}

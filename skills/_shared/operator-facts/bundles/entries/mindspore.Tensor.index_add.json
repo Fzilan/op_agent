@@ -1,0 +1,38 @@
+{
+  "bundle_id": "mindspore.Tensor.index_add",
+  "bundle_type": "entry",
+  "schema_version": "v2",
+  "generated_at": "2026-04-17T17:08:56+08:00",
+  "entry": {
+    "public_api": "mindspore.Tensor.index_add",
+    "public_surface": "mindspore.Tensor",
+    "public_name": "index_add",
+    "entry_type": "single",
+    "source_type": "api_def",
+    "source_path": "mindspore/ops/api_def/index_add.yaml"
+  },
+  "branches": [
+    {
+      "route_type": "direct",
+      "resolver_type": "py_method",
+      "target_symbol": "tensor_index_add",
+      "dispatch_order": 0,
+      "unit_id": "branch::index_add_ext_op.yaml::IndexAddExt",
+      "unit_name": "IndexAddExt",
+      "op": "index_add_ext",
+      "primitive": "IndexAddExt",
+      "yaml_path": "mindspore/ops/op_def/yaml/index_add_ext_op.yaml",
+      "coverage": {
+        "aclnn": [
+          "aclnnIndexAdd",
+          "aclnnInplaceCopy"
+        ],
+        "infer": true,
+        "kbk": true,
+        "pyboost": true,
+        "bprop": true,
+        "bprop_units": []
+      }
+    }
+  ]
+}

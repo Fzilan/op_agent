@@ -1,0 +1,42 @@
+{
+  "bundle_id": "mindspore.ops.is_nonzero",
+  "bundle_type": "entry",
+  "schema_version": "v2",
+  "generated_at": "2026-04-17T17:08:56+08:00",
+  "entry": {
+    "public_api": "mindspore.ops.is_nonzero",
+    "public_surface": "mindspore.ops",
+    "public_name": "is_nonzero",
+    "entry_type": "composite",
+    "source_type": "wrapper",
+    "source_path": "mindspore/python/mindspore/ops/function/__init__.py"
+  },
+  "composite": {
+    "resolver_type": "alias",
+    "target_symbol": "is_nonzero",
+    "impl_path": "mindspore/python/mindspore/ops/function/array_func.py",
+    "components": [
+      {
+        "component_type": "unit",
+        "condition": "",
+        "via_symbol": "squeeze",
+        "unit_id": "branch::squeeze_op.yaml::Squeeze",
+        "unit_name": "Squeeze",
+        "unit_type": "branch",
+        "op": "squeeze",
+        "primitive": "Squeeze",
+        "yaml_path": "mindspore/ops/op_def/yaml/squeeze_op.yaml",
+        "coverage": {
+          "aclnn": [
+            "aclnnSqueeze"
+          ],
+          "infer": true,
+          "kbk": true,
+          "pyboost": true,
+          "bprop": true,
+          "bprop_units": []
+        }
+      }
+    ]
+  }
+}

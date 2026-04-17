@@ -1,0 +1,100 @@
+{
+  "bundle_id": "mindspore.mint.normal",
+  "bundle_type": "entry",
+  "schema_version": "v2",
+  "generated_at": "2026-04-17T17:08:56+08:00",
+  "entry": {
+    "public_api": "mindspore.mint.normal",
+    "public_surface": "mindspore.mint",
+    "public_name": "normal",
+    "entry_type": "overload",
+    "source_type": "mint_export",
+    "source_path": "mindspore/python/mindspore/mint/__init__.py"
+  },
+  "branches": [
+    {
+      "route_type": "overload",
+      "resolver_type": "alias",
+      "target_symbol": "normal_ext",
+      "dispatch_order": 0,
+      "unit_id": "branch::normal_float_float_op.yaml::NormalFloatFloat",
+      "unit_name": "NormalFloatFloat",
+      "op": "normal_float_float",
+      "primitive": "NormalFloatFloat",
+      "yaml_path": "mindspore/ops/op_def/yaml/normal_float_float_op.yaml",
+      "coverage": {
+        "aclnn": [
+          "aclnnNormalFloatFloat"
+        ],
+        "infer": true,
+        "kbk": true,
+        "pyboost": true,
+        "bprop": true,
+        "bprop_units": []
+      }
+    },
+    {
+      "route_type": "overload",
+      "resolver_type": "alias",
+      "target_symbol": "normal_ext",
+      "dispatch_order": 1,
+      "unit_id": "branch::normal_float_tensor_op.yaml::NormalFloatTensor",
+      "unit_name": "NormalFloatTensor",
+      "op": "normal_float_tensor",
+      "primitive": "NormalFloatTensor",
+      "yaml_path": "mindspore/ops/op_def/yaml/normal_float_tensor_op.yaml",
+      "coverage": {
+        "aclnn": [
+          "aclnnNormalFloatTensor"
+        ],
+        "infer": true,
+        "kbk": true,
+        "pyboost": true,
+        "bprop": true,
+        "bprop_units": []
+      }
+    },
+    {
+      "route_type": "overload",
+      "resolver_type": "alias",
+      "target_symbol": "normal_ext",
+      "dispatch_order": 2,
+      "unit_id": "branch::normal_tensor_float_op.yaml::NormalTensorFloat",
+      "unit_name": "NormalTensorFloat",
+      "op": "normal_tensor_float",
+      "primitive": "NormalTensorFloat",
+      "yaml_path": "mindspore/ops/op_def/yaml/normal_tensor_float_op.yaml",
+      "coverage": {
+        "aclnn": [
+          "aclnnNormalTensorFloat"
+        ],
+        "infer": true,
+        "kbk": true,
+        "pyboost": true,
+        "bprop": true,
+        "bprop_units": []
+      }
+    },
+    {
+      "route_type": "overload",
+      "resolver_type": "alias",
+      "target_symbol": "normal_ext",
+      "dispatch_order": 3,
+      "unit_id": "branch::normal_tensor_tensor_op.yaml::NormalTensorTensor",
+      "unit_name": "NormalTensorTensor",
+      "op": "normal_tensor_tensor",
+      "primitive": "NormalTensorTensor",
+      "yaml_path": "mindspore/ops/op_def/yaml/normal_tensor_tensor_op.yaml",
+      "coverage": {
+        "aclnn": [
+          "aclnnNormalTensorTensor"
+        ],
+        "infer": true,
+        "kbk": true,
+        "pyboost": true,
+        "bprop": true,
+        "bprop_units": []
+      }
+    }
+  ]
+}

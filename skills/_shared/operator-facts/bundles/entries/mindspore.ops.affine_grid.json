@@ -1,0 +1,20 @@
+{
+  "bundle_id": "mindspore.ops.affine_grid",
+  "bundle_type": "entry",
+  "schema_version": "v2",
+  "generated_at": "2026-04-17T17:08:56+08:00",
+  "entry": {
+    "public_api": "mindspore.ops.affine_grid",
+    "public_surface": "mindspore.ops",
+    "public_name": "affine_grid",
+    "entry_type": "composite",
+    "source_type": "wrapper",
+    "source_path": "mindspore/python/mindspore/ops/function/__init__.py"
+  },
+  "composite": {
+    "resolver_type": "alias",
+    "target_symbol": "affine_grid",
+    "impl_path": "mindspore/python/mindspore/ops/function/array_func.py",
+    "components": []
+  }
+}

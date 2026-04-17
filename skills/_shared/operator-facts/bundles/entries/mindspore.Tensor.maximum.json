@@ -1,0 +1,37 @@
+{
+  "bundle_id": "mindspore.Tensor.maximum",
+  "bundle_type": "entry",
+  "schema_version": "v2",
+  "generated_at": "2026-04-17T17:08:56+08:00",
+  "entry": {
+    "public_api": "mindspore.Tensor.maximum",
+    "public_surface": "mindspore.Tensor",
+    "public_name": "maximum",
+    "entry_type": "single",
+    "source_type": "api_def",
+    "source_path": "mindspore/ops/api_def/maximum.yaml"
+  },
+  "branches": [
+    {
+      "route_type": "direct",
+      "resolver_type": "py_method",
+      "target_symbol": "tensor_maximum",
+      "dispatch_order": 0,
+      "unit_id": "branch::maximum_op.yaml::Maximum",
+      "unit_name": "Maximum",
+      "op": "maximum",
+      "primitive": "Maximum",
+      "yaml_path": "mindspore/ops/op_def/yaml/maximum_op.yaml",
+      "coverage": {
+        "aclnn": [
+          "aclnnMaximum"
+        ],
+        "infer": true,
+        "kbk": true,
+        "pyboost": true,
+        "bprop": true,
+        "bprop_units": []
+      }
+    }
+  ]
+}

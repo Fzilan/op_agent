@@ -1,0 +1,37 @@
+{
+  "bundle_id": "mindspore.Tensor.sigmoid_",
+  "bundle_type": "entry",
+  "schema_version": "v2",
+  "generated_at": "2026-04-17T17:08:56+08:00",
+  "entry": {
+    "public_api": "mindspore.Tensor.sigmoid_",
+    "public_surface": "mindspore.Tensor",
+    "public_name": "sigmoid_",
+    "entry_type": "single",
+    "source_type": "api_def",
+    "source_path": "mindspore/ops/api_def/sigmoid_.yaml"
+  },
+  "branches": [
+    {
+      "route_type": "direct",
+      "resolver_type": "py_method",
+      "target_symbol": "tensor_sigmoid_",
+      "dispatch_order": 0,
+      "unit_id": "branch::inplace_sigmoid_op.yaml::InplaceSigmoid",
+      "unit_name": "InplaceSigmoid",
+      "op": "inplace_sigmoid",
+      "primitive": "InplaceSigmoid",
+      "yaml_path": "mindspore/ops/op_def/yaml/inplace_sigmoid_op.yaml",
+      "coverage": {
+        "aclnn": [
+          "aclnnInplaceSigmoid"
+        ],
+        "infer": true,
+        "kbk": true,
+        "pyboost": true,
+        "bprop": true,
+        "bprop_units": []
+      }
+    }
+  ]
+}

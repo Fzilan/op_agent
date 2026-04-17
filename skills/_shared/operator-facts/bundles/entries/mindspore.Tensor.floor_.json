@@ -1,0 +1,58 @@
+{
+  "bundle_id": "mindspore.Tensor.floor_",
+  "bundle_type": "entry",
+  "schema_version": "v2",
+  "generated_at": "2026-04-17T17:08:56+08:00",
+  "entry": {
+    "public_api": "mindspore.Tensor.floor_",
+    "public_surface": "mindspore.Tensor",
+    "public_name": "floor_",
+    "entry_type": "overload",
+    "source_type": "tensor_class",
+    "source_path": "mindspore/python/mindspore/common/tensor.py"
+  },
+  "branches": [
+    {
+      "route_type": "overload",
+      "resolver_type": "tensor_registry",
+      "target_symbol": "floor_",
+      "dispatch_order": 0,
+      "unit_id": "branch::floor_op.yaml::Floor",
+      "unit_name": "Floor",
+      "op": "floor",
+      "primitive": "Floor",
+      "yaml_path": "mindspore/ops/op_def/yaml/floor_op.yaml",
+      "coverage": {
+        "aclnn": [
+          "aclnnFloor"
+        ],
+        "infer": true,
+        "kbk": true,
+        "pyboost": true,
+        "bprop": true,
+        "bprop_units": []
+      }
+    },
+    {
+      "route_type": "overload",
+      "resolver_type": "tensor_registry",
+      "target_symbol": "floor_",
+      "dispatch_order": 1,
+      "unit_id": "branch::inplace_floor_op.yaml::InplaceFloor",
+      "unit_name": "InplaceFloor",
+      "op": "inplace_floor",
+      "primitive": "InplaceFloor",
+      "yaml_path": "mindspore/ops/op_def/yaml/inplace_floor_op.yaml",
+      "coverage": {
+        "aclnn": [
+          "aclnnInplaceFloor"
+        ],
+        "infer": true,
+        "kbk": true,
+        "pyboost": true,
+        "bprop": true,
+        "bprop_units": []
+      }
+    }
+  ]
+}

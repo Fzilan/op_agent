@@ -1,0 +1,30 @@
+{
+  "bundle_id": "mindspore.ops.unique",
+  "bundle_type": "entry",
+  "schema_version": "v2",
+  "generated_at": "2026-04-17T17:08:56+08:00",
+  "entry": {
+    "public_api": "mindspore.ops.unique",
+    "public_surface": "mindspore.ops",
+    "public_name": "unique",
+    "entry_type": "composite",
+    "source_type": "wrapper",
+    "source_path": "mindspore/python/mindspore/ops/function/__init__.py"
+  },
+  "composite": {
+    "resolver_type": "alias",
+    "target_symbol": "unique",
+    "impl_path": "mindspore/python/mindspore/ops/function/array_func.py",
+    "components": [
+      {
+        "component_type": "unit",
+        "condition": "",
+        "via_symbol": "get_x_shape",
+        "unit_id": "composite::ops/function/array_func.py::get_x_shape",
+        "unit_name": "get_x_shape",
+        "unit_type": "composite",
+        "impl_path": "mindspore/python/mindspore/ops/function/array_func.py"
+      }
+    ]
+  }
+}

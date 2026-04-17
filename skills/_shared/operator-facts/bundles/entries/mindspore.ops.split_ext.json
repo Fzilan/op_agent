@@ -1,0 +1,63 @@
+{
+  "bundle_id": "mindspore.ops.split_ext",
+  "bundle_type": "entry",
+  "schema_version": "v2",
+  "generated_at": "2026-04-17T17:08:56+08:00",
+  "entry": {
+    "public_api": "mindspore.ops.split_ext",
+    "public_surface": "mindspore.ops",
+    "public_name": "split_ext",
+    "entry_type": "composite",
+    "source_type": "wrapper",
+    "source_path": "mindspore/python/mindspore/ops/function/__init__.py"
+  },
+  "composite": {
+    "resolver_type": "alias",
+    "target_symbol": "split_ext",
+    "impl_path": "mindspore/python/mindspore/ops/function/array_func.py",
+    "components": [
+      {
+        "component_type": "unit",
+        "condition": "isinstance(split_size, int)",
+        "via_symbol": "split_tensor_op",
+        "unit_id": "branch::split_tensor_op.yaml::SplitTensor",
+        "unit_name": "SplitTensor",
+        "unit_type": "branch",
+        "op": "split_tensor",
+        "primitive": "SplitTensor",
+        "yaml_path": "mindspore/ops/op_def/yaml/split_tensor_op.yaml",
+        "coverage": {
+          "aclnn": [
+            "aclnnSplitTensor"
+          ],
+          "infer": true,
+          "kbk": true,
+          "pyboost": true,
+          "bprop": true,
+          "bprop_units": []
+        }
+      },
+      {
+        "component_type": "unit",
+        "condition": "not (isinstance(split_size, int)) and isinstance(split_size, (list, tuple))",
+        "via_symbol": "split_with_size_op",
+        "unit_id": "branch::split_with_size_op.yaml::SplitWithSize",
+        "unit_name": "SplitWithSize",
+        "unit_type": "branch",
+        "op": "split_with_size",
+        "primitive": "SplitWithSize",
+        "yaml_path": "mindspore/ops/op_def/yaml/split_with_size_op.yaml",
+        "coverage": {
+          "aclnn": [
+            "aclnnSplitWithSize"
+          ],
+          "infer": true,
+          "kbk": true,
+          "pyboost": true,
+          "bprop": true,
+          "bprop_units": []
+        }
+      }
+    ]
+  }
+}

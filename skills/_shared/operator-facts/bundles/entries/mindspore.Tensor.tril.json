@@ -1,0 +1,37 @@
+{
+  "bundle_id": "mindspore.Tensor.tril",
+  "bundle_type": "entry",
+  "schema_version": "v2",
+  "generated_at": "2026-04-17T17:08:56+08:00",
+  "entry": {
+    "public_api": "mindspore.Tensor.tril",
+    "public_surface": "mindspore.Tensor",
+    "public_name": "tril",
+    "entry_type": "single",
+    "source_type": "api_def",
+    "source_path": "mindspore/ops/api_def/tril.yaml"
+  },
+  "branches": [
+    {
+      "route_type": "direct",
+      "resolver_type": "py_method",
+      "target_symbol": "deprecated_tensor_tril",
+      "dispatch_order": 0,
+      "unit_id": "branch::tril_ext_op.yaml::TrilExt",
+      "unit_name": "TrilExt",
+      "op": "tril_ext",
+      "primitive": "TrilExt",
+      "yaml_path": "mindspore/ops/op_def/yaml/tril_ext_op.yaml",
+      "coverage": {
+        "aclnn": [
+          "aclnnTril"
+        ],
+        "infer": true,
+        "kbk": true,
+        "pyboost": true,
+        "bprop": true,
+        "bprop_units": []
+      }
+    }
+  ]
+}

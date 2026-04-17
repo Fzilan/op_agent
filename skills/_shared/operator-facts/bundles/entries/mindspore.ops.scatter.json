@@ -1,0 +1,58 @@
+{
+  "bundle_id": "mindspore.ops.scatter",
+  "bundle_type": "entry",
+  "schema_version": "v2",
+  "generated_at": "2026-04-17T17:08:56+08:00",
+  "entry": {
+    "public_api": "mindspore.ops.scatter",
+    "public_surface": "mindspore.ops",
+    "public_name": "scatter",
+    "entry_type": "overload",
+    "source_type": "wrapper",
+    "source_path": "mindspore/python/mindspore/ops/function/__init__.py"
+  },
+  "branches": [
+    {
+      "route_type": "overload",
+      "resolver_type": "alias",
+      "target_symbol": "scatter",
+      "dispatch_order": 0,
+      "unit_id": "branch::scatter_op.yaml::Scatter",
+      "unit_name": "Scatter",
+      "op": "scatter",
+      "primitive": "Scatter",
+      "yaml_path": "mindspore/ops/op_def/yaml/scatter_op.yaml",
+      "coverage": {
+        "aclnn": [
+          "aclnnScatter"
+        ],
+        "infer": true,
+        "kbk": true,
+        "pyboost": true,
+        "bprop": true,
+        "bprop_units": []
+      }
+    },
+    {
+      "route_type": "overload",
+      "resolver_type": "alias",
+      "target_symbol": "scatter",
+      "dispatch_order": 1,
+      "unit_id": "branch::scatter_value_op.yaml::ScatterValue",
+      "unit_name": "ScatterValue",
+      "op": "scatter_value",
+      "primitive": "ScatterValue",
+      "yaml_path": "mindspore/ops/op_def/yaml/scatter_value_op.yaml",
+      "coverage": {
+        "aclnn": [
+          "aclnnScatterValue"
+        ],
+        "infer": true,
+        "kbk": true,
+        "pyboost": true,
+        "bprop": true,
+        "bprop_units": []
+      }
+    }
+  ]
+}

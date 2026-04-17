@@ -1,0 +1,37 @@
+{
+  "bundle_id": "mindspore.Tensor.clone",
+  "bundle_type": "entry",
+  "schema_version": "v2",
+  "generated_at": "2026-04-17T17:08:56+08:00",
+  "entry": {
+    "public_api": "mindspore.Tensor.clone",
+    "public_surface": "mindspore.Tensor",
+    "public_name": "clone",
+    "entry_type": "single",
+    "source_type": "api_def",
+    "source_path": "mindspore/ops/api_def/clone.yaml"
+  },
+  "branches": [
+    {
+      "route_type": "direct",
+      "resolver_type": "py_method",
+      "target_symbol": "tensor_clone",
+      "dispatch_order": 0,
+      "unit_id": "branch::clone_op.yaml::Clone",
+      "unit_name": "Clone",
+      "op": "clone",
+      "primitive": "Clone",
+      "yaml_path": "mindspore/ops/op_def/yaml/clone_op.yaml",
+      "coverage": {
+        "aclnn": [
+          "aclnnInplaceCopy"
+        ],
+        "infer": true,
+        "kbk": true,
+        "pyboost": true,
+        "bprop": true,
+        "bprop_units": []
+      }
+    }
+  ]
+}

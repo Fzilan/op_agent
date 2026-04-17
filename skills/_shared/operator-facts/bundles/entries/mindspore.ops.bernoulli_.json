@@ -1,0 +1,58 @@
+{
+  "bundle_id": "mindspore.ops.bernoulli_",
+  "bundle_type": "entry",
+  "schema_version": "v2",
+  "generated_at": "2026-04-17T17:08:56+08:00",
+  "entry": {
+    "public_api": "mindspore.ops.bernoulli_",
+    "public_surface": "mindspore.ops",
+    "public_name": "bernoulli_",
+    "entry_type": "overload",
+    "source_type": "api_def",
+    "source_path": "mindspore/ops/api_def/bernoulli_.yaml"
+  },
+  "branches": [
+    {
+      "route_type": "overload",
+      "resolver_type": "py_method",
+      "target_symbol": "tensor_bernoulli_",
+      "dispatch_order": 0,
+      "unit_id": "branch::inplace_bernoulli_tensor_op.yaml::InplaceBernoulliTensor",
+      "unit_name": "InplaceBernoulliTensor",
+      "op": "inplace_bernoulli_tensor",
+      "primitive": "InplaceBernoulliTensor",
+      "yaml_path": "mindspore/ops/op_def/yaml/inplace_bernoulli_tensor_op.yaml",
+      "coverage": {
+        "aclnn": [
+          "aclnnInplaceBernoulliTensor"
+        ],
+        "infer": true,
+        "kbk": true,
+        "pyboost": true,
+        "bprop": true,
+        "bprop_units": []
+      }
+    },
+    {
+      "route_type": "overload",
+      "resolver_type": "py_method",
+      "target_symbol": "tensor_bernoulli_",
+      "dispatch_order": 1,
+      "unit_id": "branch::inplace_bernoulli_scalar_op.yaml::InplaceBernoulliScalar",
+      "unit_name": "InplaceBernoulliScalar",
+      "op": "inplace_bernoulli_scalar",
+      "primitive": "InplaceBernoulliScalar",
+      "yaml_path": "mindspore/ops/op_def/yaml/inplace_bernoulli_scalar_op.yaml",
+      "coverage": {
+        "aclnn": [
+          "aclnnInplaceBernoulli"
+        ],
+        "infer": true,
+        "kbk": true,
+        "pyboost": true,
+        "bprop": true,
+        "bprop_units": []
+      }
+    }
+  ]
+}

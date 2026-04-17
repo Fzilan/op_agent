@@ -1,0 +1,14 @@
+{
+  "bundle_id": "mindspore.ops.gmm_backward",
+  "bundle_type": "entry",
+  "schema_version": "v2",
+  "generated_at": "2026-04-17T17:08:56+08:00",
+  "entry": {
+    "public_api": "mindspore.ops.gmm_backward",
+    "public_surface": "mindspore.ops",
+    "public_name": "gmm_backward",
+    "entry_type": "overload",
+    "source_type": "api_def",
+    "source_path": "mindspore/ops/api_def/gmm_backward.yaml"
+  }
+}

@@ -1,0 +1,37 @@
+{
+  "bundle_id": "mindspore.Tensor.true_divide",
+  "bundle_type": "entry",
+  "schema_version": "v2",
+  "generated_at": "2026-04-17T17:08:56+08:00",
+  "entry": {
+    "public_api": "mindspore.Tensor.true_divide",
+    "public_surface": "mindspore.Tensor",
+    "public_name": "true_divide",
+    "entry_type": "single",
+    "source_type": "api_def",
+    "source_path": "mindspore/ops/api_def/true_divide.yaml"
+  },
+  "branches": [
+    {
+      "route_type": "direct",
+      "resolver_type": "py_method",
+      "target_symbol": "tensor_true_divide",
+      "dispatch_order": 0,
+      "unit_id": "branch::div_op.yaml::Div",
+      "unit_name": "Div",
+      "op": "div",
+      "primitive": "Div",
+      "yaml_path": "mindspore/ops/op_def/yaml/div_op.yaml",
+      "coverage": {
+        "aclnn": [
+          "aclnnDiv"
+        ],
+        "infer": true,
+        "kbk": true,
+        "pyboost": true,
+        "bprop": true,
+        "bprop_units": []
+      }
+    }
+  ]
+}

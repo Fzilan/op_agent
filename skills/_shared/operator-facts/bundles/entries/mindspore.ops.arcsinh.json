@@ -1,0 +1,37 @@
+{
+  "bundle_id": "mindspore.ops.arcsinh",
+  "bundle_type": "entry",
+  "schema_version": "v2",
+  "generated_at": "2026-04-17T17:08:56+08:00",
+  "entry": {
+    "public_api": "mindspore.ops.arcsinh",
+    "public_surface": "mindspore.ops",
+    "public_name": "arcsinh",
+    "entry_type": "single",
+    "source_type": "wrapper",
+    "source_path": "mindspore/python/mindspore/ops/function/__init__.py"
+  },
+  "branches": [
+    {
+      "route_type": "direct",
+      "resolver_type": "alias",
+      "target_symbol": "arcsinh",
+      "dispatch_order": 0,
+      "unit_id": "branch::asinh_ext_op.yaml::AsinhExt",
+      "unit_name": "AsinhExt",
+      "op": "asinh_ext",
+      "primitive": "AsinhExt",
+      "yaml_path": "mindspore/ops/op_def/yaml/asinh_ext_op.yaml",
+      "coverage": {
+        "aclnn": [
+          "aclnnAsinh"
+        ],
+        "infer": true,
+        "kbk": true,
+        "pyboost": true,
+        "bprop": true,
+        "bprop_units": []
+      }
+    }
+  ]
+}

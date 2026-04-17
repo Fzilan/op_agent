@@ -1,0 +1,39 @@
+{
+  "bundle_id": "mindspore.ops.shuffle",
+  "bundle_type": "entry",
+  "schema_version": "v2",
+  "generated_at": "2026-04-17T17:08:56+08:00",
+  "entry": {
+    "public_api": "mindspore.ops.shuffle",
+    "public_surface": "mindspore.ops",
+    "public_name": "shuffle",
+    "entry_type": "composite",
+    "source_type": "wrapper",
+    "source_path": "mindspore/python/mindspore/ops/function/__init__.py"
+  },
+  "composite": {
+    "resolver_type": "alias",
+    "target_symbol": "shuffle",
+    "impl_path": "mindspore/python/mindspore/ops/function/random_func.py",
+    "components": [
+      {
+        "component_type": "unit",
+        "condition": "",
+        "via_symbol": "_get_seed",
+        "unit_id": "composite::ops/function/random_func.py::_get_seed",
+        "unit_name": "_get_seed",
+        "unit_type": "composite",
+        "impl_path": "mindspore/python/mindspore/ops/function/random_func.py"
+      },
+      {
+        "component_type": "unit",
+        "condition": "",
+        "via_symbol": "_set_prim_op_user_data",
+        "unit_id": "composite::ops/function/random_func.py::_set_prim_op_user_data",
+        "unit_name": "_set_prim_op_user_data",
+        "unit_type": "composite",
+        "impl_path": "mindspore/python/mindspore/ops/function/random_func.py"
+      }
+    ]
+  }
+}

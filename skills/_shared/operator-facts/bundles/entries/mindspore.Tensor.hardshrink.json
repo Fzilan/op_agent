@@ -1,0 +1,37 @@
+{
+  "bundle_id": "mindspore.Tensor.hardshrink",
+  "bundle_type": "entry",
+  "schema_version": "v2",
+  "generated_at": "2026-04-17T17:08:56+08:00",
+  "entry": {
+    "public_api": "mindspore.Tensor.hardshrink",
+    "public_surface": "mindspore.Tensor",
+    "public_name": "hardshrink",
+    "entry_type": "single",
+    "source_type": "api_def",
+    "source_path": "mindspore/ops/api_def/hardshrink.yaml"
+  },
+  "branches": [
+    {
+      "route_type": "direct",
+      "resolver_type": "py_method",
+      "target_symbol": "tensor_hardshrink",
+      "dispatch_order": 0,
+      "unit_id": "branch::hshrink_op.yaml::HShrink",
+      "unit_name": "HShrink",
+      "op": "hshrink",
+      "primitive": "HShrink",
+      "yaml_path": "mindspore/ops/op_def/yaml/hshrink_op.yaml",
+      "coverage": {
+        "aclnn": [
+          "aclnnHardshrink"
+        ],
+        "infer": true,
+        "kbk": true,
+        "pyboost": true,
+        "bprop": true,
+        "bprop_units": []
+      }
+    }
+  ]
+}

@@ -1,207 +1,243 @@
 # operator-facts
 
-`operator-facts` 是 ACLNN `Pre` 阶段的第一版蒸馏库。
+`operator-facts` 是 ACLNN `Pre` 阶段使用的 MindSpore 侧结构化事实仓。
 
-当前阶段只产出两张索引：
+当前只保留重构后的模型和消费层：
+
+- `ms_entry_identity`
+- `ms_unit_identity`
+- `ms_entry_unit_edges`
+- `ms_unit_graph_edges`
+- `ms_entry_bundle`
+
+不再保留旧版：
 
 - `api_identity`
 - `ms_coverage`
 - `op_bundle`
-- `pta_facts` schema（已定义，抽取脚本待实现）
+- 基于 `public_api/op_branch` 的旧 bundle 目录
 
-## 当前主键约定
+## 当前目录
 
-### `api_identity`
-
-- 主键：`public_api + op_branch`
-- `public_api` 是全限定公共接口，例如 `mindspore.mint.max`
-- `op_branch` 是 `api_def` 或 direct `op_def` 落到的分支文件名，例如 `max_dim_op.yaml`
-
-### `ms_coverage`
-
-- 主键：`op + primitive`
-- `op` 是 `op_def` 顶层算子名，例如 `max_dim`
-- `primitive` 是该分支对应的 Primitive 名，例如 `MaxDim`
-
-## `aclnn` 字段约定
-
-- 字段名统一叫 `aclnn`
-- 单值和多值都用 JSON 数组字符串保存
-- 例如：`["aclnnSoftmax"]`
-- 例如：`["aclnnSoftmax", "aclnnCast", "aclnnReduceSum"]`
-
-当前阶段不拆附表，不做 `branch -> aclnn` 正规化。
-
-## 输出路径
-
-生成结果写到：
-
-- `operator-facts/data/api_identity.jsonl`
-- `operator-facts/data/api_identity.csv`
-- `operator-facts/data/ms_coverage.jsonl`
-- `operator-facts/data/ms_coverage.csv`
-- `operator-facts/data/pta_facts.jsonl`
-- `operator-facts/data/pta_facts.csv`
-- `operator-facts/data/op_bundles.jsonl`
-- `operator-facts/bundles/<public_api>/<op_branch>.json`
-
-PTA 最小 schema 和样例放在：
-
-- `operator-facts/schemas/pta_facts.schema.json`
-- `operator-facts/examples/pta_facts.example.json`
-
-## 使用方式
-
-要求：
-
-- Python 3.9+
-- `--ms-root` 指向 MindSpore 仓库里的源码根目录，也就是包含 `ops/`、`python/`、`ccsrc/` 的那个 `mindspore/` 目录
-
-### 一键重建 MS 部分
-
-如果工作区根目录下有 `regen_operator_facts.sh`，推荐直接使用：
-
-```bash
-./regen_operator_facts.sh
+```text
+operator-facts/
+├── bundles/
+│   └── entries/                               # MindSpore entry bundles, one public API per file
+│       ├── mindspore.Tensor.abs.json          # one single-entry bundle
+│       ├── mindspore.Tensor.max.json          # one overload-entry bundle, contains multiple branch targets
+│       └── mindspore.Tensor.aminmax.json      # one composite-entry bundle, contains composite components
+├── data/
+│   ├── ms_entry_identity.jsonl                # MS public entry identity index
+│   ├── ms_entry_unit_edges.jsonl              # MS entry -> unit routing index
+│   ├── ms_unit_graph_edges.jsonl              # MS composite unit -> child graph index
+│   ├── ms_unit_identity.jsonl                 # MS execution unit identity + coverage index
+│   └── pta_facts.jsonl                        # PTA API facts + source refs
+├── examples/
+│   ├── ms_entry_bundle.abs.example.json       # example single-entry bundle
+│   ├── ms_entry_bundle.aminmax.example.json   # example composite-entry bundle
+│   └── pta_facts.example.json                 # PTA facts example
+├── schemas/
+│   ├── ms_entry_bundle.schema.json            # entry bundle format, for bundles/entries/*.json
+│   ├── ms_entry_identity.schema.json          # entry identity format, for data/ms_entry_identity.jsonl
+│   ├── ms_entry_unit_edges.schema.json        # entry -> unit edge format, for data/ms_entry_unit_edges.jsonl
+│   ├── ms_unit_graph_edges.schema.json        # composite graph edge format, for data/ms_unit_graph_edges.jsonl
+│   ├── ms_unit_identity.schema.json           # unit identity + coverage format, for data/ms_unit_identity.jsonl
+│   └── pta_facts.schema.json                  # PTA facts format, for data/pta_facts.jsonl
+├── scripts/
+│   ├── build_ms_facts.py                      # build all 4 normalized MS facts tables
+│   ├── build_entry_bundles.py                 # build entry bundles from the 4 MS facts tables
+│   ├── build_operator_facts.py                # end-to-end pipeline: facts -> validate -> bundles -> validate
+│   ├── build_ms_entry_identity.py             # build entry identity rows
+│   ├── build_ms_entry_unit_edges.py           # build entry -> unit routing rows
+│   ├── build_ms_unit_graph_edges.py           # build composite unit graph rows
+│   ├── build_ms_unit_identity.py              # build unit identity + coverage rows
+│   ├── symbol_resolution.py                   # shared symbol-to-branch / symbol-to-entry resolver
+│   ├── unit_coverage_scan.py                  # shared branch coverage scanning logic
+│   └── build_pta_facts.py                     # build PTA facts
+└── validation/
+    ├── validate_ms_facts.py                   # validate the 4 MS facts tables + golden cases
+    ├── validate_entry_bundles.py              # validate generated entry bundles against schema
+    └── golden/ms_facts.golden.json            # golden regression cases for key APIs
 ```
 
-也可以显式指定 MindSpore 源码根目录：
+## 数据模型
 
-```bash
-./regen_operator_facts.sh /path/to/mindspore/mindspore
-```
+### `ms_entry_identity`
 
-这个脚本会：
+描述 public API 入口身份。
 
-- 清理 `bundles/` 和 MS 相关索引
-- 保留 `data/pta_facts.jsonl` / `data/pta_facts.csv`
-- 重建 `api_identity`、`ms_coverage`、`op_bundle`
+关键字段：
 
-### 直接运行 phase1
+- `public_api`
+- `public_surface`
+- `public_name`
+- `entry_type`
+- `source_type`
+- `source_path`
 
-```bash
-python operator-facts/scripts/build_phase1.py --ms-root /path/to/mindspore/mindspore
-```
+### `ms_unit_identity`
 
-`build_phase1.py` 会把 `--ms-root` 透传给各个子脚本。
+描述执行单元身份与覆盖事实。
 
-也可以指定输出目录：
+支持两类 unit：
 
-```bash
-python operator-facts/scripts/build_phase1.py \
-  --ms-root /path/to/mindspore/mindspore \
-  --out-dir operator-facts/data \
-  --bundle-root operator-facts/bundles
-```
+- `branch`
+- `composite`
 
-### 分步重建
+branch unit 覆盖字段统一为：
 
-```bash
-python operator-facts/scripts/build_api_identity.py --ms-root /path/to/mindspore/mindspore
-python operator-facts/scripts/build_ms_coverage.py --ms-root /path/to/mindspore/mindspore
-python operator-facts/scripts/build_bundles.py
-python operator-facts/scripts/build_pta_facts.py
-```
-
-## 当前覆盖范围
-
-### `api_identity`
-
-第一版覆盖：
-
-- `mindspore.ops.*`
-- `mindspore.Tensor.*`
-- `mindspore.mint.*`
-
-其中：
-
-- `ops/Tensor` 主要来自 `api_def`
-- `mint` 主要来自 `mint/__init__.py` 的实际导出关系
-- wrapper 解析采用“直接符号 -> `api_def` / `op_def` -> 一层到数层 return 调用追踪”的轻量策略
-
-### `ms_coverage`
-
-第一版覆盖：
-
-- `dispatch`
 - `aclnn`
 - `infer`
-- `pyboost`
 - `kbk`
+- `pyboost`
 - `bprop`
-- `ut`
-- `st`
-- `docs_cn`
-- `docs_en`
+- `bprop_units`
 
-其中 `dashboard` 只作为扫描经验参考，不作为 source-of-truth。
-Ascend 侧判断优先遵循 `api-knowledge/backend-lens-ascend.md` 的规则：
+### `ms_entry_unit_edges`
 
-- 先看 `op_yaml.dispatch`
-- 再看 `aclnn_config.yaml`
-- customize 走源码取证
+描述 `entry -> unit` 路由关系。
 
-其中：
+关键字段：
 
-- `dispatch.enable: True` 且没有 `Ascend: XxxAscend`，记为 `dispatch_kind = auto_generate`
-- 这类 branch 视为 ACLNN 已接入
-- `aclnn_source` 只使用：
-  - `aclnn_config`
-  - `auto_generate_source`
-  - `customize_source`
-- `auto_generate` 场景下，`pyboost` 和 `kbk` 直接记为 `true`
-- `pyboost_evidence` 和 `kbk_evidence` 在 `auto_generate` 场景允许为空
+- `entry_id`
+- `unit_id`
+- `edge_type`
+- `resolver_type`
+- `target_symbol`
 
-### `op_bundle`
+### `ms_unit_graph_edges`
 
-第一版 `bundle` 只聚合 `api_identity + ms_coverage`，不包含：
+描述 composite unit 的内部展开关系。
 
-- PTA
-- callchain
-- decision
+关键字段：
 
-当前字段分成：
+- `parent_unit_id`
+- `child_ref_type`
+- `child_ref`
+- `condition`
+- `via_symbol`
 
-- `identity`
-- `resolver`
-- `coverage`
-- `evidence`
-- `refs`
+## bundle 设计
 
-### `pta_facts`
+当前消费层只保留 `entry bundle`。
 
-`pta_facts` 是 PTA 侧的最小事实包 schema，目标不是替代 `op-plugin` 源码，而是让 `bundle` 后续可以直接回答：
+### branch bundle 形态
 
-- 走 `auto` 还是 `customize`
-- 是否需要进入组合场景 `Pre-C`
-- 是否存在 backward
-- Step 1 的 YAML 参数和返回结构如何起草
-- 写代码时应该打开哪些 PTA 文件和锚点
+当实际 routed unit 是 `branch` 时，bundle 使用：
 
-当前字段收缩为：
+- `entry`
+- `branches`
 
-- `pta_key`
-- `pta_api`
-- `overload_signature`
-- `params`
-- `returns`
-- `forward_aclnn`
-- `backward_exists`
-- `backward_aclnn`
+`branches[*]` 直接挂 branch unit 和 coverage。
+
+### composite bundle 形态
+
+当实际 routed unit 是 `composite` 时，bundle 使用：
+
+- `entry`
 - `composite`
-- `preprocess_needed`
-- `custom_output_needed`
-- `refs`
+
+`composite` 只保留：
+
+- `resolver_type`
+- `target_symbol`
+- `impl_path`
+- `components`
+
+注意：
+
+- `entry.entry_type` 只表达入口类型，不直接决定 bundle 顶层结构
+- 例如某些 `entry_type = single` 的 Tensor method，实际会路由到一个 composite root，此时 bundle 仍然使用 `composite`
 
 其中：
 
-- `preprocess_needed` 表示 PTA 在调用 ACLNN 前是否存在需要手写代码处理的参数逻辑
-- `custom_output_needed` 表示输出 tensor / 中间 tensor 是否需要手工构造
-- `refs` 保存 PTA 锚点，写代码阶段只需要定点打开这些文件，不再全仓分析
+- `component_type = public_api` 只保留 `public_api`
+- `component_type = primitive_symbol` 只保留 `primitive_symbol`
+- `component_type = unit` 时：
+  - 总是保留 `unit_id`、`unit_name`、`unit_type`
+  - 若 `unit_type = branch`，再保留 `op`、`primitive`、`yaml_path`、`coverage`
+  - 若 `unit_type = composite`，只保留 `impl_path`
 
-## 已知限制
+## 从头构建流程
 
-- `api_identity` 目前没有覆盖所有复杂 wrapper 的深层控制流。
-- `ms_coverage` 当前不区分多个 `aclnn` 的角色，只做 branch 级摘要。
-- `op_bundle` 目前只是 phase-1 最小事实包，还没有 PTA 和组合调用链信息。
-- 复杂组合算子的调用链还未展开到单独附表。
+### 一键构建
+
+推荐直接运行：
+
+```bash
+python op_agent/skills/_shared/operator-facts/scripts/build_operator_facts.py
+```
+
+如果要显式指定 MindSpore 源码根目录：
+
+```bash
+python op_agent/skills/_shared/operator-facts/scripts/build_operator_facts.py \
+  --ms-root /path/to/mindspore/mindspore
+```
+
+这个脚本会按顺序执行：
+
+1. `build_ms_facts.py`
+2. `validation/validate_ms_facts.py`
+3. `build_entry_bundles.py`
+4. `validation/validate_entry_bundles.py`
+
+### 分步构建
+
+#### 1. 构建 4 张基础表
+
+```bash
+python op_agent/skills/_shared/operator-facts/scripts/build_ms_facts.py
+```
+
+产出：
+
+- `data/ms_entry_identity.jsonl`
+- `data/ms_entry_unit_edges.jsonl`
+- `data/ms_unit_graph_edges.jsonl`
+- `data/ms_unit_identity.jsonl`
+
+#### 2. 校验基础表
+
+```bash
+python op_agent/skills/_shared/operator-facts/validation/validate_ms_facts.py
+```
+
+校验内容：
+
+- schema 结构
+- 主键唯一性
+- 表间引用完整性
+- golden case
+
+#### 3. 构建 entry bundles
+
+```bash
+python op_agent/skills/_shared/operator-facts/scripts/build_entry_bundles.py
+```
+
+产出目录：
+
+- `bundles/entries/*.json`
+
+#### 4. 校验 entry bundles
+
+```bash
+python op_agent/skills/_shared/operator-facts/validation/validate_entry_bundles.py
+```
+
+### PTA facts
+
+PTA facts 仍然独立构建，不参与当前 MindSpore facts/bundle 流水线：
+
+```bash
+python op_agent/skills/_shared/operator-facts/scripts/build_pta_facts.py
+```
+
+## 设计文档
+
+当前唯一有效的重构设计文档是：
+
+- `operator-facts-refactor-design.md`
+
+它对应当前 4 张 facts 表和 `ms_entry_bundle`。

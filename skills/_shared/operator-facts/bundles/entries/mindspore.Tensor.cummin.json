@@ -1,0 +1,89 @@
+{
+  "bundle_id": "mindspore.Tensor.cummin",
+  "bundle_type": "entry",
+  "schema_version": "v2",
+  "generated_at": "2026-04-17T17:08:56+08:00",
+  "entry": {
+    "public_api": "mindspore.Tensor.cummin",
+    "public_surface": "mindspore.Tensor",
+    "public_name": "cummin",
+    "entry_type": "single",
+    "source_type": "tensor_class",
+    "source_path": "mindspore/python/mindspore/common/tensor.py"
+  },
+  "composite": {
+    "resolver_type": "tensor_registry",
+    "target_symbol": "cummin",
+    "impl_path": "mindspore/python/mindspore/ops/function/math_func.py",
+    "components": [
+      {
+        "component_type": "unit",
+        "condition": "axis == 0",
+        "via_symbol": "cummin_op",
+        "unit_id": "branch::cummin_op.yaml::Cummin",
+        "unit_name": "Cummin",
+        "unit_type": "branch",
+        "op": "cummin",
+        "primitive": "Cummin",
+        "yaml_path": "mindspore/ops/op_def/yaml/cummin_op.yaml",
+        "coverage": {
+          "aclnn": [],
+          "infer": true,
+          "kbk": false,
+          "pyboost": false,
+          "bprop": true,
+          "bprop_units": []
+        }
+      },
+      {
+        "component_type": "unit",
+        "condition": "not (axis == 0)",
+        "via_symbol": "_create_cummin_perm",
+        "unit_id": "composite::ops/function/math_func.py::_create_cummin_perm",
+        "unit_name": "_create_cummin_perm",
+        "unit_type": "composite",
+        "impl_path": "mindspore/python/mindspore/ops/function/math_func.py"
+      },
+      {
+        "component_type": "unit",
+        "condition": "not (axis == 0)",
+        "via_symbol": "transpose_op",
+        "unit_id": "branch::transpose_op.yaml::Transpose",
+        "unit_name": "Transpose",
+        "unit_type": "branch",
+        "op": "transpose",
+        "primitive": "Transpose",
+        "yaml_path": "mindspore/ops/op_def/yaml/transpose_op.yaml",
+        "coverage": {
+          "aclnn": [
+            "aclnnPermute"
+          ],
+          "infer": true,
+          "kbk": true,
+          "pyboost": true,
+          "bprop": true,
+          "bprop_units": []
+        }
+      },
+      {
+        "component_type": "unit",
+        "condition": "not (axis == 0)",
+        "via_symbol": "cummin_op",
+        "unit_id": "branch::cummin_op.yaml::Cummin",
+        "unit_name": "Cummin",
+        "unit_type": "branch",
+        "op": "cummin",
+        "primitive": "Cummin",
+        "yaml_path": "mindspore/ops/op_def/yaml/cummin_op.yaml",
+        "coverage": {
+          "aclnn": [],
+          "infer": true,
+          "kbk": false,
+          "pyboost": false,
+          "bprop": true,
+          "bprop_units": []
+        }
+      }
+    ]
+  }
+}

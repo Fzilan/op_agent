@@ -1,0 +1,37 @@
+{
+  "bundle_id": "mindspore.Tensor.minimum",
+  "bundle_type": "entry",
+  "schema_version": "v2",
+  "generated_at": "2026-04-17T17:08:56+08:00",
+  "entry": {
+    "public_api": "mindspore.Tensor.minimum",
+    "public_surface": "mindspore.Tensor",
+    "public_name": "minimum",
+    "entry_type": "single",
+    "source_type": "api_def",
+    "source_path": "mindspore/ops/api_def/minimum.yaml"
+  },
+  "branches": [
+    {
+      "route_type": "direct",
+      "resolver_type": "py_method",
+      "target_symbol": "tensor_minimum",
+      "dispatch_order": 0,
+      "unit_id": "branch::minimum_op.yaml::Minimum",
+      "unit_name": "Minimum",
+      "op": "minimum",
+      "primitive": "Minimum",
+      "yaml_path": "mindspore/ops/op_def/yaml/minimum_op.yaml",
+      "coverage": {
+        "aclnn": [
+          "aclnnMinimum"
+        ],
+        "infer": true,
+        "kbk": true,
+        "pyboost": true,
+        "bprop": true,
+        "bprop_units": []
+      }
+    }
+  ]
+}

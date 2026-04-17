@@ -1,0 +1,100 @@
+{
+  "bundle_id": "mindspore.ops.clamp",
+  "bundle_type": "entry",
+  "schema_version": "v2",
+  "generated_at": "2026-04-17T17:08:56+08:00",
+  "entry": {
+    "public_api": "mindspore.ops.clamp",
+    "public_surface": "mindspore.ops",
+    "public_name": "clamp",
+    "entry_type": "overload",
+    "source_type": "api_def",
+    "source_path": "mindspore/ops/api_def/clamp.yaml"
+  },
+  "branches": [
+    {
+      "route_type": "overload",
+      "resolver_type": "alias",
+      "target_symbol": "clamp",
+      "dispatch_order": 0,
+      "unit_id": "branch::clamp_scalar_op.yaml::ClampScalar",
+      "unit_name": "ClampScalar",
+      "op": "clamp_scalar",
+      "primitive": "ClampScalar",
+      "yaml_path": "mindspore/ops/op_def/yaml/clamp_scalar_op.yaml",
+      "coverage": {
+        "aclnn": [
+          "aclnnClamp"
+        ],
+        "infer": true,
+        "kbk": true,
+        "pyboost": true,
+        "bprop": true,
+        "bprop_units": []
+      }
+    },
+    {
+      "route_type": "overload",
+      "resolver_type": "py_method",
+      "target_symbol": "tensor_clamp_tensor",
+      "dispatch_order": 0,
+      "unit_id": "branch::clamp_tensor_op.yaml::ClampTensor",
+      "unit_name": "ClampTensor",
+      "op": "clamp_tensor",
+      "primitive": "ClampTensor",
+      "yaml_path": "mindspore/ops/op_def/yaml/clamp_tensor_op.yaml",
+      "coverage": {
+        "aclnn": [
+          "aclnnClampTensor"
+        ],
+        "infer": true,
+        "kbk": true,
+        "pyboost": true,
+        "bprop": true,
+        "bprop_units": []
+      }
+    },
+    {
+      "route_type": "overload",
+      "resolver_type": "py_method",
+      "target_symbol": "tensor_clamp_scalar",
+      "dispatch_order": 1,
+      "unit_id": "branch::clamp_scalar_op.yaml::ClampScalar",
+      "unit_name": "ClampScalar",
+      "op": "clamp_scalar",
+      "primitive": "ClampScalar",
+      "yaml_path": "mindspore/ops/op_def/yaml/clamp_scalar_op.yaml",
+      "coverage": {
+        "aclnn": [
+          "aclnnClamp"
+        ],
+        "infer": true,
+        "kbk": true,
+        "pyboost": true,
+        "bprop": true,
+        "bprop_units": []
+      }
+    },
+    {
+      "route_type": "overload",
+      "resolver_type": "alias",
+      "target_symbol": "clamp",
+      "dispatch_order": 1,
+      "unit_id": "branch::clamp_tensor_op.yaml::ClampTensor",
+      "unit_name": "ClampTensor",
+      "op": "clamp_tensor",
+      "primitive": "ClampTensor",
+      "yaml_path": "mindspore/ops/op_def/yaml/clamp_tensor_op.yaml",
+      "coverage": {
+        "aclnn": [
+          "aclnnClampTensor"
+        ],
+        "infer": true,
+        "kbk": true,
+        "pyboost": true,
+        "bprop": true,
+        "bprop_units": []
+      }
+    }
+  ]
+}

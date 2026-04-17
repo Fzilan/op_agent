@@ -1,0 +1,39 @@
+{
+  "bundle_id": "mindspore.ops.arange",
+  "bundle_type": "entry",
+  "schema_version": "v2",
+  "generated_at": "2026-04-17T17:08:56+08:00",
+  "entry": {
+    "public_api": "mindspore.ops.arange",
+    "public_surface": "mindspore.ops",
+    "public_name": "arange",
+    "entry_type": "composite",
+    "source_type": "wrapper",
+    "source_path": "mindspore/python/mindspore/ops/function/__init__.py"
+  },
+  "composite": {
+    "resolver_type": "alias",
+    "target_symbol": "arange",
+    "impl_path": "mindspore/python/mindspore/ops/function/array_func.py",
+    "components": [
+      {
+        "component_type": "unit",
+        "condition": "",
+        "via_symbol": "_get_max_type",
+        "unit_id": "composite::ops/function/array_func.py::_get_max_type",
+        "unit_name": "_get_max_type",
+        "unit_type": "composite",
+        "impl_path": "mindspore/python/mindspore/ops/function/array_func.py"
+      },
+      {
+        "component_type": "unit",
+        "condition": "",
+        "via_symbol": "_cast_type",
+        "unit_id": "composite::ops/function/array_func.py::_cast_type",
+        "unit_name": "_cast_type",
+        "unit_type": "composite",
+        "impl_path": "mindspore/python/mindspore/ops/function/array_func.py"
+      }
+    ]
+  }
+}

@@ -11,9 +11,10 @@ from typing import Dict, Iterable, List, Optional, Set, Tuple
 import yaml
 
 
-REPO_ROOT = Path(__file__).resolve().parents[2]
+OPERATOR_FACTS_ROOT = Path(__file__).resolve().parents[1]
+REPO_ROOT = Path(__file__).resolve().parents[5]
 DEFAULT_MS_ROOT = REPO_ROOT / "mindspore" / "mindspore"
-DEFAULT_OUT_DIR = REPO_ROOT / "operator-facts" / "data"
+DEFAULT_OUT_DIR = OPERATOR_FACTS_ROOT / "data"
 MINT_INIT = DEFAULT_MS_ROOT / "python" / "mindspore" / "mint" / "__init__.py"
 
 
@@ -134,6 +135,9 @@ def build_op_catalog(ms_root: Path) -> Tuple[Dict[str, OpDefEntry], Dict[str, Li
             class_cfg = cfg.get("class", {})
             class_name = class_cfg.get("name") if isinstance(class_cfg, dict) else None
             class_name = class_name if isinstance(class_name, str) and class_name else snake_to_pascal(op_name)
+            function_cfg = cfg.get("function", {})
+            function_name = function_cfg.get("name") if isinstance(function_cfg, dict) else None
+            function_name = function_name if isinstance(function_name, str) and function_name else ""
             dispatch = cfg.get("dispatch", {})
             dispatch_enable = isinstance(dispatch, dict) and to_bool(dispatch.get("enable", False))
             dispatch_ascend = ""
@@ -149,12 +153,15 @@ def build_op_catalog(ms_root: Path) -> Tuple[Dict[str, OpDefEntry], Dict[str, Li
                 dispatch_ascend=dispatch_ascend,
             )
             by_branch[entry.op_branch] = entry
-            for candidate in {
+            candidates = {
                 op_name,
                 class_name,
                 path.stem,
                 path.stem.removesuffix("_op"),
-            }:
+            }
+            if function_name:
+                candidates.add(function_name)
+            for candidate in candidates:
                 key = normalize_token(candidate)
                 by_symbol.setdefault(key, []).append(entry)
     return by_branch, by_symbol
@@ -222,6 +229,21 @@ def module_name_to_path(ms_root: Path, module_name: str) -> Optional[Path]:
     return None
 
 
+def resolve_importfrom_module(module_name: str, path: Path, target_module: str, level: int) -> str:
+    if level <= 0:
+        return target_module
+    if path.name == "__init__.py":
+        current_package = module_name
+    else:
+        current_package = module_name.rsplit(".", 1)[0]
+    base_parts = current_package.split(".")
+    if level > 1:
+        base_parts = base_parts[: -(level - 1)]
+    if target_module:
+        return ".".join(base_parts + [target_module])
+    return ".".join(base_parts)
+
+
 @dataclass
 class ImportBinding:
     module: str
@@ -257,10 +279,13 @@ def load_module_info(ms_root: Path, module_name: str) -> Optional[ModuleInfo]:
     imports: Dict[str, str] = {}
     functions: Dict[str, ast.FunctionDef] = {}
     for node in tree.body:
-        if isinstance(node, ast.ImportFrom) and node.module:
+        if isinstance(node, ast.ImportFrom):
+            resolved_module = resolve_importfrom_module(module_name, path, node.module or "", node.level)
+            if not resolved_module:
+                continue
             for alias in node.names:
                 local_name = alias.asname or alias.name
-                from_imports[local_name] = ImportBinding(node.module, alias.name)
+                from_imports[local_name] = ImportBinding(resolved_module, alias.name)
         elif isinstance(node, ast.Import):
             for alias in node.names:
                 local_name = alias.asname or alias.name.split(".")[-1]

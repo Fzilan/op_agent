@@ -1,0 +1,37 @@
+{
+  "bundle_id": "mindspore.ops.topk",
+  "bundle_type": "entry",
+  "schema_version": "v2",
+  "generated_at": "2026-04-17T17:08:56+08:00",
+  "entry": {
+    "public_api": "mindspore.ops.topk",
+    "public_surface": "mindspore.ops",
+    "public_name": "topk",
+    "entry_type": "single",
+    "source_type": "wrapper",
+    "source_path": "mindspore/python/mindspore/ops/function/__init__.py"
+  },
+  "branches": [
+    {
+      "route_type": "direct",
+      "resolver_type": "alias",
+      "target_symbol": "topk",
+      "dispatch_order": 0,
+      "unit_id": "branch::topk_ext_op.yaml::TopkExt",
+      "unit_name": "TopkExt",
+      "op": "topk_ext",
+      "primitive": "TopkExt",
+      "yaml_path": "mindspore/ops/op_def/yaml/topk_ext_op.yaml",
+      "coverage": {
+        "aclnn": [
+          "aclnnTopk"
+        ],
+        "infer": true,
+        "kbk": true,
+        "pyboost": true,
+        "bprop": true,
+        "bprop_units": []
+      }
+    }
+  ]
+}

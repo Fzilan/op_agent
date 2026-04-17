@@ -1,0 +1,14 @@
+{
+  "bundle_id": "mindspore.Tensor.approximate_equal",
+  "bundle_type": "entry",
+  "schema_version": "v2",
+  "generated_at": "2026-04-17T17:08:56+08:00",
+  "entry": {
+    "public_api": "mindspore.Tensor.approximate_equal",
+    "public_surface": "mindspore.Tensor",
+    "public_name": "approximate_equal",
+    "entry_type": "composite",
+    "source_type": "tensor_class",
+    "source_path": "mindspore/python/mindspore/common/tensor.py"
+  }
+}

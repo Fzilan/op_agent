@@ -1,0 +1,70 @@
+{
+  "bundle_id": "mindspore.Tensor.fold",
+  "bundle_type": "entry",
+  "schema_version": "v2",
+  "generated_at": "2026-04-17T17:08:56+08:00",
+  "entry": {
+    "public_api": "mindspore.Tensor.fold",
+    "public_surface": "mindspore.Tensor",
+    "public_name": "fold",
+    "entry_type": "composite",
+    "source_type": "tensor_class",
+    "source_path": "mindspore/python/mindspore/common/tensor.py"
+  },
+  "composite": {
+    "resolver_type": "tensor_registry",
+    "target_symbol": "fold",
+    "impl_path": "mindspore/python/mindspore/ops/function/array_func.py",
+    "components": [
+      {
+        "component_type": "unit",
+        "condition": "",
+        "via_symbol": "_check_fold_param",
+        "unit_id": "composite::ops/function/array_func.py::_check_fold_param",
+        "unit_name": "_check_fold_param",
+        "unit_type": "composite",
+        "impl_path": "mindspore/python/mindspore/ops/function/array_func.py"
+      },
+      {
+        "component_type": "unit",
+        "condition": "",
+        "via_symbol": "shape",
+        "unit_id": "branch::shape_op.yaml::Shape",
+        "unit_name": "Shape",
+        "unit_type": "branch",
+        "op": "shape",
+        "primitive": "Shape",
+        "yaml_path": "mindspore/ops/op_def/yaml/shape_op.yaml",
+        "coverage": {
+          "aclnn": [],
+          "infer": true,
+          "kbk": false,
+          "pyboost": false,
+          "bprop": true,
+          "bprop_units": []
+        }
+      },
+      {
+        "component_type": "unit",
+        "condition": "",
+        "via_symbol": "reshape",
+        "unit_id": "branch::reshape_op.yaml::Reshape",
+        "unit_name": "Reshape",
+        "unit_type": "branch",
+        "op": "reshape",
+        "primitive": "Reshape",
+        "yaml_path": "mindspore/ops/op_def/yaml/reshape_op.yaml",
+        "coverage": {
+          "aclnn": [
+            "aclnnReshape"
+          ],
+          "infer": true,
+          "kbk": true,
+          "pyboost": true,
+          "bprop": true,
+          "bprop_units": []
+        }
+      }
+    ]
+  }
+}

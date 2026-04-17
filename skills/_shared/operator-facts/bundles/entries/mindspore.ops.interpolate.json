@@ -1,0 +1,120 @@
+{
+  "bundle_id": "mindspore.ops.interpolate",
+  "bundle_type": "entry",
+  "schema_version": "v2",
+  "generated_at": "2026-04-17T17:08:56+08:00",
+  "entry": {
+    "public_api": "mindspore.ops.interpolate",
+    "public_surface": "mindspore.ops",
+    "public_name": "interpolate",
+    "entry_type": "composite",
+    "source_type": "wrapper",
+    "source_path": "mindspore/python/mindspore/ops/function/__init__.py"
+  },
+  "composite": {
+    "resolver_type": "alias",
+    "target_symbol": "interpolate",
+    "impl_path": "mindspore/python/mindspore/ops/function/nn_func.py",
+    "components": [
+      {
+        "component_type": "unit",
+        "condition": "",
+        "via_symbol": "_is_dim_unknown",
+        "unit_id": "composite::ops/function/nn_func.py::_is_dim_unknown",
+        "unit_name": "_is_dim_unknown",
+        "unit_type": "composite",
+        "impl_path": "mindspore/python/mindspore/ops/function/nn_func.py"
+      },
+      {
+        "component_type": "unit",
+        "condition": "size is not None and isinstance(size, (list, tuple)) and dim_unknown is False",
+        "via_symbol": "_interpolate_size_check_with_rank",
+        "unit_id": "composite::ops/function/nn_func.py::_interpolate_size_check_with_rank",
+        "unit_name": "_interpolate_size_check_with_rank",
+        "unit_type": "composite",
+        "impl_path": "mindspore/python/mindspore/ops/function/nn_func.py"
+      },
+      {
+        "component_type": "unit",
+        "condition": "size is not None and not (isinstance(size, (list, tuple))) and dim_unknown is not False",
+        "via_symbol": "_interploate_make_tuple",
+        "unit_id": "composite::ops/function/nn_func.py::_interploate_make_tuple",
+        "unit_name": "_interploate_make_tuple",
+        "unit_type": "composite",
+        "impl_path": "mindspore/python/mindspore/ops/function/nn_func.py"
+      },
+      {
+        "component_type": "unit",
+        "condition": "size is None and scale_factor is not None and isinstance(scale_factor, (list, tuple)) and dim_unknown is False",
+        "via_symbol": "_interpolate_scale_factor_check_with_rank",
+        "unit_id": "composite::ops/function/nn_func.py::_interpolate_scale_factor_check_with_rank",
+        "unit_name": "_interpolate_scale_factor_check_with_rank",
+        "unit_type": "composite",
+        "impl_path": "mindspore/python/mindspore/ops/function/nn_func.py"
+      },
+      {
+        "component_type": "unit",
+        "condition": "size is None and scale_factor is not None and not (isinstance(scale_factor, (list, tuple))) and dim_unknown is not False",
+        "via_symbol": "_interploate_make_tuple",
+        "unit_id": "composite::ops/function/nn_func.py::_interploate_make_tuple",
+        "unit_name": "_interploate_make_tuple",
+        "unit_type": "composite",
+        "impl_path": "mindspore/python/mindspore/ops/function/nn_func.py"
+      },
+      {
+        "component_type": "unit",
+        "condition": "",
+        "via_symbol": "_interpolate_mode_check",
+        "unit_id": "composite::ops/function/nn_func.py::_interpolate_mode_check",
+        "unit_name": "_interpolate_mode_check",
+        "unit_type": "composite",
+        "impl_path": "mindspore/python/mindspore/ops/function/nn_func.py"
+      },
+      {
+        "component_type": "unit",
+        "condition": "dim_unknown is False",
+        "via_symbol": "_interpolate_rank_check",
+        "unit_id": "composite::ops/function/nn_func.py::_interpolate_rank_check",
+        "unit_name": "_interpolate_rank_check",
+        "unit_type": "composite",
+        "impl_path": "mindspore/python/mindspore/ops/function/nn_func.py"
+      },
+      {
+        "component_type": "unit",
+        "condition": "recompute_scale_factor is not None and recompute_scale_factor and F.isconstant(shape) and F.isconstant(scale_factor)",
+        "via_symbol": "min",
+        "unit_id": "composite::ops/function/array_func.py::min",
+        "unit_name": "min",
+        "unit_type": "composite",
+        "impl_path": "mindspore/python/mindspore/ops/function/array_func.py"
+      },
+      {
+        "component_type": "unit",
+        "condition": "recompute_scale_factor is not None and recompute_scale_factor and not (F.isconstant(shape) and F.isconstant(scale_factor))",
+        "via_symbol": "_interpolate_scale_factor_convert_size",
+        "unit_id": "composite::ops/function/nn_func.py::_interpolate_scale_factor_convert_size",
+        "unit_name": "_interpolate_scale_factor_convert_size",
+        "unit_type": "composite",
+        "impl_path": "mindspore/python/mindspore/ops/function/nn_func.py"
+      },
+      {
+        "component_type": "unit",
+        "condition": "not (recompute_scale_factor is not None and recompute_scale_factor) and dim_unknown is False",
+        "via_symbol": "_interpolate_scale_factor_check",
+        "unit_id": "composite::ops/function/nn_func.py::_interpolate_scale_factor_check",
+        "unit_name": "_interpolate_scale_factor_check",
+        "unit_type": "composite",
+        "impl_path": "mindspore/python/mindspore/ops/function/nn_func.py"
+      },
+      {
+        "component_type": "unit",
+        "condition": "align_corners is not None and dim_unknown is False",
+        "via_symbol": "_interpolate_align_corners_mode_check",
+        "unit_id": "composite::ops/function/nn_func.py::_interpolate_align_corners_mode_check",
+        "unit_name": "_interpolate_align_corners_mode_check",
+        "unit_type": "composite",
+        "impl_path": "mindspore/python/mindspore/ops/function/nn_func.py"
+      }
+    ]
+  }
+}

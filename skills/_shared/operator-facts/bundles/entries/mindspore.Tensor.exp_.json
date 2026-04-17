@@ -1,0 +1,37 @@
+{
+  "bundle_id": "mindspore.Tensor.exp_",
+  "bundle_type": "entry",
+  "schema_version": "v2",
+  "generated_at": "2026-04-17T17:08:56+08:00",
+  "entry": {
+    "public_api": "mindspore.Tensor.exp_",
+    "public_surface": "mindspore.Tensor",
+    "public_name": "exp_",
+    "entry_type": "single",
+    "source_type": "api_def",
+    "source_path": "mindspore/ops/api_def/exp_.yaml"
+  },
+  "branches": [
+    {
+      "route_type": "direct",
+      "resolver_type": "py_method",
+      "target_symbol": "tensor_exp",
+      "dispatch_order": 0,
+      "unit_id": "branch::inplace_exp_op.yaml::InplaceExp",
+      "unit_name": "InplaceExp",
+      "op": "inplace_exp",
+      "primitive": "InplaceExp",
+      "yaml_path": "mindspore/ops/op_def/yaml/inplace_exp_op.yaml",
+      "coverage": {
+        "aclnn": [
+          "aclnnInplaceExp"
+        ],
+        "infer": true,
+        "kbk": true,
+        "pyboost": true,
+        "bprop": true,
+        "bprop_units": []
+      }
+    }
+  ]
+}

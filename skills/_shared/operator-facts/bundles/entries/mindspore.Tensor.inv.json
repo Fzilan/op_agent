@@ -1,0 +1,20 @@
+{
+  "bundle_id": "mindspore.Tensor.inv",
+  "bundle_type": "entry",
+  "schema_version": "v2",
+  "generated_at": "2026-04-17T17:08:56+08:00",
+  "entry": {
+    "public_api": "mindspore.Tensor.inv",
+    "public_surface": "mindspore.Tensor",
+    "public_name": "inv",
+    "entry_type": "composite",
+    "source_type": "tensor_class",
+    "source_path": "mindspore/python/mindspore/common/tensor.py"
+  },
+  "composite": {
+    "resolver_type": "tensor_registry",
+    "target_symbol": "inv",
+    "impl_path": "mindspore/python/mindspore/ops/function/math_func.py",
+    "components": []
+  }
+}

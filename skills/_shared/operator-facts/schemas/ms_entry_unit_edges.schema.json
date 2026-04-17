@@ -1,0 +1,68 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "operator-facts ms_entry_unit_edges row",
+  "type": "object",
+  "required": [
+    "edge_id",
+    "entry_id",
+    "unit_id",
+    "edge_type",
+    "dispatch_order",
+    "resolver_type",
+    "resolver_path"
+  ],
+  "properties": {
+    "edge_id": {
+      "type": "string",
+      "description": "Stable short identifier for the entry-to-unit routing edge, typically built from entry_id, edge_type, unit_name, and dispatch_order."
+    },
+    "entry_id": {
+      "type": "string",
+      "description": "Primary key of the public API entry."
+    },
+    "unit_id": {
+      "type": "string",
+      "description": "Primary key of the execution unit reached by this routing edge."
+    },
+    "edge_type": {
+      "type": "string",
+      "description": "Routing topology type of this entry-to-unit edge.",
+      "enum": [
+        "direct",
+        "overload",
+        "composite"
+      ]
+    },
+    "dispatch_order": {
+      "type": "integer",
+      "description": "Stable ordering index among candidate edges under the same entry.",
+      "minimum": 0
+    },
+    "resolver_type": {
+      "type": "string",
+      "description": "Mechanism used to resolve this entry-to-unit edge.",
+      "enum": [
+        "api_def",
+        "py_method",
+        "alias",
+        "tensor_registry",
+        "wrapper",
+        "deprecated",
+        "unknown"
+      ]
+    },
+    "resolver_path": {
+      "type": "string",
+      "description": "Source file path that provides the routing evidence for this edge."
+    },
+    "match_condition": {
+      "type": "string",
+      "description": "Optional textual condition describing when this candidate edge is selected."
+    },
+    "target_symbol": {
+      "type": "string",
+      "description": "Optional internal symbol reached by this edge, such as a py_method, alias target, or registry target."
+    }
+  },
+  "additionalProperties": false
+}

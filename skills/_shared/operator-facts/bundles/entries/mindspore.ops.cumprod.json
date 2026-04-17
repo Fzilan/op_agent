@@ -1,0 +1,35 @@
+{
+  "bundle_id": "mindspore.ops.cumprod",
+  "bundle_type": "entry",
+  "schema_version": "v2",
+  "generated_at": "2026-04-17T17:08:56+08:00",
+  "entry": {
+    "public_api": "mindspore.ops.cumprod",
+    "public_surface": "mindspore.ops",
+    "public_name": "cumprod",
+    "entry_type": "single",
+    "source_type": "wrapper",
+    "source_path": "mindspore/python/mindspore/ops/function/__init__.py"
+  },
+  "branches": [
+    {
+      "route_type": "direct",
+      "resolver_type": "alias",
+      "target_symbol": "cumprod",
+      "dispatch_order": 0,
+      "unit_id": "branch::cum_prod_op.yaml::CumProd",
+      "unit_name": "CumProd",
+      "op": "cum_prod",
+      "primitive": "CumProd",
+      "yaml_path": "mindspore/ops/op_def/yaml/cum_prod_op.yaml",
+      "coverage": {
+        "aclnn": [],
+        "infer": true,
+        "kbk": false,
+        "pyboost": false,
+        "bprop": true,
+        "bprop_units": []
+      }
+    }
+  ]
+}

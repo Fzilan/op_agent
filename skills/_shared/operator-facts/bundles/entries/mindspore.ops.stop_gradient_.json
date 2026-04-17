@@ -1,0 +1,40 @@
+{
+  "bundle_id": "mindspore.ops.stop_gradient_",
+  "bundle_type": "entry",
+  "schema_version": "v2",
+  "generated_at": "2026-04-17T17:08:56+08:00",
+  "entry": {
+    "public_api": "mindspore.ops.stop_gradient_",
+    "public_surface": "mindspore.ops",
+    "public_name": "stop_gradient_",
+    "entry_type": "unresolved",
+    "source_type": "wrapper",
+    "source_path": "mindspore/python/mindspore/ops/function/__init__.py"
+  },
+  "composite": {
+    "resolver_type": "alias",
+    "target_symbol": "stop_gradient_",
+    "impl_path": "mindspore/python/mindspore/ops/function/grad/grad_func.py",
+    "components": [
+      {
+        "component_type": "unit",
+        "condition": "",
+        "via_symbol": "inplace_stop_gradient_op",
+        "unit_id": "branch::inplace_stop_gradient_op.yaml::InplaceStopGradient",
+        "unit_name": "InplaceStopGradient",
+        "unit_type": "branch",
+        "op": "inplace_stop_gradient",
+        "primitive": "InplaceStopGradient",
+        "yaml_path": "mindspore/ops/op_def/yaml/inplace_stop_gradient_op.yaml",
+        "coverage": {
+          "aclnn": [],
+          "infer": true,
+          "kbk": false,
+          "pyboost": true,
+          "bprop": false,
+          "bprop_units": []
+        }
+      }
+    ]
+  }
+}

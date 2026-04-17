@@ -1,0 +1,37 @@
+{
+  "bundle_id": "mindspore.ops.tile",
+  "bundle_type": "entry",
+  "schema_version": "v2",
+  "generated_at": "2026-04-17T17:08:56+08:00",
+  "entry": {
+    "public_api": "mindspore.ops.tile",
+    "public_surface": "mindspore.ops",
+    "public_name": "tile",
+    "entry_type": "single",
+    "source_type": "wrapper",
+    "source_path": "mindspore/python/mindspore/ops/function/__init__.py"
+  },
+  "branches": [
+    {
+      "route_type": "direct",
+      "resolver_type": "alias",
+      "target_symbol": "tile",
+      "dispatch_order": 0,
+      "unit_id": "branch::tile_op.yaml::Tile",
+      "unit_name": "Tile",
+      "op": "tile",
+      "primitive": "Tile",
+      "yaml_path": "mindspore/ops/op_def/yaml/tile_op.yaml",
+      "coverage": {
+        "aclnn": [
+          "aclnnRepeat"
+        ],
+        "infer": true,
+        "kbk": true,
+        "pyboost": true,
+        "bprop": true,
+        "bprop_units": []
+      }
+    }
+  ]
+}

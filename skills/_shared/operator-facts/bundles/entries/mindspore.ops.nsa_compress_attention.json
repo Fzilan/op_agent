@@ -1,0 +1,37 @@
+{
+  "bundle_id": "mindspore.ops.nsa_compress_attention",
+  "bundle_type": "entry",
+  "schema_version": "v2",
+  "generated_at": "2026-04-17T17:08:56+08:00",
+  "entry": {
+    "public_api": "mindspore.ops.nsa_compress_attention",
+    "public_surface": "mindspore.ops",
+    "public_name": "nsa_compress_attention",
+    "entry_type": "single",
+    "source_type": "api_def",
+    "source_path": "mindspore/ops/api_def/nsa_compress_attention.yaml"
+  },
+  "branches": [
+    {
+      "route_type": "direct",
+      "resolver_type": "py_method",
+      "target_symbol": "_tensor_nsa_compress_attention",
+      "dispatch_order": 0,
+      "unit_id": "branch::nsa_compress_attention_op.yaml::NsaCompressAttention",
+      "unit_name": "NsaCompressAttention",
+      "op": "nsa_compress_attention",
+      "primitive": "NsaCompressAttention",
+      "yaml_path": "mindspore/ops/op_def/yaml/nsa_compress_attention_op.yaml",
+      "coverage": {
+        "aclnn": [
+          "aclnnNsaCompressAttention"
+        ],
+        "infer": true,
+        "kbk": true,
+        "pyboost": true,
+        "bprop": true,
+        "bprop_units": []
+      }
+    }
+  ]
+}

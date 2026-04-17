@@ -1,0 +1,37 @@
+{
+  "bundle_id": "mindspore.mint.roll",
+  "bundle_type": "entry",
+  "schema_version": "v2",
+  "generated_at": "2026-04-17T17:08:56+08:00",
+  "entry": {
+    "public_api": "mindspore.mint.roll",
+    "public_surface": "mindspore.mint",
+    "public_name": "roll",
+    "entry_type": "single",
+    "source_type": "mint_export",
+    "source_path": "mindspore/python/mindspore/mint/__init__.py"
+  },
+  "branches": [
+    {
+      "route_type": "direct",
+      "resolver_type": "alias",
+      "target_symbol": "roll",
+      "dispatch_order": 0,
+      "unit_id": "branch::roll_op.yaml::Roll",
+      "unit_name": "Roll",
+      "op": "roll",
+      "primitive": "Roll",
+      "yaml_path": "mindspore/ops/op_def/yaml/roll_op.yaml",
+      "coverage": {
+        "aclnn": [
+          "aclnnRoll"
+        ],
+        "infer": true,
+        "kbk": true,
+        "pyboost": true,
+        "bprop": true,
+        "bprop_units": []
+      }
+    }
+  ]
+}

@@ -1,0 +1,37 @@
+{
+  "bundle_id": "mindspore.ops.real",
+  "bundle_type": "entry",
+  "schema_version": "v2",
+  "generated_at": "2026-04-17T17:08:56+08:00",
+  "entry": {
+    "public_api": "mindspore.ops.real",
+    "public_surface": "mindspore.ops",
+    "public_name": "real",
+    "entry_type": "single",
+    "source_type": "api_def",
+    "source_path": "mindspore/ops/api_def/real.yaml"
+  },
+  "branches": [
+    {
+      "route_type": "direct",
+      "resolver_type": "alias",
+      "target_symbol": "real",
+      "dispatch_order": 0,
+      "unit_id": "branch::real_view_op.yaml::RealView",
+      "unit_name": "RealView",
+      "op": "real_view",
+      "primitive": "RealView",
+      "yaml_path": "mindspore/ops/op_def/yaml/real_view_op.yaml",
+      "coverage": {
+        "aclnn": [
+          "aclnnRealView"
+        ],
+        "infer": true,
+        "kbk": true,
+        "pyboost": true,
+        "bprop": true,
+        "bprop_units": []
+      }
+    }
+  ]
+}

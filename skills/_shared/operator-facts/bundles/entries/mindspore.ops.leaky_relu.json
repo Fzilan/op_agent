@@ -1,0 +1,37 @@
+{
+  "bundle_id": "mindspore.ops.leaky_relu",
+  "bundle_type": "entry",
+  "schema_version": "v2",
+  "generated_at": "2026-04-17T17:08:56+08:00",
+  "entry": {
+    "public_api": "mindspore.ops.leaky_relu",
+    "public_surface": "mindspore.ops",
+    "public_name": "leaky_relu",
+    "entry_type": "single",
+    "source_type": "wrapper",
+    "source_path": "mindspore/python/mindspore/ops/function/__init__.py"
+  },
+  "branches": [
+    {
+      "route_type": "direct",
+      "resolver_type": "alias",
+      "target_symbol": "leaky_relu",
+      "dispatch_order": 0,
+      "unit_id": "branch::select_op.yaml::Select",
+      "unit_name": "Select",
+      "op": "select",
+      "primitive": "Select",
+      "yaml_path": "mindspore/ops/op_def/yaml/select_op.yaml",
+      "coverage": {
+        "aclnn": [
+          "aclnnSWhere"
+        ],
+        "infer": true,
+        "kbk": true,
+        "pyboost": true,
+        "bprop": true,
+        "bprop_units": []
+      }
+    }
+  ]
+}
