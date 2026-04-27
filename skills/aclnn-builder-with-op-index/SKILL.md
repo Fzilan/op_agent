@@ -9,51 +9,74 @@ description: Guides end-to-end ACLNN custom operator development and adaptation 
 
 Land an ACLNN operator on the Ascend platform in MindSpore **end to end**: forward and backward paths, both PyBoost (Pynative) and KBK (Graph), dynamic shape/rank support, UT, documentation, export, and the required quality checks and validation.
 
+For the pre-check stage, use the distilled `operator-facts` index as the default entry point so you can quickly resolve the MindSpore execution unit, PTA target form, implementation gap, and `auto` / `customize` conclusion before doing broader source inspection.
+
 ## How To Use This Skill
 
 - When the user says things like "integrate/adapt an ACLNN operator into MindSpore", "add an xxx interface to MindSpore that matches `torch_npu`", "use the skill to add an NPU operator", "add `xxx_op.yaml`", "how should PyBoost/KBK be written", proceed directly through this skill's workflow.
 
-> Shared documents such as `reference.md` and `aclnn_doc` are stored under `../_shared/`.
-
 ## Execution Flow
 
-### Workflow Execution Checklist
+### Workflow Index
 
 When using this skill to develop an ACLNN operator, **create a TODOLIST** and execute the following workflows in order.
 **Steps marked `🔒 must not be skipped` are mandatory in every scenario.**
 **Places marked `⛔ HARD GATE` must be completed before you continue, otherwise stop and wait for user confirmation.**
 
-> the `feature-document.md` can be found under path ``
+> The Feature template is `templates/feature-document.md`.
 
-- [ ] **[Pre](workflows/00-pre-checks.md)** `🔒 must not be skipped`: pre-checks (Pre-A inventory check + Pre-B solution design + Pre-C call-chain analysis)
-  - Input: operator name, PTA reference interface
-  - **Required outputs**: PTA source review report, initialized Feature document
-    > **⛔ HARD GATE**: before entering Step 1, you must confirm that these files have been generated into the workspace
-  - After each later step, backfill the corresponding section of the Feature document
-- [ ] **[Step 1](workflows/01-yaml-definition.md)**: YAML definition -> backfill Feature(`feature-document.md#feature-yaml-definition`)
-  - Input: PTA source review report, Feature document
-  - Output: `op_def` for Primitive and  `api_def` for Tensor method or overloaded interface
-- [ ] **[Step 2](workflows/02-general-infer.md)**: GeneralInfer + infer UT -> backfill Feature (`feature-document.md#feature-dynamic-shape`) / (`feature-document.md#feature-validation-and-errors`) / (`feature-document.md#feature-test-plan`)
-  - Input: YAML, PTA output-shape logic
-  - Output: Infer implementation, C++ Infer UT test
-- [ ] **[Step 3](workflows/03-aclnn-kernel.md)**: ACLNN kernel (PyBoost + KBK) -> backfill Feature (`feature-document.md#feature-execution-modes`)
-  - **Path 1(auto)**: skip handwritten implementation and only validate the auto-generated outputs
-  - **Path 2(customize)**: handwrite Customize implementation files
-  - Input: YAML, ACLNN invocation details
-  - Output: Customize implementation files (Path 2)
-- [ ] **[Step 4](workflows/04-bprop.md)**: BPROP implementation -> backfill Feature (`feature-document.md#feature-bprop`)
-  - Input: `derivatives.yaml` analysis, backward kernel
-  - Output: bprop implementation
-- [ ] **[Step 5](workflows/05-export.md)**: export python interface
-  - Input: operator primitive, function interface
-  - Output: exports under the `mint` namespace; if interface overloads are involved, see (`reference.md#api-overload-adaptation`)
-- [ ] **[Step 6](workflows/06-docs.md)**: documentation
-  - Input: operator, yaml definition
-  - Output: English `function_doc` (created in Step 1 and refined here) + **Chinese RST (required for public APIs)**
-  - **Important**: English doc YAML does not mean the documentation step is complete. Chinese RST is a separate deliverable and is the most common omission.
-  - **Important**: public `mint`/`ops`/`nn`/`Tensor` interfaces must not skip this step. Only internal operators may skip it; see the conditional skip table.
-- [ ] **[Step 7] Feature document finalization** `🔒 must not be skipped`: complete (`feature-document.md#feature-code-change-summary`) and update (`feature-document.md#feature-task-list`)
-  - Even if intermediate steps are skipped or deferred, the Feature document must still be completed and delivered to the user.
+### [Step 0](workflows/00-pre-checks.md): facts-first pre-check
+
+`🔒 must not be skipped`
+
+- Input: MindSpore API / operator / primitive / yaml branch, with optional PTA reference API
+- Primary source: `../_shared/operator-facts`
+- Open source files in codebase only when facts are missing or conflicting
+- Output: pre-check handoff + initialized Feature document path
+- `⛔ HARD GATE`: finish Step 0 before entering Step 1
+
+### [Step 1](workflows/01-yaml-definition.md): YAML definition
+
+- Follow the workflow to complete `op_def` / `api_def`.
+- Input: pre-check handoff, Feature document
+- Output: `op_def` and `api_def`
+- Backfill: `feature-document.md#feature-yaml-definition`
+
+### [Step 2](workflows/02-general-infer.md): GeneralInfer and infer UT
+
+- Follow the workflow to complete infer logic, dynamic support, and infer UT.
+- Backfill: `feature-document.md#feature-dynamic-shape`, `feature-document.md#feature-validation-and-errors`, `feature-document.md#feature-test-plan`
+
+### [Step 3](workflows/03-aclnn-kernel.md): ACLNN kernel (PyBoost + KBK)
+
+- Follow the workflow to complete kernel adaptation.
+- Path 1: validate auto-generated outputs
+- Path 2: handwrite Customize implementation
+- Backfill: `feature-document.md#feature-execution-modes`
+
+### [Step 4](workflows/04-bprop.md): BPROP implementation
+
+- Follow the workflow to complete backward adaptation.
+- Backfill: `feature-document.md#feature-bprop`
+
+### [Step 5](workflows/05-export.md): export python interface
+
+- Follow the workflow to complete public interface export.
+- Backfill: `feature-document.md#feature-task-list`
+
+### [Step 6](workflows/06-docs.md): documentation
+
+- Follow the workflow to complete API documentation.
+- Public `mint` / `ops` / `nn` / `Tensor` interfaces must not skip Chinese RST
+- Backfill: `feature-document.md#feature-task-list`
+
+### Step 7: Feature document finalization
+
+`🔒 must not be skipped`
+
+- Follow the workflow to complete final Feature cleanup.
+- Backfill: remaining Feature sections and `feature-document.md#feature-task-list`
+- Backfill remaining sections and finish the task list
 
 ## Validation Loop (Evidence Required At Every Step) `🔒 must not be skipped`
 

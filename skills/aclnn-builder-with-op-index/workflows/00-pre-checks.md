@@ -135,7 +135,6 @@ For the resolved execution unit(s), give a short direct conclusion.
     - Otherwise use `customize`.
 
 4. Backward
-4. Backward
     - Compare the current MindSpore backward form with the PTA target backward form by checking both `bprop` and `bprop_units`.
     - If they do not match, or if PTA has dedicated backward operators, include the required backward execution unit(s) in the implementation plan.
 
@@ -149,14 +148,19 @@ Covered leaf units do not automatically mean the composite wrapper itself is com
 ## Output Format
 
 ```text
-Implementation plan:
+Pre-check handoff:
+
+Target:
+- MindSpore target: {public API / primitive / yaml branch}
+- Execution unit(s): {unit_id / primitive / yaml_path}
+- Feature doc: {path}
 
 Forward:
 - ACLNN implementation needed: {yes / no}
 - If yes:
   - Operator(s): {op1}, {op2}, ...
-  - Execution detail: {primitive / unit_id / yaml_path}
-  - Primitive / interface strategy: {reuse current primitive / add `_ext` primitive / add new primitive}
+  - Primitive action: {reuse / modify / add `_ext` primitive / add new primitive}
+  - YAML action: {reuse / modify / add op_def / add api_def}
   - Integration path: {auto / customize}
 - If no:
   - Reason: {already aligned / already covered / no forward work needed}
@@ -175,6 +179,11 @@ Key diff:
 - Forward: {PTA form} vs {MindSpore form}
 - Backward: {PTA form} vs {MindSpore form}
 
+Feature seed:
+- Functional summary: {one sentence}
+- Interface summary: {functional / tensor / nn}
+- Signature / constraints: {minimal summary}
+
 PTA refs:
 - {role} | {path} | {pattern}
 - ...
@@ -188,3 +197,16 @@ Fallback opened:
 - Keep the pre-check short. It is a decision step, not a design document.
 - Do not explain the whole `operator-facts` model inside pre-check.
 - If the facts are sufficient, do not reopen broad source analysis.
+
+## Feature Document Reminder
+
+- If the task will continue into implementation, initialize the Feature document before entering Step 1.
+- Copy `../templates/feature-document.md` to `{operator_name}_Feature.md`.
+- Fill the pre-check-derived baseline sections first:
+  - [1. APIs and Benchmarks](../templates/feature-document.md#feature-benchmark-api)
+  - [2. Task List](../templates/feature-document.md#feature-task-list)
+  - [3. Functional And API Specification](../templates/feature-document.md#feature-functional-spec)
+  - [5. Constraints And Types](../templates/feature-document.md#feature-constraints)
+  - [7. Differences From PTA And Alignment Status](../templates/feature-document.md#feature-pta-alignment)
+- In later workflows, keep backfilling the corresponding Feature sections instead of postponing all updates to the end.
+- When handing off the pre-check result, explicitly tell the user the generated Feature document path.
