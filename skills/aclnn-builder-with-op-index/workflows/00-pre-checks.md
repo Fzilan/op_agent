@@ -1,4 +1,4 @@
-# Workflow 0: Pre-check v3
+# Workflow 0: Pre-check
 
 Path convention: unless stated otherwise, `operator-facts` means `../_shared/operator-facts`.
 
@@ -16,12 +16,6 @@ Use `operator-facts` to answer four questions before coding:
 - `operator-facts` is the default fact source for pre-check.
 - In normal cases, do not broadly search `mindspore` or `op-plugin`.
 - Open source files only when facts are missing, conflicting, or still not enough to make a decision.
-
-Why this rule exists:
-
-- `operator-facts` is already the distilled index of the codebase.
-- Pre-check is for making a decision, not for repeating repository-wide search.
-- A short, stable facts-first flow is easier for both agents and human readers to follow.
 
 ## Facts You Will Use
 
